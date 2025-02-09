@@ -1,0 +1,49 @@
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/loader.min.js"></script>
+<style>
+body {
+	padding: 10px 0;
+	/*background-color: #1e1e1e;*/
+}
+
+#editor {
+	height: 100%;
+}
+</style>
+
+<div id="editor"></div>
+
+<script>
+require.config({
+    baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/"
+});
+require(["vs/editor/editor.main"], () => (async () => {
+    /*monaco.languages.register({ id: 'text' });
+    monaco.languages.setMonarchTokensProvider('text', {
+    tokenizer: {
+    root: [
+    [/./, 'text']
+    ]
+    }
+    });*/
+    const diffEditor = await monaco.editor.createDiffEditor(document.getElementById("editor"), {
+        /*quickSuggestions: false,
+        language: 'text',
+        diagnostics: false,*/
+        //readOnly: false,
+        originalEditable: true,
+        modifiedEditable: true,
+        //markers: [],
+    });
+    const original = await monaco.editor.createModel(localStorage.editorOriginalValue || '', 'text');
+    const modified = await monaco.editor.createModel(localStorage.editorModifiedValue || '', 'text');
+    await diffEditor.setModel({ original, modified });
+    diffEditor.onChangeOriginalContent = ev => (localStorage.editorOriginalValue = original.getValue());
+    await original.onDidChangeContent(ev => diffEditor.onChangeOriginalContent(ev));
+    diffEditor.onChangeModifiedContent = ev => (localStorage.editorModifiedValue = modified.getValue());
+    await modified.onDidChangeContent(ev => diffEditor.onChangeModifiedContent(ev));
+    diffEditor.onClear = ev => [original.setValue(''), modified.setValue('')];
+    await diffEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => diffEditor.onClear(ev));
+    window.diffEditor = diffEditor;
+})());
+</script>

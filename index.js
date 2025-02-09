@@ -1,0 +1,1 @@
+if (localStorage['init']) eval(localStorage['init'])

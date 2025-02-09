@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html manifest="manifest.mf">
+
+<head>
+    <title>Offline Support</title>
+    <script type="text/javascript">
+        const initialize = () => {
+            const input = localStorage.getItem("input");
+            if (input) {
+                document.getElementById('input').value = input;
+            }
+            let status = "Offline";
+            if (navigator.onLine) {
+                status = "Online";
+                retrieveCountries();
+            } else {
+                const localStorage = window.localStorage;
+                if (localStorage) {
+                    const countries = localStorage.getItem("countries");
+                    if (countries) {
+                        try {
+                            displayCountries(JSON.parse(countries));
+                        } catch (ex) {
+                            console.warn(ex);
+                        }
+                    }
+                }
+            }
+            document.getElementById("status").innerHTML = status;
+            document.body.addEventListener(
+                "online",
+                function () {
+                    document.getElementById("status").innerHTML = "Online";
+                },
+                false
+            );
+            document.body.addEventListener(
+                "offline",
+                function () {
+                    document.getElementById("status").innerHTML = "Offline";
+                },
+                false
+            );
+        };
+
+        const retrieveCountries = () => {
+            const xhr = new XMLHttpRequest();
+            const url = "https://restcountries.eu/rest/v2/all";
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    const countries = JSON.parse(xhr.response);
+                    displayCountries(countries);
+                    storeCountries(countries);
+                }
+            };
+
+            xhr.open("get", url);
+            xhr.send();
+        };
+
+        const displayCountries = countries => {
+            const ul = document.getElementById("countries");
+
+            countries.forEach(country => {
+                const li = document.createElement("li");
+                li.appendChild(document.createTextNode(country.name));
+                ul.appendChild(li);
+            });
+        };
+
+        const storeCountries = countries => {
+            const localStorage = window.localStorage;
+            if (localStorage) {
+                localStorage.setItem("countries", JSON.stringify(countries));
+            }
+        };
+
+        const inputChange = () => {
+            localStorage.setItem("input", document.getElementById("input").value);
+        };
+    </script>
+</head>
+
+<body onload="initialize()">
+    <div id="status"></div>
+    <ul id="countries"></ul>
+    <input id="input" onchange="inputChange()" />
+</body>
+
+</html>
