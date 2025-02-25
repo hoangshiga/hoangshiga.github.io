@@ -2,15 +2,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/loader.min.js"></script>
 <style>
 body {
+	height: 100%;
 	margin: 0;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 }
 #editor {
-	height: 100%;
+	flex: 1;
 }
 </style>
 
-<div id="editor"></div>
+<body>
+	<div id="editor"></div>
+</body>
 
 <script>
 // https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneCodeEditor.html#focus.focus-1
