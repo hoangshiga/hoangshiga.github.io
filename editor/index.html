@@ -23,19 +23,21 @@ require(["vs/editor/editor.main"], function() {
         model,
         theme: "vs"
     });
-    //editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, async () => alert(await post('save', editor.getValue())))
+    //editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, async () => alert(await post('save', editor.getValue())));
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => {
-        const value = js_beautify(editor.getValue())
-        const pos = editor.getPosition()
+        const value = js_beautify(editor.getValue());
+        const pos = editor.getPosition();
         editor.executeEdits('beautifier', [{
             identifier: 'delete',
             range: model.getFullModelRange(),
             text: value,
             forceMoveMarkers: true
         }])
-        editor.setPosition(pos)
+        editor.setPosition(pos);
     });
-	editor.focus();
-	console.log('editor', editor);
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => {
+        editor.getAction('editor.action.commentLine').run();
+    });
+    editor.focus();
 });
 </script>
