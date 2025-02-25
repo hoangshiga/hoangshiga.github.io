@@ -22,14 +22,14 @@ body {
 require.config({
     baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/"
 });
-require(["vs/editor/editor.main"], function() {
-    const model = monaco.editor.createModel("", "javascript")
-    window.editor = monaco.editor.create(document.getElementById("editor"), {
+require(["vs/editor/editor.main"], init => (init = async () => {
+    const model = await monaco.editor.createModel("", "javascript")
+    window.editor = await monaco.editor.create(document.getElementById("editor"), {
         model,
         theme: "vs"
     });
-    //editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, async () => alert(await post('save', editor.getValue())));
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => {
+    //await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, async () => alert(await post('save', editor.getValue())));
+    await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => {
         const value = js_beautify(editor.getValue());
         const pos = editor.getPosition();
         editor.executeEdits('beautifier', [{
@@ -40,9 +40,10 @@ require(["vs/editor/editor.main"], function() {
         }])
         editor.setPosition(pos);
     });
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => {
+    await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => {
         editor.getAction('editor.action.commentLine').run();
     });
-    editor.focus();
-});
+    await editor.focus();
+	editor.init = init;
+})());
 </script>
