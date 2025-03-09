@@ -1,9 +1,8 @@
 const CACHE_NAME = 'offline-cache-v1';
 const FILES_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/styles.css',
-    '/script.js'
+    './index.html',
+    './styles.css',
+    './script.js'
 ];
 
 // Cài đặt Service Worker và lưu cache
