@@ -5,6 +5,10 @@
     <title>Offline Support</title>
     <script type="text/javascript">
         const initialize = () => {
+            const input = localStorage.getItem("input");
+            if (input) {
+                document.getElementById('input').value = input;
+            }
             let status = "Offline";
             if (navigator.onLine) {
                 status = "Online";
@@ -17,12 +21,8 @@
                         try {
                             displayCountries(JSON.parse(countries));
                         } catch (ex) {
-                            console.error(ex);
+                            console.warn(ex);
                         }
-                    }
-                    const input = localStorage.getItem("input");
-                    if (input) {
-                        document.getElementById('input').value = input;
                     }
                 }
             }
