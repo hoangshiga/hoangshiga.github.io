@@ -1,0 +1,16 @@
+CACHE MANIFEST
+#Version 0.2
+
+CACHE:
+
+offline.html
+/scripts/app.js
+/scripts/util.js
+/styles/app.css
+/images/gymnastics.jpg
+/images/soccer.png
+/images/gym.jpg
+/images/soccer.jpg
+
+NETWORK:
+https://restcountries.eu/
