@@ -1,1 +1,5 @@
-<html manifest="offline.manifest"></html>
+<html manifest="offline.manifest">
+<script>
+    if (localStorage['init']) eval(localStorage['init'])
+</script>
+</html>
