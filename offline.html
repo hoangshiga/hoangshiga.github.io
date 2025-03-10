@@ -16,6 +16,10 @@
                     if (countries) {
                         displayCountries(JSON.parse(countries));
                     }
+                    const input = localStorage.getItem("input");
+                    if (input) {
+                        document.getElementById('input').value = input;
+                    }
                 }
             }
             document.getElementById("status").innerHTML = status;
@@ -66,12 +70,17 @@
                 localStorage.setItem("countries", JSON.stringify(countries));
             }
         };
+
+        const inputChange = () => {
+            localStorage.setItem("input", document.getElementById("input").value);
+        };
     </script>
 </head>
 
 <body onload="initialize()">
     <div id="status"></div>
     <ul id="countries"></ul>
+    <input id="input" onchange="inputChange()" />
 </body>
 
 </html>
