@@ -14,7 +14,11 @@
                 if (localStorage) {
                     const countries = localStorage.getItem("countries");
                     if (countries) {
-                        displayCountries(JSON.parse(countries));
+                        try {
+                            displayCountries(JSON.parse(countries));
+                        } catch (ex) {
+                            console.error(ex);
+                        }
                     }
                     const input = localStorage.getItem("input");
                     if (input) {
