@@ -2,7 +2,7 @@
  *  AVIM JavaScript Vietnamese Input Method Source File dated 28-07-2008
  *
  *	Copyright (C) 2004-2008 Hieu Tran Dang <lt2hieu2004 (at) users (dot) sf (dot) net
- *	Website:	http:noname00.com/hieu/
+ *	Website:	http://noname00.com/hieu
  *
  *	You are allowed to use this software in any way you want providing:
  *		1. You must retain this copyright notice at all time
@@ -11,17 +11,17 @@
 */
 
 var AVIMGlobalConfig = {
-	method: 1, /*Default input method: 0=AUTO, 1=TELEX, 2=VNI, 3=VIQR, 4=VIQR**/
-	onOff: 1, /*Starting status: 0=Off, 1=On*/
-	ckSpell: 1, /*Spell Check: 0=Off, 1=On*/
-	oldAccent: 1, /*0: New way (oa`, oe`, uy`), 1: The good old day (o`a, o`e, u`y)*/
-	useCookie: 0, /*Cookies: 0=Off, 1=On*/
-	exclude: ["email"], /*IDs of the fields you DON'T want to let users type Vietnamese in*/
-	showControl: 0, /*Show control panel: 0=Off, 1=On. If you turn this off, you must write your own control panel.*/
-	controlCSS: "avim.css" /*Path to avim.css*/
+	method: 0, //Default input method: 0=AUTO, 1=TELEX, 2=VNI, 3=VIQR, 4=VIQR*
+	onOff: 1, //Starting status: 0=Off, 1=On
+	ckSpell: 1, //Spell Check: 0=Off, 1=On
+	oldAccent: 1, //0: New way (oa`, oe`, uy`), 1: The good old day (o`a, o`e, u`y)
+	useCookie: 1, //Cookies: 0=Off, 1=On
+	exclude: ["email"], //IDs of the fields you DON'T want to let users type Vietnamese in
+	showControl: 1, //Show control panel: 0=Off, 1=On. If you turn this off, you must write your own control panel.
+	controlCSS: "avim.css" //Path to avim.css
 };
 
-/*Set to true the methods which you want to be included in the AUTO method*/
+//Set to true the methods which you want to be included in the AUTO method
 var AVIMAutoConfig = {
 	telex: true,
 	vni: true,
@@ -48,37 +48,37 @@ function AVIM()	{
 	this.whit = false;
 	this.db1 = [273,272];
 	this.ds1 = ['d','D'];
-	this.os1 =     unescape(atob('byUyQ08lMkMldTAxQTElMkMldTAxQTAlMkMlRjMlMkMlRDMlMkMlRjIlMkMlRDIlMkMldTFFQ0QlMkMldTFFQ0MlMkMldTFFQ0YlMkMldTFFQ0UlMkMlRjUlMkMlRDUlMkMldTFFREIlMkMldTFFREElMkMldTFFREQlMkMldTFFREMlMkMldTFFRTMlMkMldTFFRTIlMkMldTFFREYlMkMldTFFREUlMkMldTFFRTElMkMldTFFRTA=')).split(",");
-	this.ob1 =     unescape(atob('JUY0JTJDJUQ0JTJDJUY0JTJDJUQ0JTJDJXUxRUQxJTJDJXUxRUQwJTJDJXUxRUQzJTJDJXUxRUQyJTJDJXUxRUQ5JTJDJXUxRUQ4JTJDJXUxRUQ1JTJDJXUxRUQ0JTJDJXUxRUQ3JTJDJXUxRUQ2JTJDJXUxRUQxJTJDJXUxRUQwJTJDJXUxRUQzJTJDJXUxRUQyJTJDJXUxRUQ5JTJDJXUxRUQ4JTJDJXUxRUQ1JTJDJXUxRUQ0JTJDJXUxRUQ3JTJDJXUxRUQ2')).split(",");
-	this.mocs1 =   unescape(atob('byUyQ08lMkMlRjQlMkMlRDQlMkN1JTJDVSUyQyVGMyUyQyVEMyUyQyVGMiUyQyVEMiUyQyV1MUVDRCUyQyV1MUVDQyUyQyV1MUVDRiUyQyV1MUVDRSUyQyVGNSUyQyVENSUyQyVGQSUyQyVEQSUyQyVGOSUyQyVEOSUyQyV1MUVFNSUyQyV1MUVFNCUyQyV1MUVFNyUyQyV1MUVFNiUyQyV1MDE2OSUyQyV1MDE2OCUyQyV1MUVEMSUyQyV1MUVEMCUyQyV1MUVEMyUyQyV1MUVEMiUyQyV1MUVEOSUyQyV1MUVEOCUyQyV1MUVENSUyQyV1MUVENCUyQyV1MUVENyUyQyV1MUVENg==')).split(",");
-	this.mocb1 =   unescape(atob('JXUwMUExJTJDJXUwMUEwJTJDJXUwMUExJTJDJXUwMUEwJTJDJXUwMUIwJTJDJXUwMUFGJTJDJXUxRURCJTJDJXUxRURBJTJDJXUxRUREJTJDJXUxRURDJTJDJXUxRUUzJTJDJXUxRUUyJTJDJXUxRURGJTJDJXUxRURFJTJDJXUxRUUxJTJDJXUxRUUwJTJDJXUxRUU5JTJDJXUxRUU4JTJDJXUxRUVCJTJDJXUxRUVBJTJDJXUxRUYxJTJDJXUxRUYwJTJDJXUxRUVEJTJDJXUxRUVDJTJDJXUxRUVGJTJDJXUxRUVFJTJDJXUxRURCJTJDJXUxRURBJTJDJXUxRUREJTJDJXUxRURDJTJDJXUxRUUzJTJDJXUxRUUyJTJDJXUxRURGJTJDJXUxRURFJTJDJXUxRUUxJTJDJXUxRUUw')).split(",");
-	this.trangs1 = unescape(atob('YSUyQ0ElMkMlRTIlMkMlQzIlMkMlRTElMkMlQzElMkMlRTAlMkMlQzAlMkMldTFFQTElMkMldTFFQTAlMkMldTFFQTMlMkMldTFFQTIlMkMlRTMlMkMlQzMlMkMldTFFQTUlMkMldTFFQTQlMkMldTFFQTclMkMldTFFQTYlMkMldTFFQUQlMkMldTFFQUMlMkMldTFFQTklMkMldTFFQTglMkMldTFFQUIlMkMldTFFQUE=')).split(",");
-	this.trangb1 = unescape(atob('JXUwMTAzJTJDJXUwMTAyJTJDJXUwMTAzJTJDJXUwMTAyJTJDJXUxRUFGJTJDJXUxRUFFJTJDJXUxRUIxJTJDJXUxRUIwJTJDJXUxRUI3JTJDJXUxRUI2JTJDJXUxRUIzJTJDJXUxRUIyJTJDJXUxRUI1JTJDJXUxRUI0JTJDJXUxRUFGJTJDJXUxRUFFJTJDJXUxRUIxJTJDJXUxRUIwJTJDJXUxRUI3JTJDJXUxRUI2JTJDJXUxRUIzJTJDJXUxRUIyJTJDJXUxRUI1JTJDJXUxRUI0')).split(",");
-	this.as1 =     unescape(atob('YSUyQ0ElMkMldTAxMDMlMkMldTAxMDIlMkMlRTElMkMlQzElMkMlRTAlMkMlQzAlMkMldTFFQTElMkMldTFFQTAlMkMldTFFQTMlMkMldTFFQTIlMkMlRTMlMkMlQzMlMkMldTFFQUYlMkMldTFFQUUlMkMldTFFQjElMkMldTFFQjAlMkMldTFFQjclMkMldTFFQjYlMkMldTFFQjMlMkMldTFFQjIlMkMldTFFQjUlMkMldTFFQjQlMkMldTFFQkYlMkMldTFFQkUlMkMldTFFQzElMkMldTFFQzAlMkMldTFFQzclMkMldTFFQzYlMkMldTFFQzMlMkMldTFFQzIlMkMldTFFQzUlMkMldTFFQzQ=')).split(",");
-	this.ab1 =     unescape(atob('JUUyJTJDJUMyJTJDJUUyJTJDJUMyJTJDJXUxRUE1JTJDJXUxRUE0JTJDJXUxRUE3JTJDJXUxRUE2JTJDJXUxRUFEJTJDJXUxRUFDJTJDJXUxRUE5JTJDJXUxRUE4JTJDJXUxRUFCJTJDJXUxRUFBJTJDJXUxRUE1JTJDJXUxRUE0JTJDJXUxRUE3JTJDJXUxRUE2JTJDJXUxRUFEJTJDJXUxRUFDJTJDJXUxRUE5JTJDJXUxRUE4JTJDJXUxRUFCJTJDJXUxRUFBJTJDJUU5JTJDJUM5JTJDJUU4JTJDJUM4JTJDJXUxRUI5JTJDJXUxRUI4JTJDJXUxRUJCJTJDJXUxRUJBJTJDJXUxRUJEJTJDJXUxRUJD')).split(",");
-	this.es1 =     unescape(atob('ZSUyQ0UlMkMlRTklMkMlQzklMkMlRTglMkMlQzglMkMldTFFQjklMkMldTFFQjglMkMldTFFQkIlMkMldTFFQkElMkMldTFFQkQlMkMldTFFQkM=')).split(",");
-	this.eb1 =     unescape(atob('JUVBJTJDJUNBJTJDJXUxRUJGJTJDJXUxRUJFJTJDJXUxRUMxJTJDJXUxRUMwJTJDJXUxRUM3JTJDJXUxRUM2JTJDJXUxRUMzJTJDJXUxRUMyJTJDJXUxRUM1JTJDJXUxRUM0')).split(",");
-	this.english = unescape(atob('JXUwMTEwJUMyJXUwMTAyJXUwMUEwJXUwMUFGJUNBJUQ0'));
-	this.lowen =   unescape(atob('JXUwMTExJUUyJXUwMTAzJXUwMUExJXUwMUIwJUVBJUY0'));
-	this.arA =     unescape(atob('JUUxJTJDJUUwJTJDJXUxRUEzJTJDJUUzJTJDJXUxRUExJTJDYSUyQyVDMSUyQyVDMCUyQyV1MUVBMiUyQyVDMyUyQyV1MUVBMCUyQ0E=')).split(',');
-	this.mocrA =   unescape(atob('JUYzJTJDJUYyJTJDJXUxRUNGJTJDJUY1JTJDJXUxRUNEJTJDbyUyQyVGQSUyQyVGOSUyQyV1MUVFNyUyQyV1MDE2OSUyQyV1MUVFNSUyQ3UlMkMlRDMlMkMlRDIlMkMldTFFQ0UlMkMlRDUlMkMldTFFQ0MlMkNPJTJDJURBJTJDJUQ5JTJDJXUxRUU2JTJDJXUwMTY4JTJDJXUxRUU0JTJDVQ==')).split(',');
-	this.erA =     unescape(atob('JUU5JTJDJUU4JTJDJXUxRUJCJTJDJXUxRUJEJTJDJXUxRUI5JTJDZSUyQyVDOSUyQyVDOCUyQyV1MUVCQSUyQyV1MUVCQyUyQyV1MUVCOCUyQ0U=')).split(',');
-	this.orA =     unescape(atob('JUYzJTJDJUYyJTJDJXUxRUNGJTJDJUY1JTJDJXUxRUNEJTJDbyUyQyVEMyUyQyVEMiUyQyV1MUVDRSUyQyVENSUyQyV1MUVDQyUyQ08=')).split(',');
-	this.aA =      unescape(atob('JXUxRUE1JTJDJXUxRUE3JTJDJXUxRUE5JTJDJXUxRUFCJTJDJXUxRUFEJTJDJUUyJTJDJXUxRUE0JTJDJXUxRUE2JTJDJXUxRUE4JTJDJXUxRUFBJTJDJXUxRUFDJTJDJUMy')).split(',');
-	this.oA =      unescape(atob('JXUxRUQxJTJDJXUxRUQzJTJDJXUxRUQ1JTJDJXUxRUQ3JTJDJXUxRUQ5JTJDJUY0JTJDJXUxRUQwJTJDJXUxRUQyJTJDJXUxRUQ0JTJDJXUxRUQ2JTJDJXUxRUQ4JTJDJUQ0')).split(',');
-	this.mocA =    unescape(atob('JXUxRURCJTJDJXUxRUREJTJDJXUxRURGJTJDJXUxRUUxJTJDJXUxRUUzJTJDJXUwMUExJTJDJXUxRUU5JTJDJXUxRUVCJTJDJXUxRUVEJTJDJXUxRUVGJTJDJXUxRUYxJTJDJXUwMUIwJTJDJXUxRURBJTJDJXUxRURDJTJDJXUxRURFJTJDJXUxRUUwJTJDJXUxRUUyJTJDJXUwMUEwJTJDJXUxRUU4JTJDJXUxRUVBJTJDJXUxRUVDJTJDJXUxRUVFJTJDJXUxRUYwJTJDJXUwMUFG')).split(',');
-	this.trangA =  unescape(atob('JXUxRUFGJTJDJXUxRUIxJTJDJXUxRUIzJTJDJXUxRUI1JTJDJXUxRUI3JTJDJXUwMTAzJTJDJXUxRUFFJTJDJXUxRUIwJTJDJXUxRUIyJTJDJXUxRUI0JTJDJXUxRUI2JTJDJXUwMTAy')).split(',');
-	this.eA =      unescape(atob('JXUxRUJGJTJDJXUxRUMxJTJDJXUxRUMzJTJDJXUxRUM1JTJDJXUxRUM3JTJDJUVBJTJDJXUxRUJFJTJDJXUxRUMwJTJDJXUxRUMyJTJDJXUxRUM0JTJDJXUxRUM2JTJDJUNB')).split(',');
-	this.oA =      unescape(atob('JXUxRUQxJTJDJXUxRUQzJTJDJXUxRUQ1JTJDJXUxRUQ3JTJDJXUxRUQ5JTJDJUY0JTJDJXUxRUQwJTJDJXUxRUQyJTJDJXUxRUQ0JTJDJXUxRUQ2JTJDJXUxRUQ4JTJDJUQ0')).split(',');
-	this.skey2 =   unescape(atob('YSUyQ2ElMkNhJTJDZSUyQ2UlMkNpJTJDbyUyQ28lMkNvJTJDdSUyQ3UlMkN5JTJDQSUyQ0ElMkNBJTJDRSUyQ0UlMkNJJTJDTyUyQ08lMkNPJTJDVSUyQ1UlMkNZ')).split(',');
+	this.os1 = "o,O,ơ,Ơ,ó,Ó,ò,Ò,ọ,Ọ,ỏ,Ỏ,õ,Õ,ớ,Ớ,ờ,Ờ,ợ,Ợ,ở,Ở,ỡ,Ỡ".split(",");
+	this.ob1 = "ô,Ô,ô,Ô,ố,Ố,ồ,Ồ,ộ,Ộ,ổ,Ổ,ỗ,Ỗ,ố,Ố,ồ,Ồ,ộ,Ộ,ổ,Ổ,ỗ,Ỗ".split(",");
+	this.mocs1 = "o,O,ô,Ô,u,U,ó,Ó,ò,Ò,ọ,Ọ,ỏ,Ỏ,õ,Õ,ú,Ú,ù,Ù,ụ,Ụ,ủ,Ủ,ũ,Ũ,ố,Ố,ồ,Ồ,ộ,Ộ,ổ,Ổ,ỗ,Ỗ".split(",");
+	this.mocb1 = "ơ,Ơ,ơ,Ơ,ư,Ư,ớ,Ớ,ờ,Ờ,ợ,Ợ,ở,Ở,ỡ,Ỡ,ứ,Ứ,ừ,Ừ,ự,Ự,ử,Ử,ữ,Ữ,ớ,Ớ,ờ,Ờ,ợ,Ợ,ở,Ở,ỡ,Ỡ".split(",");
+	this.trangs1 = "a,A,â,Â,á,Á,à,À,ạ,Ạ,ả,Ả,ã,Ã,ấ,Ấ,ầ,Ầ,ậ,Ậ,ẩ,Ẩ,ẫ,Ẫ".split(",");
+	this.trangb1 = "ă,Ă,ă,Ă,ắ,Ắ,ằ,Ằ,ặ,Ặ,ẳ,Ẳ,ẵ,Ẵ,ắ,Ắ,ằ,Ằ,ặ,Ặ,ẳ,Ẳ,ẵ,Ẵ".split(",");
+	this.as1 = "a,A,ă,Ă,á,Á,à,À,ạ,Ạ,ả,Ả,ã,Ã,ắ,Ắ,ằ,Ằ,ặ,Ặ,ẳ,Ẳ,ẵ,Ẵ,ế,Ế,ề,Ề,ệ,Ệ,ể,Ể,ễ,Ễ".split(",");
+	this.ab1 = "â,Â,â,Â,ấ,Ấ,ầ,Ầ,ậ,Ậ,ẩ,Ẩ,ẫ,Ẫ,ấ,Ấ,ầ,Ầ,ậ,Ậ,ẩ,Ẩ,ẫ,Ẫ,é,É,è,È,ẹ,Ẹ,ẻ,Ẻ,ẽ,Ẽ".split(",");
+	this.es1 = "e,E,é,É,è,È,ẹ,Ẹ,ẻ,Ẻ,ẽ,Ẽ".split(",");
+	this.eb1 = "ê,Ê,ế,Ế,ề,Ề,ệ,Ệ,ể,Ể,ễ,Ễ".split(",");
+	this.english = "ĐÂĂƠƯÊÔ";
+	this.lowen = "đâăơưêô";
+	this.arA = "á,à,ả,ã,ạ,a,Á,À,Ả,Ã,Ạ,A".split(',');
+	this.mocrA = "ó,ò,ỏ,õ,ọ,o,ú,ù,ủ,ũ,ụ,u,Ó,Ò,Ỏ,Õ,Ọ,O,Ú,Ù,Ủ,Ũ,Ụ,U".split(',');
+	this.erA = "é,è,ẻ,ẽ,ẹ,e,É,È,Ẻ,Ẽ,Ẹ,E".split(',');
+	this.orA = "ó,ò,ỏ,õ,ọ,o,Ó,Ò,Ỏ,Õ,Ọ,O".split(',');
+	this.aA = "ấ,ầ,ẩ,ẫ,ậ,â,Ấ,Ầ,Ẩ,Ẫ,Ậ,Â".split(',');
+	this.oA = "ố,ồ,ổ,ỗ,ộ,ô,Ố,Ồ,Ổ,Ỗ,Ộ,Ô".split(',');
+	this.mocA = "ớ,ờ,ở,ỡ,ợ,ơ,ứ,ừ,ử,ữ,ự,ư,Ớ,Ờ,Ở,Ỡ,Ợ,Ơ,Ứ,Ừ,Ử,Ữ,Ự,Ư".split(',');
+	this.trangA = "ắ,ằ,ẳ,ẵ,ặ,ă,Ắ,Ằ,Ẳ,Ẵ,Ặ,Ă".split(',');
+	this.eA = "ế,ề,ể,ễ,ệ,ê,Ế,Ề,Ể,Ễ,Ệ,Ê".split(',');
+	this.oA = "ố,ồ,ổ,ỗ,ộ,ô,Ố,Ồ,Ổ,Ỗ,Ộ,Ô".split(',');
+	this.skey2 = "a,a,a,e,e,i,o,o,o,u,u,y,A,A,A,E,E,I,O,O,O,U,U,Y".split(',');
 	
 	this.fcc = function(x) {
 		return String.fromCharCode(x);
-	};
+	}
 	
 	this.getEL = function(id) {
 		return document.getElementById(id);
-	};
+	}
 	
 	this.getSF = function() {
 		var sf = [], x;
@@ -86,7 +86,7 @@ function AVIM()	{
 			sf[sf.length] = this.fcc(this.skey[x]);
 		}
 		return sf;
-	};
+	}
 	
 	if(AVIMGlobalConfig.showControl) {
 		this.css = document.createElement('link');
@@ -129,7 +129,7 @@ function AVIM()	{
 	
 	this.nospell = function(w, k) {
 		return false;
-	};
+	}
 	
 	this.ckspell = function(w, k) {
 		w = this.unV(w);
@@ -290,9 +290,9 @@ function AVIM()	{
 			return true;
 		}
 		return false;
-	};
+	}
 	
-	this.noCookie = function() {};
+	this.noCookie = function() {}
 	
 	this.doSetCookie = function() {
 		var exp = new Date(11245711156480).toGMTString();
@@ -300,7 +300,7 @@ function AVIM()	{
 		document.cookie = 'AVIM_method=' + AVIMGlobalConfig.method + ';expires=' + exp;
 		document.cookie = 'AVIM_ckspell=' + AVIMGlobalConfig.ckSpell + ';expires=' + exp;
 		document.cookie = 'AVIM_daucu=' + AVIMGlobalConfig.oldAccent + ';expires=' + exp;
-	};
+	}
 	
 	this.doGetCookie = function() {
 		var ck = document.cookie, res = /AVIM_method/.test(ck), p, i, ckA = ck.split(';');
@@ -330,7 +330,7 @@ function AVIM()	{
 				AVIMGlobalConfig.oldAccent = parseInt(p[1]);
 			}
 		}
-	};
+	}
 	
 	if(AVIMGlobalConfig.useCookie == 1) {
 		this.setCookie = this.doSetCookie;
@@ -356,7 +356,7 @@ function AVIM()	{
 		this.setSpell(AVIMGlobalConfig.ckSpell);
 		this.setDauCu(AVIMGlobalConfig.oldAccent);
 		this.setCookie();
-	};
+	}
 	
 	this.setDauCu = function(box) {
 		if(typeof(box) == "number") {
@@ -368,7 +368,7 @@ function AVIM()	{
 			AVIMGlobalConfig.oldAccent = (box.checked) ? 1 : 0;
 		}
 		this.setCookie();
-	};
+	}
 	
 	this.setSpell = function(box) {
 		if(typeof(box) == "number") {
@@ -386,7 +386,7 @@ function AVIM()	{
 			}
 		}
 		this.setCookie();
-	};
+	}
 	
 	if(this.is_ie || (this.ver >= 1.3) || this.is_opera || this.isKHTML) {
 		this.getCookie();
@@ -429,7 +429,7 @@ function AVIM()	{
 			g++;
 		}
 		return [w, pos];
-	};
+	}
 	
 	this.ieGetText = function(obj) {
 		var caret = obj.document.selection.createRange(), w="";
@@ -460,7 +460,7 @@ function AVIM()	{
 		} else {
 			return false;
 		}
-	};
+	}
 	
 	this.start = function(obj, key) {
 		var w = "", method = AVIMGlobalConfig.method, dockspell = AVIMGlobalConfig.ckSpell, uni, uni2 = false, uni3 = false, uni4 = false;
@@ -576,7 +576,7 @@ function AVIM()	{
 				}
 			}
 		}
-	};
+	}
 	
 	this.findC = function(w, k, sf) {
 		var method = AVIMGlobalConfig.method;
@@ -761,7 +761,7 @@ function AVIM()	{
 		} else if(c == 3) {
 			return vowA[1];
 		} else return false;
-	};
+	}
 	
 	this.ie_replaceChar = function(w, pos, c) {
 		var r = "", uc = 0;
@@ -787,7 +787,7 @@ function AVIM()	{
 		} else {
 			return w.substr(0, w.length - pos) + c + w.substr(w.length - pos + 1);
 		}
-	};
+	}
 	
 	this.replaceChar = function(o, pos, c) {
 		var bb = false;
@@ -851,7 +851,7 @@ function AVIM()	{
 		if(this.whit) {
 			this.whit=false;
 		}
-	};
+	}
 	
 	this.tr = function(k, w, by, sf, i) {
 		var r, pos = this.findC(w, k, sf), g;
@@ -887,7 +887,7 @@ function AVIM()	{
 			}
 		}
 		return false;
-	};
+	}
 	
 	this.main = function(w, k, i, a, noNormC) {
 		var uk = this.up(k), bya = [this.db1, this.ab1, this.eb1, this.ob1, this.mocb1, this.trangb1], got = false, t = "d,D,a,A,a,A,o,O,u,U,e,E,o,O".split(",");
@@ -1005,12 +1005,12 @@ function AVIM()	{
 			}
 		}
 		return this.DAWEOZ(k, w, by, sf, i, uk);
-	};
+	}
 	this.DAWEOZ = function(k, w, by, sf, i, uk) {
 		if((this.DAWEO.indexOf(uk) >= 0) || (this.Z.indexOf(uk) >= 0)) {
 			return this.tr(k, w, by, sf, i);
 		}
-	};
+	}
 	this.normC = function(w, k, i) {
 		var uk = this.up(k), u = this.repSign(null), fS, c, j, h, space = (k.charCodeAt(0) == 32) ? true : false;
 		if(!this.is_ie && space) {
@@ -1079,7 +1079,7 @@ function AVIM()	{
 				}
 			}
 		}
-	};
+	}
 	
 	this.DAWEOF = function(cc, k, g) {
 		var ret = [g], kA = [this.A, this.moc, this.trang, this.E, this.O], z, a;
@@ -1098,7 +1098,7 @@ function AVIM()	{
 		} else {
 			return false;
 		}
-	};
+	}
 	
 	this.retKC = function(k) {
 		if(k == this.S) {
@@ -1116,7 +1116,7 @@ function AVIM()	{
 		if(k == this.X) {
 			return [227,7851,7861,7869,7877,297,245,7895,7905,361,7919,7929,195,7850,7860,7868,7876,296,213,7894,7904,360,7918,7928];
 		}
-	};
+	}
 	
 	this.unV = function(w) {
 		var u = this.repSign(null), b, a;
@@ -1128,7 +1128,7 @@ function AVIM()	{
 			}
 		}
 		return w;
-	};
+	}
 	
 	this.unV2 = function(w) {
 		var a, b;
@@ -1140,7 +1140,7 @@ function AVIM()	{
 			}
 		}
 		return w;
-	};
+	}
 	
 	this.repSign = function(k) {
 		var t = [], u = [], a, b;
@@ -1151,7 +1151,7 @@ function AVIM()	{
 			}
 		}
 		return u;
-	};
+	}
 	
 	this.sr = function(w, k, i) {
 		var sf = this.getSF(), pos = this.findC(w, k, sf);
@@ -1172,7 +1172,7 @@ function AVIM()	{
 			}
 		}
 		return false;
-	};
+	}
 	
 	this.retUni = function(w, k, pos) {
 		var u = this.retKC(this.up(k)), uC, lC, c = w.charCodeAt(w.length - pos), a, t = this.fcc(c);
@@ -1191,12 +1191,12 @@ function AVIM()	{
 				return u[uC];
 			}
 		}
-	};
+	}
 	
 	this.ifInit = function(w) {
 		var sel = w.getSelection();
 		this.range = sel ? sel.getRangeAt(0) : document.createRange();
-	};
+	}
 	
 	this.ifMoz = function(e) {
 		var code = e.which, avim = this.AVIM, cwi = e.target.parentNode.wi;
@@ -1238,7 +1238,7 @@ function AVIM()	{
 			avim.changed = false;
 			e.preventDefault();
 		}
-	};
+	}
 	
 	this.FKeyPress = function() {
 		var obj = this.findF();
@@ -1247,18 +1247,18 @@ function AVIM()	{
 			return;
 		}
 		this.start(obj, this.sk);
-	};
+	}
 	
 	this.checkCode = function(code) {
 		if(((AVIMGlobalConfig.onOff == 0) || ((code < 45) && (code != 42) && (code != 32) && (code != 39) && (code != 40) && (code != 43)) || (code == 145) || (code == 255))) {
 			return true;
 		}
-	};
+	}
 	
 	this.notWord = function(w) {
 		var str = "\ \r\n#,\\;.:-_()<>+-*/=?!\"$%{}[]\'~|^\@\&\t" + this.fcc(160);
 		return (str.indexOf(w) >= 0);
-	};
+	}
 	
 	this.nan = function(w) {
 		if (isNaN(w) || (w == 'e')) {
@@ -1266,7 +1266,7 @@ function AVIM()	{
 		} else {
 			return false;
 		}
-	};
+	}
 	
 	this.up = function(w) {
 		w = w.toUpperCase();
@@ -1280,7 +1280,7 @@ function AVIM()	{
 			}
 		}
 		return w;
-	};
+	}
 	
 	this.findIgnore = function(el) {
 		var va = AVIMGlobalConfig.exclude, i;
@@ -1289,7 +1289,7 @@ function AVIM()	{
 				return true;
 			}
 		}
-	};
+	}
 	
 	this.findF = function() {
 		var g;
@@ -1308,7 +1308,7 @@ function AVIM()	{
 				}
 			}
 		}
-	};
+	}
 	
 	this.keyPressHandler = function(e) {
 		if(!this.support) {
@@ -1345,7 +1345,7 @@ function AVIM()	{
 			return false;
 		}
 		return true;
-	};
+	}
 	
 	this.attachEvt = function(obj, evt, handle, capture) {
 		if(this.is_ie) {
@@ -1353,7 +1353,7 @@ function AVIM()	{
 		} else {
 			obj.addEventListener(evt, handle, capture);
 		}
-	};
+	}
 	
 	this.keyDownHandler = function(e) {
 		if(e == "iframe") {
@@ -1365,7 +1365,7 @@ function AVIM()	{
 		if (key == 123) {
 			document.getElementById('AVIMControl').style.display = (document.getElementById('AVIMControl').style.display == 'none') ? 'block' : 'none';
 		}
-	};
+	}
 }
 
 function AVIMInit(AVIM) {
