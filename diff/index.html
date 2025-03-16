@@ -1,0 +1,41 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/loader.min.js"></script>
+<style>
+body {
+    padding: 10px 0;
+    //background-color: #1e1e1e;
+}
+#editor {
+    height: 100%;
+}
+</style>
+
+<div id="editor"></div>
+
+<script>
+require.config({
+    baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/"
+});
+require(["vs/editor/editor.main"], function() {
+    /*monaco.languages.register({ id: 'text' });
+    monaco.languages.setMonarchTokensProvider('text', {
+    tokenizer: {
+    root: [
+    [/./, 'text']
+    ]
+    }
+    });*/
+    const diffEditor = monaco.editor.createDiffEditor(document.getElementById("editor"), {
+        /*quickSuggestions: false,
+        language: 'text',
+        diagnostics: false,*/
+        //readOnly: false,
+        originalEditable: true,
+        modifiedEditable: true,
+        //markers: [],
+    });
+    diffEditor.setModel({
+        original: monaco.editor.createModel('', 'text'),
+        modified: monaco.editor.createModel('', 'text')
+    });
+});
+</script>
