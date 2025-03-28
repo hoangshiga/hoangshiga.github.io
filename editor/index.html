@@ -31,16 +31,7 @@ require(["vs/editor/editor.main"], (init, editor) => (init = async () => {
         theme: "vs"
     });
     //await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, async () => alert(await post('save', editor.getValue())));
-    editor.beautifier = async () => {
-        const pos = editor.getPosition();
-        await editor.executeEdits('beautifier', [{
-            identifier: 'delete',
-            range: model.getFullModelRange(),
-            text: editor.getValue(),
-            forceMoveMarkers: true
-        }])
-        await editor.setPosition(pos);
-    };
+    editor.beautifier = async () => await editor.trigger("editor", "editor.action.formatDocument");
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => editor.beautifier());
     editor.commentLine = async () => await editor.getAction('editor.action.commentLine').run();
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => editor.commentLine());
