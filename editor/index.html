@@ -23,7 +23,7 @@ body {
 require.config({
     baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/'
 });
-require(['vs/editor/editor.main'], (init, editor) => (init = async () => {
+require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
 	if (editor) await editor.dispose();
     editor = await monaco.editor.create(document.getElementById('editor'), {
         model: await monaco.editor.createModel(localStorage.editorValue || '', 'javascript'),
@@ -42,5 +42,5 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async () => {
     await editor.focus();
 	editor.init = init;
 	window.editor = editor;
-})());
+})(localStorage));
 </script>
