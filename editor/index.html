@@ -21,19 +21,23 @@ body {
 <script>
 // https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneCodeEditor.html#focus.focus-1
 require.config({
-    baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/"
+    baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/'
 });
-require(["vs/editor/editor.main"], (init, editor) => (init = async () => {
+require(['vs/editor/editor.main'], (init, editor) => (init = async () => {
 	if (editor) await editor.dispose();
-    const model = await monaco.editor.createModel("", "javascript")
-    editor = await monaco.editor.create(document.getElementById("editor"), {
-        model,
-        theme: "vs"
+    editor = await monaco.editor.create(document.getElementById('editor'), {
+        model: await monaco.editor.createModel(localStorage.editorValue || '', 'javascript'),
+        theme: 'vs'
     });
-    //await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, async () => alert(await post('save', editor.getValue())));
-    editor.beautifier = async () => await editor.trigger("editor", "editor.action.formatDocument");
+    if (localStorage.editorPosition) await editor.setPosition(JSON.parse(localStorage.editorPosition));
+    editor.onChangeContent = ev => (localStorage.editorValue = editor.getValue());
+    editor.onDidChangeModelContent(ev => editor.onChangeContent(ev));
+    editor.onChangePosition = ev => (localStorage.editorPosition = JSON.stringify(editor.getPosition()));
+    editor.onDidChangeCursorPosition(ev => editor.onChangePosition(ev));
+    await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, ev => editor.onSave && editor.onSave(ev));
+    editor.beautifier = () => editor.trigger("editor", "editor.action.formatDocument");
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => editor.beautifier());
-    editor.commentLine = async () => await editor.getAction('editor.action.commentLine').run();
+    editor.commentLine = () => editor.getAction('editor.action.commentLine').run();
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => editor.commentLine());
     await editor.focus();
 	editor.init = init;
