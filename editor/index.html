@@ -13,6 +13,11 @@ body {
 	flex: 1;
 }
 </style>
+<style id="squiggly-error">
+.squiggly-error {
+	background: inherit !important;
+}
+</style>
 
 <body>
 	<div id="editor"></div>
@@ -39,6 +44,12 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => editor.beautifier());
     editor.commentLine = () => editor.getAction('editor.action.commentLine').run();
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => editor.commentLine());
+    editor.toggleErrorUnderline = o => {
+    	if (o = document.querySelector('#squiggly-error')) return o.remove();
+    	document.head.appendChild(o = document.createElement('style')).id = 'squiggly-error';
+    	o.innerHTML = '.squiggly-error { background: inherit !important; }';
+    };
+    await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, () => editor.toggleErrorUnderline());
     await editor.focus();
 	editor.init = init;
 	window.editor = editor;
