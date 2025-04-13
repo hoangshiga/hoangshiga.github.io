@@ -10,9 +10,9 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 	});
 	if (localStorage.editorPosition) await editor.setPosition(JSON.parse(localStorage.editorPosition));
 	editor.onChangeContent = ev => (localStorage.editorValue = editor.getValue());
-	editor.onDidChangeModelContent(ev => editor.onChangeContent && editor.onChangeContent(ev));
+	await editor.onDidChangeModelContent(ev => editor.onChangeContent && editor.onChangeContent(ev));
 	editor.onChangePosition = ev => (localStorage.editorPosition = JSON.stringify(editor.getPosition()));
-	editor.onDidChangeCursorPosition(ev => editor.onChangePosition && editor.onChangePosition(ev));
+	await editor.onDidChangeCursorPosition(ev => editor.onChangePosition && editor.onChangePosition(ev));
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, ev => editor.onSave && editor.onSave(ev));
 	editor.beautifier = () => editor.trigger("editor", "editor.action.formatDocument");
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => editor.beautifier());
@@ -44,13 +44,13 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 			alert('Succeed');
 		};
 	};
+	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_O, ev => editor.onOpenFile && editor.onOpenFile(ev));
 	editor.onLoadFile = async ev => {
 		if (!fileHandle) return;
 		const pos = editor.getPosition();
 		editor.setValue(await (await fileHandle.getFile()).text());
 		editor.setPosition(pos);
 	};
-	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_O, ev => editor.onOpenFile && editor.onOpenFile(ev));
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_L, ev => editor.onLoadFile && editor.onLoadFile(ev));
 	await editor.focus();
 	editor.init = init;
