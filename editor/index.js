@@ -15,17 +15,17 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 	await editor.onDidChangeCursorPosition(ev => editor.onChangePosition && editor.onChangePosition(ev));
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, ev => editor.onSave && editor.onSave(ev));
 	editor.beautifier = () => editor.trigger("editor", "editor.action.formatDocument");
-	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, () => editor.beautifier());
+	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F, ev => editor.beautifier && editor.beautifier(ev));
 	editor.commentLine = () => editor.getAction('editor.action.commentLine').run();
-	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, () => editor.commentLine());
+	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, ev => editor.commentLine && editor.commentLine(ev));
 	editor.toggleErrorUnderline = o => {
 		if (o = document.querySelector('#squiggly-error')) return o.remove();
 		document.head.appendChild(o = document.createElement('style')).id = 'squiggly-error';
 		o.innerHTML = '.squiggly-error { background: inherit !important; }';
 	};
-	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, () => editor.toggleErrorUnderline());
+	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, ev => editor.toggleErrorUnderline && editor.toggleErrorUnderline(ev));
 	editor.onClear = ev => editor.setValue('');
-	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear(ev));
+	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear && editor.onClear(ev));
 	var fileHandle;
 	editor.onOpenFile = async ev => {
 		fileHandle = (await window.showOpenFilePicker().catch(er => []))[0];
