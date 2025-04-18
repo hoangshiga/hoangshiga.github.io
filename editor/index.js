@@ -26,22 +26,47 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, ev => editor.toggleErrorUnderline && editor.toggleErrorUnderline(ev));
 	editor.onClear = ev => editor.setValue('');
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear && editor.onClear(ev));
-	var fileHandle;
+	var fileHandle, text, isAutoSave = true, isSaving, isTyping;
 	editor.onOpenFile = async ev => {
 		fileHandle = (await window.showOpenFilePicker().catch(er => []))[0];
 		if (!fileHandle) return;
+		if (await fileHandle.queryPermission({ mode: 'readwrite' }) != 'granted'
+			&& await fileHandle.requestPermission({ mode: 'readwrite' }) != 'granted'
+		) return alert('Error: No Permission for write to file, try again');
+		document.title = fileHandle.name + (isAutoSave && '@' || '');
 		editor.onOpenFile = null;
 		editor.onChangeContent = null;
 		editor.onChangePosition = null;
-		editor.setValue(await (await fileHandle.getFile()).text());
+		text = await (await fileHandle.getFile()).text();
+		editor.setValue(text);
+		const save = async () => {
+			if (isSaving) return;
+			isSaving = true;
+			const textNew = editor.getValue();
+			if (textNew != text) {
+				text = textNew;
+				document.title = fileHandle.name + '*';
+				const writable = await fileHandle.createWritable();
+				await writable.write(textNew);
+				await writable.close();
+			}
+			document.title = fileHandle.name + (isAutoSave && '@' || '');
+			isSaving = false;
+		};
+		editor.onChangeContent = async ev => {
+			if (!isAutoSave) return [document.title = fileHandle.name + (editor.getValue() != text && '*' || '')];
+			document.title = fileHandle.name + '*';
+			isTyping = clearTimeout(isTyping) || setTimeout(save, 1000);
+		};
+		editor.onOpenFile = async ev => {
+			if (isAutoSave = !isAutoSave) return await save();
+			document.title = fileHandle.name;
+		};
 		editor.onSave = async ev => {
-			if (await fileHandle.queryPermission({ mode: 'readwrite' }) != 'granted'
-				&& await fileHandle.requestPermission({ mode: 'readwrite' }) != 'granted'
-			) return alert('Error: No Permission for write to file, try again');
-			const writable = await fileHandle.createWritable();
-			await writable.write(editor.getValue());
-			await writable.close();
-			alert('Succeed');
+			isTyping = clearTimeout(isTyping) || setTimeout(async () => {
+				await save();
+				alert('Succeed');
+			}, 1000);
 		};
 	};
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_O, ev => editor.onOpenFile && editor.onOpenFile(ev));
