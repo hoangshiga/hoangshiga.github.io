@@ -43,11 +43,14 @@ img {
 	        	const imgURL = await new Promise(async (res, img) => {
 		            for (const item of await navigator.clipboard.read()) {
 		                for (const type of item.types) {
+		        	    	console.log('type', type);
 		                    if (type.startsWith('image/')) {
+			        	    	console.log('image', type);
 		        				document.body.append(img = document.createElement('img'));
 		        				img.style.display = 'none';
 		        				img.src = URL.createObjectURL(await item.getType(type));
 		        				imgs.push(img);
+			        	    	console.log('img', img);
 		                        return res(img);
 		                    }
 		                }
