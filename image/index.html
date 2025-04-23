@@ -57,6 +57,9 @@ img {
 		            }
 		            res();
 		        }).catch(er => console.error(er));
+				file.style.display = 'none';
+				imgs[0].style.display = '';
+		        document.title = timeout;
 	        	return;
 	        }
 	        if (ev.key == 'ArrowLeft') return load(true);
