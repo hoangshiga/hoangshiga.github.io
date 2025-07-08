@@ -6,7 +6,8 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 	if (editor) await editor.dispose();
 	editor = await monaco.editor.create(document.getElementById('editor'), {
 		model: await monaco.editor.createModel(localStorage.editorValue || '', 'javascript'),
-		theme: 'vs'
+		theme: 'vs',
+		minimap: { enabled: false }
 	});
 	if (localStorage.editorPosition) await editor.setPosition(JSON.parse(localStorage.editorPosition));
 	editor.onChangeContent = ev => (localStorage.editorValue = editor.getValue());
@@ -77,6 +78,14 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 		editor.setPosition(pos);
 	};
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_L, ev => editor.onLoadFile && editor.onLoadFile(ev));
+	editor.toggleMiniMap = async ev => {
+		editor.updateOptions({
+			minimap: {
+				enabled: !editor.getRawOptions().minimap.enabled
+			}
+		});
+	};
+	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M, ev => editor.toggleMiniMap && editor.toggleMiniMap(ev));
 	await editor.focus();
 	editor.init = init;
 	window.editor = editor;
