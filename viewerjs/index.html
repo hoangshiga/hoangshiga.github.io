@@ -3,7 +3,7 @@
 <script>
 const v = (el, V, p, z, v) => [
 	z = (p = (V = Viewer).prototype).zoom, 
-	p.zoom = function(ratio){ratio = ratio * 5; return z.apply(this, arguments)}, 
+	p.zoom = function(v){v *= 5; return z.call(this, v)}, 
 	v = new V(el, { hidden: () => v.destroy(), toolbar: { zoomIn: 1, zoomOut: 1, oneToOne: 1 } })
 ].pop().show()
 </script>
