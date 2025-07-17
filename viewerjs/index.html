@@ -5,6 +5,6 @@ const v = (el, V, p, z, v) => [
 	z = (p = (V = Viewer).prototype).zoom, 
 	p.zoom = function(ratio){ratio = ratio * 5; return z.apply(this, arguments)}, 
 	v = new V(el, { hidden: () => v.destroy(), toolbar: { zoomIn: 1, zoomOut: 1, oneToOne: 1 } })
-][2].show()
+].pop().show()
 </script>
 <img onclick="v(this)" src="https://fengyuanchen.github.io/viewerjs/images/tibet-1.jpg"/>
