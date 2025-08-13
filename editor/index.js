@@ -25,8 +25,8 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
 		o.innerHTML = '.squiggly-error { background: inherit !important; }';
 	};
 	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, ev => editor.toggleErrorUnderline && editor.toggleErrorUnderline(ev));
-	editor.onClear = ev => editor.setValue('');
-	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear && editor.onClear(ev));
+//	editor.onClear = ev => editor.setValue('');
+//	await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear && editor.onClear(ev));
 	var fileHandle, text, isAutoSave = true, isSaving, isTyping;
 	editor.onOpenFile = async ev => {
 		fileHandle = (await window.showOpenFilePicker().catch(er => []))[0];
