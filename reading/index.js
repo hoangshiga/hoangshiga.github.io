@@ -32,51 +32,59 @@
         return { folder, read, write, remove, escape: _escape, unescape: _unescape }
     }
     const append = (p, t) => (t = document.createElement(t)) && p && p.append(t) || t
-    const api = Api('hoangshiga/hoangshiga', localStorage._token = localStorage._token || prompt('token') || '');
-    if (!localStorage._token) return
-    const folder = 'reading'
-    const key = unescape(new URLSearchParams(location.search).get('key') || '')
-    await new Promise((res, loop) => (loop = () => !document.body && setTimeout(loop) || res())())
-    if (key) {
+    try {
+        const api = Api('hoangshiga/hoangshiga', localStorage._token = localStorage._token || prompt('token') || '');
+        if (!localStorage._token) return
+        const folder = 'reading'
+        const key = unescape(new URLSearchParams(location.search).get('key') || '')
+        await new Promise((res, loop) => (loop = () => !document.body && setTimeout(loop) || res())())
+        if (key) {
+            Object.assign(append(document.body, 'pre'), {
+                innerHTML: await api.read(api.escape(folder, key)),
+                style: 'font-family: math'
+            })
+            const scrollKey = 'reading_' + key
+            document.body.scrollTop = localStorage[scrollKey]
+            document.body.onscroll = () => [localStorage[scrollKey] = document.body.scrollTop]
+            return
+        }
+        const input = append(document.body, 'input')
+        const button = append(document.body, 'button')
+        const area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
+            rows: 10,
+            style: 'width: 100%; box-sizing: border-box'
+        })
+        button.textContent = 'Activate'
+        button.onclick = async () => {
+            if (!input.value || !area.value) return
+            const key = input.value
+            await api.write(api.escape(folder, key), area.value)
+            location = '?key=' + escape(key)
+        }
+        ((await api.folder(folder).catch(() => ({}))).files || []).forEach(file => {
+            const key = api.unescape(file.name)
+            append(document.body, 'br')
+            Object.assign(append(document.body, 'button'), {
+                textContent: 'Remove',
+                onclick: async () => await api.remove(api.escape(folder, key)) || location.reload(),
+            })
+            Object.assign(append(document.body, 'button'), {
+                textContent: 'Load',
+                onclick: async () => {
+                    input.value = key
+                    area.value = await api.read(api.escape(folder, key))
+                },
+            })
+            Object.assign(append(document.body, 'button'), {
+                textContent: 'Open: ' + key,
+                onclick: () => [location = '?key=' + escape(key)],
+            })
+        })
+    } catch (ex) {
+        alert(ex)
         Object.assign(append(document.body, 'pre'), {
-            innerHTML: await api.read(api.escape(folder, key)),
+            innerHTML: ex,
             style: 'font-family: math'
         })
-        const scrollKey = 'reading_' + key
-        document.body.scrollTop = localStorage[scrollKey]
-        document.body.onscroll = () => [localStorage[scrollKey] = document.body.scrollTop]
-        return
     }
-    const input = append(document.body, 'input')
-    const button = append(document.body, 'button')
-    const area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
-        rows: 10,
-        style: 'width: 100%; box-sizing: border-box'
-    })
-    button.textContent = 'Activate'
-    button.onclick = async () => {
-        if (!input.value || !area.value) return
-        const key = input.value
-        await api.write(api.escape(folder, key), area.value)
-        location = '?key=' + escape(key)
-    }
-    ((await api.folder(folder).catch(() => ({}))).files || []).forEach(file => {
-        const key = api.unescape(file.name)
-        append(document.body, 'br')
-        Object.assign(append(document.body, 'button'), {
-            textContent: 'Remove',
-            onclick: async () => await api.remove(api.escape(folder, key)) || location.reload(),
-        })
-        Object.assign(append(document.body, 'button'), {
-            textContent: 'Load',
-            onclick: async () => {
-                input.value = key
-                area.value = await api.read(api.escape(folder, key))
-            },
-        })
-        Object.assign(append(document.body, 'button'), {
-            textContent: 'Open: ' + key,
-            onclick: () => [location = '?key=' + escape(key)],
-        })
-    })
 })()
