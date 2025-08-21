@@ -43,6 +43,7 @@
                 innerHTML: await api.read(api.escape(folder, key)),
                 style: 'font-family: math'
             })
+            await new Promise((res, loop) => (loop = () => document.readyState != 'complete' && setTimeout(loop, 100) || res())())
             const scrollKey = 'reading_' + key
             document.body.scrollTop = localStorage[scrollKey]
             document.body.onscroll = () => [localStorage[scrollKey] = document.body.scrollTop]
