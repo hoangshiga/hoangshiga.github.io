@@ -4,7 +4,7 @@ require.config({
 });
 require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
     if (editor) await editor.dispose();
-    const editorKey = unescape(new URLSearchParams(location.search).get('key') || 'editorValue')
+    const editorKey = 'editor_' + unescape(new URLSearchParams(location.search).get('key') || 'value')
     editor = await monaco.editor.create(document.getElementById('editor'), {
         model: await monaco.editor.createModel(localStorage[editorKey] || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
         theme: 'vs',
