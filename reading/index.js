@@ -35,15 +35,15 @@
     const api = Api('hoangshiga/hoangshiga', localStorage._token = localStorage._token || prompt('token') || '');
     if (!localStorage._token) return
     const folder = 'reading'
-    var key = unescape(new URLSearchParams(location.search).get('key') || '')
+    const key = unescape(new URLSearchParams(location.search).get('key') || '')
     await new Promise((res, loop) => (loop = () => !document.body && setTimeout(loop) || res())())
     if (key) return Object.assign(append(document.body, 'pre'), {
-        textContent: await api.read(api.escape(folder, key)),
+        innerHTML: await api.read(api.escape(folder, key)),
         style: 'font-family: math'
     })
-    var input = append(document.body, 'input')
-    var button = append(document.body, 'button')
-    var area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
+    const input = append(document.body, 'input')
+    const button = append(document.body, 'button')
+    const area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
         rows: 10,
         style: 'width: 100%; box-sizing: border-box'
     })
@@ -56,9 +56,21 @@
     }
     ((await api.folder(folder).catch(() => ({}))).files || []).forEach(file => {
         const key = api.unescape(file.name)
-        var button = document.createElement('button')
-        button.textContent = 'Remove: ' + key
-        button.onclick = async () => await api.remove(api.escape(folder, key)) || location.reload()
-        document.body.append(document.createElement('br'), button)
+        append(document.body, 'br')
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'Remove',
+            onclick: async () => await api.remove(api.escape(folder, key)) || location.reload(),
+        })
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'Load',
+            onclick: async () => {
+                input.value = key
+                area.value = await api.read(api.escape(folder, key))
+            },
+        })
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'Open: ' + key,
+            onclick: () => [location = '?key=' + escape(key)],
+        })
     })
 })()
