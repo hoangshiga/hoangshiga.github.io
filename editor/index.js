@@ -4,16 +4,17 @@ require.config({
 });
 require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
     if (editor) await editor.dispose();
-    const editorKey = 'editor_' + unescape(new URLSearchParams(location.search).get('key') || 'value')
+    const valueKey = 'editor_' + unescape(new URLSearchParams(location.search).get('key') || 'value')
+    const positionKey = valueKey + '_position'
     editor = await monaco.editor.create(document.getElementById('editor'), {
-        model: await monaco.editor.createModel(localStorage[editorKey] || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
+        model: await monaco.editor.createModel(localStorage[valueKey] || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
         theme: 'vs',
         minimap: { enabled: false }
     });
-    if (localStorage[editorKey + '_position']) await editor.setPosition(JSON.parse(localStorage[editorKey + '_position']));
-    editor.onChangeContent = ev => (localStorage[editorKey] = editor.getValue());
+    if (localStorage[positionKey]) await editor.setPosition(JSON.parse(localStorage[positionKey]));
+    editor.onChangeContent = ev => (localStorage[valueKey] = editor.getValue());
     await editor.onDidChangeModelContent(ev => editor.onChangeContent && editor.onChangeContent(ev));
-    editor.onChangePosition = ev => (localStorage[editorKey + '_position'] = JSON.stringify(editor.getPosition()));
+    editor.onChangePosition = ev => (localStorage[positionKey] = JSON.stringify(editor.getPosition()));
     await editor.onDidChangeCursorPosition(ev => editor.onChangePosition && editor.onChangePosition(ev));
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, ev => editor.onSave && editor.onSave(ev));
     editor.beautifier = () => editor.trigger("editor", "editor.action.formatDocument");
