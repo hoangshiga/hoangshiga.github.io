@@ -37,10 +37,16 @@
     const folder = 'reading'
     const key = unescape(new URLSearchParams(location.search).get('key') || '')
     await new Promise((res, loop) => (loop = () => !document.body && setTimeout(loop) || res())())
-    if (key) return Object.assign(append(document.body, 'pre'), {
-        innerHTML: await api.read(api.escape(folder, key)),
-        style: 'font-family: math'
-    })
+    if (key) {
+        Object.assign(append(document.body, 'pre'), {
+            innerHTML: await api.read(api.escape(folder, key)),
+            style: 'font-family: math'
+        })
+        const scrollKey = 'reading_' + key
+        document.body.scrollTop = localStorage[scrollKey]
+        document.body.onscroll = () => [localStorage[scrollKey] = document.body.scrollTop]
+        return
+    }
     const input = append(document.body, 'input')
     const button = append(document.body, 'button')
     const area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
