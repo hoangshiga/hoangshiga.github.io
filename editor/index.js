@@ -4,15 +4,16 @@ require.config({
 });
 require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
     if (editor) await editor.dispose();
+    const editorKey = unescape(new URLSearchParams(location.search).get('key') || 'editorValue')
     editor = await monaco.editor.create(document.getElementById('editor'), {
-        model: await monaco.editor.createModel(localStorage.editorValue || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
+        model: await monaco.editor.createModel(localStorage[editorKey] || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
         theme: 'vs',
         minimap: { enabled: false }
     });
-    if (localStorage.editorPosition) await editor.setPosition(JSON.parse(localStorage.editorPosition));
-    editor.onChangeContent = ev => (localStorage.editorValue = editor.getValue());
+    if (localStorage[editorKey + '_position']) await editor.setPosition(JSON.parse(localStorage[editorKey + '_position']));
+    editor.onChangeContent = ev => (localStorage[editorKey] = editor.getValue());
     await editor.onDidChangeModelContent(ev => editor.onChangeContent && editor.onChangeContent(ev));
-    editor.onChangePosition = ev => (localStorage.editorPosition = JSON.stringify(editor.getPosition()));
+    editor.onChangePosition = ev => (localStorage[editorKey + '_position'] = JSON.stringify(editor.getPosition()));
     await editor.onDidChangeCursorPosition(ev => editor.onChangePosition && editor.onChangePosition(ev));
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, ev => editor.onSave && editor.onSave(ev));
     editor.beautifier = () => editor.trigger("editor", "editor.action.formatDocument");
@@ -25,7 +26,7 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
         o.innerHTML = '.squiggly-error { background: inherit !important; }';
     };
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, ev => editor.toggleErrorUnderline && editor.toggleErrorUnderline(ev));
-    //	editor.onClear = ev => editor.setValue('');
+    //  editor.onClear = ev => editor.setValue('');
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear && editor.onClear(ev));
     var fileHandle, text, isAutoSave = true, isSaving, isTyping;
     editor.onOpenFile = async ev => {
