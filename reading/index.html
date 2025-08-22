@@ -1,5 +1,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://unpkg.com/kuromoji@0.1.2/build/kuromoji.js"></script>
 <script src="https://unpkg.com/wanakana@5.3.1/wanakana.min.js"></script>
-<script>fetch('https://api.github.com/repos/hoangshiga/hoangshiga/contents/reading/index.js', { headers: { 'Authorization': 'Bearer ' + localStorage._token } })
-.then(res => res.json()).then(({content}) => eval(atob(content)))</script>
+<script>
+(localStorage._token = localStorage._token || prompt('token') || '')
+&& fetch('https://api.github.com/repos/hoangshiga/hoangshiga/contents/reading/index.js', { headers: { 'Authorization': 'Bearer ' + localStorage._token } })
+.then(res => res.json()).then(({content}) => eval(atob(content)))
+</script>
