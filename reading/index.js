@@ -38,17 +38,29 @@
         const folder = 'reading'
         const key = unescape(new URLSearchParams(location.search).get('key') || '')
         await new Promise((res, loop) => (loop = () => !document.body && setTimeout(loop) || res())())
-        if (key) {
+        if (key) return kuromoji.builder({ dicPath: "https://takuyaa.github.io/kuromoji.js/demo/kuromoji/dict/" }).build(async (err, tokenizer) => {
+            const lines = (await api.read(api.escape(folder, key))).split("\n")
+            const [head, body] = lines[0][0] == '<' ? [lines.shift() + "\n", lines.join("\n")] : ['', lines.join("\n")]
+            const tokens = tokenizer.tokenize(body)
+            var last;
             Object.assign(append(document.body, 'pre'), {
-                innerHTML: await api.read(api.escape(folder, key)),
-                style: 'font-family: math'
-            })
+                style: 'font-family: math',
+                innerHTML: head
+            }).append(...tokens.map(token => Object.assign(document.createElement('span'), {
+                textContent: token.surface_form,
+                onclick: ev => {
+                    if (last == ev.target) return last.children.length
+                        ? Array.from(last.children).forEach(c => c.remove())
+                        : Object.assign(append(last, 'span'), { textContent: ' ' + wanakana.toRomaji(token.reading) + ' ', style: 'background: white; color: red' })
+                    if (last) Array.from(last.children).forEach(c => c.remove()) || [last.style.background = ''];
+                    (last = ev.target).style.background = '#ccf'
+                },
+            })))
             await new Promise((res, loop) => (loop = () => document.readyState != 'complete' && setTimeout(loop, 100) || res())())
             const scrollKey = 'reading_' + key
             document.body.scrollTop = localStorage[scrollKey]
             document.body.onscroll = () => [localStorage[scrollKey] = document.body.scrollTop]
-            return
-        }
+        })
         const input = append(document.body, 'input')
         Object.assign(append(document.body, 'button'), {
             textContent: 'Activate',
