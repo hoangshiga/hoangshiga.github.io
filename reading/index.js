@@ -50,18 +50,29 @@
             return
         }
         const input = append(document.body, 'input')
-        const button = append(document.body, 'button')
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'Activate',
+            onclick: async key => (key = input.value) && area.value && await api.write(api.escape(folder, key), area.value) && [location = '?key=' + escape(key)],
+        })
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'Downsub',
+            onclick: () => window.open('https://downsub.com/')
+        });
         const area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
             rows: 10,
             style: 'width: 100%; box-sizing: border-box'
         })
-        button.textContent = 'Activate'
-        button.onclick = async () => {
-            if (!input.value || !area.value) return
-            const key = input.value
-            await api.write(api.escape(folder, key), area.value)
-            location = '?key=' + escape(key)
-        }
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'File',
+            onclick: () => Object.assign(document.createElement('input'), {
+                type: 'file',
+                onchange: async (ev, file) => (file = ev.target.files[0]) && [area.value = await file.text()],
+            }).click()
+        });
+        Object.assign(append(document.body, 'button'), {
+            textContent: 'Url',
+            onclick: () => [area.value += `<a href=""></a>\n`]
+        });
         ((await api.folder(folder).catch(() => ({}))).files || []).forEach(file => {
             const key = api.unescape(file.name)
             append(document.body, 'br')
@@ -71,10 +82,7 @@
             })
             Object.assign(append(document.body, 'button'), {
                 textContent: 'Load',
-                onclick: async () => {
-                    input.value = key
-                    area.value = await api.read(api.escape(folder, key))
-                },
+                onclick: async () => [input.value = key, area.value = await api.read(api.escape(folder, key))],
             })
             Object.assign(append(document.body, 'button'), {
                 textContent: 'Open: ' + key,
