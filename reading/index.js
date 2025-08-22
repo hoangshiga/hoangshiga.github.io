@@ -57,9 +57,9 @@
         Object.assign(append(document.body, 'button'), {
             textContent: 'Downsub',
             onclick: () => window.open('https://downsub.com/')
-        });
+        })
         const area = append(document.body, 'br') && Object.assign(append(document.body, 'textarea'), {
-            rows: 10,
+            rows: 15,
             style: 'width: 100%; box-sizing: border-box'
         })
         Object.assign(append(document.body, 'button'), {
@@ -68,12 +68,12 @@
                 type: 'file',
                 onchange: async (ev, file) => (file = ev.target.files[0]) && [area.value = await file.text()],
             }).click()
-        });
+        })
         Object.assign(append(document.body, 'button'), {
             textContent: 'Url',
             onclick: () => [area.value += `<a href=""></a>\n`]
-        });
-        ((await api.folder(folder).catch(() => ({}))).files || []).forEach(file => {
+        })
+        for (const file of ((await api.folder(folder).catch(() => ({}))).files || []).sort((a, b) => a.name.localeCompare(b.name))) {
             const key = api.unescape(file.name)
             append(document.body, 'br')
             Object.assign(append(document.body, 'button'), {
@@ -88,7 +88,7 @@
                 textContent: 'Open: ' + key,
                 onclick: () => [location = '?key=' + escape(key)],
             })
-        })
+        }
     } catch (ex) {
         alert(ex)
         Object.assign(append(document.body, 'pre'), {
