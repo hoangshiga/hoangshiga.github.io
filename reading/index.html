@@ -2,7 +2,9 @@
 <script src="https://unpkg.com/kuromoji@0.1.2/build/kuromoji.js"></script>
 <script src="https://unpkg.com/wanakana@5.3.1/wanakana.min.js"></script>
 <script>
-(localStorage._token = localStorage._token || prompt('token') || '')
-&& fetch('https://api.github.com/repos/hoangshiga/hoangshiga/contents/reading/index.js', { headers: { 'Authorization': 'Bearer ' + localStorage._token } })
-.then(res => res.json()).then(({content}) => eval(atob(content)))
+(localStorage._token = localStorage._token || prompt('token') || '') && (
+location.host == 'localhost'
+    ? fetch('/hoangshiga/reading/index.js', { headers: { 'Authorization': 'Bearer ' + localStorage._token } }).then(res => res.text()).then(eval)
+	: fetch('https://api.github.com/repos/hoangshiga/hoangshiga/contents/reading/index.js', { headers: { 'Authorization': 'Bearer ' + localStorage._token } }).then(res => res.json()).then(({content}) => eval(atob(content)))
+)
 </script>
