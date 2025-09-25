@@ -9,7 +9,11 @@
         toggleBtn.onclick = () => (input.type = input.type == 'password' ? 'text' : 'password')
         const loginBtn = document.createElement('button')
         loginBtn.textContent = 'Login'
-        loginBtn.onclick = () => (localStorage._token = input.value) && localStorage._redirectUrl && location.replace(localStorage._redirectUrl)
+        loginBtn.onclick = () => {
+            localStorage._token = input.value
+            if (localStorage._redirectUrl) return location.replace(localStorage._redirectUrl)
+            location.reload()
+        }
         document.body.append(input, toggleBtn, loginBtn)
         if (!localStorage._token) return
         const a = document.createElement('a')
