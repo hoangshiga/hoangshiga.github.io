@@ -1,12 +1,13 @@
 (async () => {
     if (location.pathname == '/login/') {
         await new Promise((res, loop) => setTimeout(loop = () => document.body ? res() : setTimeout(loop, 100)))
-        var input = document.createElement('input')
+        const input = document.createElement('input')
         input.type = 'password'
         input.name = 'token'
-        var toggleBtn = document.createElement('button')
+        const toggleBtn = document.createElement('button')
         toggleBtn.textContent = '?'
-        var loginBtn = document.createElement('button')
+        toggleBtn.onclick = () => (input.type = input.type == 'password' ? 'text' : 'password')
+        const loginBtn = document.createElement('button')
         loginBtn.textContent = 'Login'
         loginBtn.onclick = () => (localStorage._token = input.value) && localStorage._redirectUrl && location.replace(localStorage._redirectUrl)
         document.body.append(input, toggleBtn, loginBtn)
