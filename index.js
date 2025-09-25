@@ -14,6 +14,7 @@
         if (!localStorage._token) return
         const a = document.createElement('a')
         a.href = '/logout/'
+        a.textContent = 'Logout'
         document.body.append(a)
         return
     }
