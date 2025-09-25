@@ -11,6 +11,10 @@
         loginBtn.textContent = 'Login'
         loginBtn.onclick = () => (localStorage._token = input.value) && localStorage._redirectUrl && location.replace(localStorage._redirectUrl)
         document.body.append(input, toggleBtn, loginBtn)
+        if (!localStorage._token) return
+        const a = document.createElement('a')
+        a.href = '/logout/'
+        document.body.append(a)
         return
     }
     if (location.pathname == '/logout/') {
