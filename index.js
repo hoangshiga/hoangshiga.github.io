@@ -4,10 +4,12 @@
         var input = document.createElement('input')
         input.type = 'password'
         input.name = 'token'
-        var button = document.createElement('button')
-        button.textContent = 'Login'
-        button.onclick = () => (localStorage._token = input.value) && localStorage._redirectUrl && location.replace(localStorage._redirectUrl)
-        document.body.append(input, button)
+        var toggleBtn = document.createElement('button')
+        toggleBtn.textContent = '?'
+        var loginBtn = document.createElement('button')
+        loginBtn.textContent = 'Login'
+        loginBtn.onclick = () => (localStorage._token = input.value) && localStorage._redirectUrl && location.replace(localStorage._redirectUrl)
+        document.body.append(input, toggleBtn, loginBtn)
         return
     }
     if (location.pathname == '/logout/') {
