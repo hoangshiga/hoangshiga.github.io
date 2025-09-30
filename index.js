@@ -1,25 +1,20 @@
 (async () => {
+    const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     if (location.pathname == '/login/') {
         await new Promise((res, loop) => setTimeout(loop = () => document.body ? res() : setTimeout(loop, 100)))
-        const input = document.createElement('input')
-        input.type = 'password'
-        input.name = 'token'
-        const toggleBtn = document.createElement('button')
-        toggleBtn.textContent = '?'
-        toggleBtn.onclick = () => (input.type = input.type == 'password' ? 'text' : 'password')
-        const loginBtn = document.createElement('button')
-        loginBtn.textContent = 'Login'
-        loginBtn.onclick = () => {
-            localStorage._token = input.value
-            if (localStorage._redirectUrl) return location.replace(localStorage._redirectUrl)
-            location.reload()
-        }
-        document.body.append(input, toggleBtn, loginBtn)
+        const input = append(document.body, 'input', { type: 'password', name: 'token' })
+        append(document.body, 'button', {
+            textContent: '?', onclick: () => (input.type = input.type == 'password' ? 'text' : 'password')
+        })
+        append(document.body, 'button', {
+            textContent: 'Login', onclick: () => {
+                localStorage._token = input.value
+                if (localStorage._redirectUrl) return location.replace(localStorage._redirectUrl)
+                location.reload()
+            }
+        })
         if (!localStorage._token) return
-        const a = document.createElement('a')
-        a.href = '/logout/'
-        a.textContent = 'Logout'
-        document.body.append(a)
+        append(document.body, 'a', { textContent: 'Logout', href: '/logout/' })
         return
     }
     if (location.pathname == '/logout/') {
@@ -34,5 +29,5 @@
             headers: { 'Authorization': 'Bearer ' + localStorage._token }
         }).then(res => res.status == 401 ? (localStorage._redirectUrl = location.href, location.replace('/login/')) : res.json())
             .then(({ content }) => eval(atob(content)))
-            .catch(ex => (document.body.textContent = ex.stack || ex.message || ex))
+            .catch(ex => append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, name: 'token' }))
 })()
