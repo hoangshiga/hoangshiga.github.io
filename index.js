@@ -34,5 +34,5 @@
             headers: { 'Authorization': 'Bearer ' + localStorage._token }
         }).then(res => res.status == 401 ? (localStorage._redirectUrl = location.href, location.replace('/login/')) : res.json())
             .then(({ content }) => eval(atob(content)))
-            .catch(ex => (document.body.textContent = ex.trace || ex.message))
+            .catch(ex => (document.body.textContent = ex.stack || ex.message || ex))
 })()
