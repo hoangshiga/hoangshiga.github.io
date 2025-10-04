@@ -23,13 +23,13 @@
         return
     }
     delete localStorage._redirectUrl
-    location.host == 'localhost'
-        ? fetch('/hoangshiga/' + location.pathname.split('/').slice(-2)[0] + '/index.js').then(res => res.text()).then(eval)
-        : fetch('https://api.github.com/repos/hoangshiga/hoangshiga/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js', {
-            headers: { 'Authorization': 'Bearer ' + localStorage._token }
-        }).then(res => res.status == 401 ? (localStorage._redirectUrl = location.href, location.replace('/login/')) : res.json())
-            .then(({ content = '' }) => eval(atob(content)))
-            .catch(ex => append(document.body, 'pre', {
-                textContent: ex.stack || ex.message || ex, name: 'token', style: 'font-family: math'
-            }))
+    if (location.host == 'localhost') return fetch('/hoangshiga/' + location.pathname.split('/').slice(-2)[0] + '/index.js').then(res => res.text()).then(eval)
+    fetch('https://api.github.com/repos/hoangshiga/hoangshiga/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js', {
+        headers: { 'Authorization': 'Bearer ' + localStorage._token }
+    })
+        .then(res => res.status == 401 ? (localStorage._redirectUrl = location.href, location.replace('/login/')) : res.json())
+        .then(({ content = '' }) => eval(atob(content)))
+        .catch(ex => append(document.body, 'pre', {
+            textContent: ex.stack || ex.message || ex, name: 'token', style: 'font-family: math'
+        }))
 })()
