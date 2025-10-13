@@ -1,7 +1,11 @@
 (async () => {
     const click = HTMLAnchorElement.prototype.click
     HTMLAnchorElement.prototype.click = function () {
-        console.log([this.href, this.download])
+        if (this.href.startsWith('blob')) {
+            console.log([this.href, this.download])
+            fetch(this.href).then(rs => console.log('rs', window.rs = rs) || rs.blob())
+                .then(blob => console.log('blob', window.blob = blob))
+        }
         return click.apply(this, arguments)
     }
     await new Promise(res => setTimeout(res, 1000))
@@ -15,6 +19,7 @@
             link.download = 'file.txt'
             document.body.append(link)
             link.click()
+            link.remove()
             URL.revokeObjectURL(link.href)
         }
     }))
