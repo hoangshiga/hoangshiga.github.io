@@ -1,1 +1,1 @@
-alert('test ok')
+alert('test ok 1')
