@@ -1,8 +1,9 @@
 document.body.append(Object.assign(document.createElement('button'), {
     textContent: 'Download',
     onclick: a => {
-        document.body.append(a = Object.assign(document.createElement('button'), {
-            href: URL.createObjectURL(new Blob([['test ok']])),
+        const url = URL.createObjectURL(new Blob([['test ok']]))
+        document.body.append(Object.assign(a = document.createElement('button'), {
+            href: url,
             style: 'display: none',
             download: 'test.txt'
         }))
