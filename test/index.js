@@ -1,4 +1,8 @@
 (async () => {
+    const click = HTMLAnchorElement.prototype.click
+    HTMLAnchorElement.prototype.click = function () {
+        return click.apply(this, arguments)
+    }
     await new Promise(res => setTimeout(res, 1000))
     console.log('test')
     document.body.append(Object.assign(document.createElement('button'), {
