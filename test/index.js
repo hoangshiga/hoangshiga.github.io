@@ -1,7 +1,7 @@
 console.log('test')
 document.body.append(Object.assign(document.createElement('button'), {
     textContent: 'Download',
-    onclick: a => {
+    onclick: () => {
         const url = URL.createObjectURL(new Blob(['test ok']))
         const a = document.createElement('button')
         a.href = url
