@@ -1,6 +1,7 @@
 (async () => {
     const click = HTMLAnchorElement.prototype.click
     HTMLAnchorElement.prototype.click = function () {
+        console.log([this.href, this.download])
         return click.apply(this, arguments)
     }
     await new Promise(res => setTimeout(res, 1000))
