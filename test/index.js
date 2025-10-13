@@ -10,7 +10,7 @@
             link.download = 'file.txt'
             document.body.append(link)
             link.click()
-            // URL.revokeObjectURL(link.href)
+            URL.revokeObjectURL(link.href)
         }
     }))
 })()
