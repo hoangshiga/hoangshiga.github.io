@@ -6,7 +6,6 @@
         onclick: () => {
             const content = 'test'
             const filename = 'file.txt'
-
             const blob = new Blob([content], { type: 'text/plain' })
             const link = document.createElement('a')
             link.href = URL.createObjectURL(blob)
