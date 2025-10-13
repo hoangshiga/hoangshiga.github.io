@@ -1,4 +1,5 @@
 (async () => {
+    await new Promise(res => setTimeout(res, 1000))
     console.log('test')
     document.body.append(Object.assign(document.createElement('button'), {
         textContent: 'Download',
