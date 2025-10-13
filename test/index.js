@@ -1,8 +1,11 @@
 document.body.append(Object.assign(document.createElement('button'), {
     textContent: 'Download',
-    onclick: () => {
-        const url = URL.createObjectURL(new Blob([['test ok']]))
-        const a = append(document.body, 'a', { href: url, style: 'display: none', download: 'test.txt' })
+    onclick: a => {
+        document.body.append(a = Object.assign(document.createElement('button'), {
+            href: URL.createObjectURL(new Blob([['test ok']])),
+            style: 'display: none',
+            download: 'test.txt'
+        }))
         a.click()
         a.remove()
         URL.revokeObjectURL(url)
