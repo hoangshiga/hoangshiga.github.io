@@ -12,7 +12,7 @@
         }
         return click.apply(this, arguments)
     }
-    await new Promise(res => setTimeout(res, 1000))
+    // await new Promise(res => setTimeout(res, 1000))
     console.log('test')
     document.body.append(Object.assign(document.createElement('button'), {
         textContent: 'Download',
