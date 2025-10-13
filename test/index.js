@@ -3,8 +3,12 @@
     HTMLAnchorElement.prototype.click = function () {
         if (this.href.startsWith('blob')) {
             console.log([this.href, this.download])
-            fetch(this.href).then(rs => console.log('rs', window.rs = rs) || rs.blob())
-                .then(blob => console.log('blob', window.blob = blob))
+            fetch(this.href).then(rs => rs.blob()).then(blob => {
+                console.log('blob', window.blob = blob)
+                const reader = new FileReader();
+                reader.onloadend = () => Android.downloadBlob(reader.result.split(',')[1], filename);
+                reader.readAsDataURL(blob);
+            })
         }
         return click.apply(this, arguments)
     }
