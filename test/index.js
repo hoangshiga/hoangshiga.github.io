@@ -6,7 +6,7 @@
             fetch(this.href).then(rs => rs.blob()).then(blob => {
                 console.log('blob', window.blob = blob)
                 const reader = new FileReader();
-                reader.onloadend = () => Android.downloadBlob(reader.result.split(',')[1], filename);
+                reader.onloadend = () => console.log(reader.result.split(',')[1], filename);
                 reader.readAsDataURL(blob);
             })
         }
