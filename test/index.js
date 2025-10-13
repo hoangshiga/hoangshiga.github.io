@@ -10,7 +10,7 @@
             URL.revokeObjectURL(link.href)
         }
     }))
-    document.body.append(Object.assign(document.createElement('a'), {
+    document.body.append(document.createElement('br'), Object.assign(document.createElement('a'), {
         textContent: 'File',
         href: 'https://kitsunekko.net/subtitles/japanese/.hack%20G.U/[AME][.hack%20G.U.%20Returner][DVDRIP][BIG5&JIS].jpn.ssa'
     }))
