@@ -9,7 +9,7 @@
             link.href = URL.createObjectURL(blob)
             link.download = 'file.txt'
             link.click()
-            URL.revokeObjectURL(link.href)
+            // URL.revokeObjectURL(link.href)
         }
     }))
 })()
