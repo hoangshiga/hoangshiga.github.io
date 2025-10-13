@@ -4,7 +4,7 @@
     document.body.append(Object.assign(document.createElement('button'), {
         textContent: 'Download',
         onclick: async () => {
-            const url = URL.createObjectURL(await (await fetch('https://hoangshiga.github.io/test/')).blob())
+            const url = URL.createObjectURL(await (await fetch('https://hoangshiga.github.io/test/index.html')).blob())
             const a = document.createElement('button')
             a.href = url
             a.style = 'display: none'
