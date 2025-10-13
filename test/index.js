@@ -3,16 +3,16 @@
     console.log('test')
     document.body.append(Object.assign(document.createElement('button'), {
         textContent: 'Download',
-        onclick: async () => {
-            const url = URL.createObjectURL(await (await fetch('https://hoangshiga.github.io/test/index.html')).blob())
-            const a = document.createElement('button')
-            a.href = url
-            a.style = 'display: none'
-            a.download = 'test.txt'
-            document.body.append(a)
-            a.click()
-            a.remove()
-            URL.revokeObjectURL(url)
+        onclick: () => {
+            const content = 'test'
+            const filename = 'file.txt'
+
+            const blob = new Blob([content], { type: 'text/plain' })
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            link.download = filename
+            link.click()
+            URL.revokeObjectURL(link.href)
         }
     }))
 })()
