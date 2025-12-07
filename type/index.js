@@ -1,1 +1,1 @@
-<script src="../public.js"></script>
+alert('ok')
