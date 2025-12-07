@@ -1,18 +1,9 @@
 (async () => {
     document.head.appendChild(Object.assign(document.createElement('style'), {
         textContent: `
-body {
-	margin: 0;
-}
-input {
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-}
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
+            body { margin: 0; }
+            input { width: 100%; height: 100%; opacity: 0; }
+            img { max-width: 100%; max-height: 100%; }
     `}))
     document.body.appendChild(Object.assign(document.createElement('input'), { id: 'files', type: 'file', multiple: true }))
     const imgs = [];
