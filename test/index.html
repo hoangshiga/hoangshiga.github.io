@@ -1,7 +1,1 @@
-<script>
-fetch('https://api.github.com/repos/hoangshiga/hoangshiga.github.io/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js')
-    .then(rs => rs.json()).then(o => eval(atob(o.content)))
-    .catch(ex => document.body.append(Object.assign(document.createElement('pre'), {
-        textContent: ex.stack || ex.message || ex, style: 'font-family: math'
-    })))
-</script>
+<script src="../public.js"></script>
