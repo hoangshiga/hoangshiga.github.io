@@ -22,5 +22,5 @@
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
     window.addEventListener('message', text => window.parent.postMessage(text, '*'))
-    if (window.parent) window.parent.postMessage(text, '*')
+    if (window.parent && window.parent.postMessage) window.parent.postMessage(text, '*')
 })()
