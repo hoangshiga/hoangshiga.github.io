@@ -21,5 +21,5 @@
         select.dispatchEvent(new Event('change', { bubbles: true }));
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
-    window.addEventListener('message', x => console.log('message', x))
+    window.addEventListener('message', text => window.parent.postMessage(text, '*'))
 })()
