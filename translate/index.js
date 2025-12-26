@@ -23,7 +23,7 @@
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
     window.addEventListener('message', m => {
         if (!m.data.toChild) return
-        console.log('message', m) || window.parent.postMessage({ toParent: m.data.data }, '*')
+        console.log('child', m) || window.parent.postMessage({ toParent: m.data.data }, '*')
     })
     window.parent.postMessage({ toParent: 'init' }, '*')
 })()
