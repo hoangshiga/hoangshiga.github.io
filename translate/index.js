@@ -26,7 +26,7 @@
         if (m.data.translate) {
             Array.from(content.children).reverse().forEach(x => x.remove())
             var d, t
-            content.append(m.data.translate.trim().split("\n").map(s => [
+            content.append(...m.data.translate.trim().split("\n").map(s => [
                 (d = document.createElement('div')).textContent = s,
                 t = d.textContent
             ] && d))
