@@ -22,7 +22,7 @@
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
     window.addEventListener('message', m => {
-        if (m.data.translate) console.log('child', m) || window.parent.postMessage({ result: m.data.translate }, '*')
+        if (m.data.translate) console.log('child', m.data) || window.parent.postMessage({ result: m.data.translate }, '*')
     })
     window.parent.postMessage({ init: true }, '*')
 })()
