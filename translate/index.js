@@ -28,7 +28,7 @@
         console.log('message', m) || window.parent.postMessage(m.data, '*')
         posting = false
     })
-    posting = true
-    if (window.parent && window.parent.postMessage) window.parent.postMessage('init', '*')
-    posting = false
+    // posting = true
+    // if (window.parent && window.parent.postMessage) window.parent.postMessage('init', '*')
+    // posting = false
 })()
