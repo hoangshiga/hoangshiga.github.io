@@ -25,8 +25,13 @@
         console.log('child', m.data)
         if (m.data.translate) {
             Array.from(content.children).reverse().forEach(x => x.remove())
-            content.append(m.data.translate.split("\n").map((s, d) => [(d = document.createElement('div')).textContent = s] && d))
-            window.parent.postMessage({ result: m.data.translate }, '*')
+            var d, t
+            content.append(m.data.translate.split("\n").map(s => [
+                (d = document.createElement('div')).textContent = s,
+                t = d.textContent
+            ] && d))
+            await new Promise((r, l) => setTimeout(l = () => d.textContent != t ? r() : setTimeout(l, 100)))
+            window.parent.postMessage({ result: Array.from(content.children).map(d => d.textContent).join("\n") }, '*')
         }
     })
     window.parent.postMessage({ init: true }, '*')
