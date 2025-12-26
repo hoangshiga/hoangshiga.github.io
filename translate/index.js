@@ -21,8 +21,13 @@
         select.dispatchEvent(new Event('change', { bubbles: true }));
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
-    window.addEventListener('message', m => {
-        if (m.data.translate) console.log('child', m.data) || window.parent.postMessage({ result: m.data.translate }, '*')
+    window.addEventListener('message', async m => {
+        console.log('child', m.data)
+        if (m.data.translate) {
+            Array.from(content.children).reverse().forEach(x => x.remove())
+            content.append(m.data.translate.split("\n").map((s, d) => [(d = document.createElement('div')).textContent = s] && d))
+            window.parent.postMessage({ result: m.data.translate }, '*')
+        }
     })
     window.parent.postMessage({ init: true }, '*')
 })()
