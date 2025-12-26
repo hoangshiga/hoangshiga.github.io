@@ -4,7 +4,9 @@
     const content = append(document.body, 'div')
     console.log(window.content = content)
     const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
-    if (text) content.append(...text.split("\n").map((s, div) => [(div = document.createElement('div')).textContent = s] && div))
+    if (text) {
+        content.append(...text.split("\n").map((s, div) => [(div = document.createElement('div')).textContent = s] && [console.log(div)] && div))
+    }
     window.googleTranslateElementInit = async () => {
         window.translateElement = new google.translate.TranslateElement({
             pageLanguage: 'jp',
