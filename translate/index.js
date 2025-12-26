@@ -21,6 +21,14 @@
         select.dispatchEvent(new Event('change', { bubbles: true }));
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
-    window.addEventListener('message', m => console.log('message', m) || window.parent.postMessage(m.data, '*'))
+    var posting = true
+    window.addEventListener('message', m => {
+        if (posting) return
+        posting = true
+        console.log('message', m) || window.parent.postMessage(m.data, '*')
+        posting = false
+    })
+    posting = true
     if (window.parent && window.parent.postMessage) window.parent.postMessage('init', '*')
+    posting = false
 })()
