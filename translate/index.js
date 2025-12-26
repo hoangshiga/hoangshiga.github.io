@@ -3,8 +3,8 @@
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
     const content = append(document.body, 'div')
     console.log(window.content = content)
-    // const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
-    // if (text) document.body.append(...text.split("\n").map((s, div) => [(div = document.createElement('div')).textContent = s] && div))
+    const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
+    if (text) content.append(...text.split("\n").map((s, div) => [(div = document.createElement('div')).textContent = s] && div))
     window.googleTranslateElementInit = async () => {
         window.translateElement = new google.translate.TranslateElement({
             pageLanguage: 'jp',
