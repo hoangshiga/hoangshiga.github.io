@@ -30,7 +30,9 @@
             window.parent.postMessage({
                 result: {
                     text: Array.from(content.children).map(d => d.textContent).join("\n"),
-                    yomikata: (await Promise.all(lines.map(async line => (await Promise.all((await tokenizerPromise).tokenize(line).map(async token => (await wanakanaPromise).toRomaji(token.reading)))).join(' '))).join("\n")
+                    yomikata: (await Promise.all(lines.map(async line => (await Promise.all((await tokenizerPromise).tokenize(line).map(
+                        async token => (await wanakanaPromise).toRomaji(token.reading)
+                    ))).join(' ')))).join("\n")
                 }
             }, '*')
         }
