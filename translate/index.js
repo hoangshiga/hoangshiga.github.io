@@ -3,9 +3,7 @@
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
     const content = append(document.body, 'div')
     const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
-    if (text) {
-        content.append(...text.split("\n").map((s, d) => [(d = document.createElement('div')).textContent = s] && d))
-    }
+    if (text) content.append(...text.split("\n").map((s, d) => [(d = document.createElement('div')).textContent = s] && d))
     window.googleTranslateElementInit = async () => {
         window.translateElement = new google.translate.TranslateElement({
             pageLanguage: 'jp',
@@ -35,4 +33,18 @@
         }
     })
     window.parent.postMessage({ init: true }, '*')
+    const wanakanaPromise = new Promise(res => setTimeout(async loop => {
+        append(document.head, 'script', { src: 'https://unpkg.com/wanakana@5.3.1/wanakana.min.js' })
+        setTimeout(loop = () => !window.wanakana ? res() : setTimeout(loop, 100))
+    }))
+    const tokenizerPromise = new Promise(res => setTimeout(async () => {
+        append(document.head, 'script', { src: 'https://unpkg.com/kuromoji@0.1.2/build/kuromoji.js' })
+        await new Promise((res, loop) => (loop = () => !window.kuromoji ? res() : setTimeout(loop, 100))())
+        const open = XMLHttpRequest.prototype.open
+        XMLHttpRequest.prototype.open = function (_, url) {
+            if (url.startsWith('https:/') && !url.startsWith('https://')) url = url.replace('https:/', 'https://')
+            return open.apply(this, arguments)
+        }
+        kuromoji.builder({ dicPath: 'https://unpkg.com/kuromoji@0.1.2/dict/' }).build((err, tokenizer) => res(tokenizer))
+    }))
 })()
