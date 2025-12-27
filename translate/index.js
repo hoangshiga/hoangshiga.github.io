@@ -2,8 +2,6 @@
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
     const content = append(document.body, 'div')
-    const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
-    if (text) content.append(...text.split("\n").map((s, d) => [(d = document.createElement('div')).textContent = s] && d))
     window.googleTranslateElementInit = async () => {
         window.translateElement = new google.translate.TranslateElement({
             pageLanguage: 'jp',
@@ -31,7 +29,8 @@
             window.parent.postMessage({ result: Array.from(content.children).map(d => d.textContent).join("\n") }, '*')
         }
     })
-    window.parent.postMessage({ init: true }, '*')
+    const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
+    window.parent.postMessage(text ? { translate: text } : { init: true }, '*')
     const wanakanaPromise = new Promise(res => setTimeout(async loop => {
         append(document.head, 'script', { src: 'https://unpkg.com/wanakana@5.3.1/wanakana.min.js' })
         setTimeout(loop = () => !window.wanakana ? res() : setTimeout(loop, 100))
