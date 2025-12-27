@@ -26,14 +26,19 @@
                 t = d.textContent
             ] && d))
             await new Promise((r, l) => setTimeout(l = () => d.textContent != t ? r() : setTimeout(l, 100)))
-            window.parent.postMessage({ result: Array.from(content.children).map(d => d.textContent).join("\n") }, '*')
+            window.parent.postMessage({
+                result: {
+                    text: Array.from(content.children).map(d => d.textContent).join("\n"),
+                    yomikata: await wanakanaPromise && (await tokenizerPromise).tokenize(text).map(token => wanakana.toRomaji(token.reading)).join('')
+                }
+            }, '*')
         }
     })
     const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
     window.parent.postMessage(text ? { translate: text } : { init: true }, '*')
     const wanakanaPromise = new Promise(res => setTimeout(async loop => {
         append(document.head, 'script', { src: 'https://unpkg.com/wanakana@5.3.1/wanakana.min.js' })
-        setTimeout(loop = () => !window.wanakana ? res() : setTimeout(loop, 100))
+        setTimeout(loop = o => (o = window.wanakana) ? res(o) : setTimeout(loop, 100))
     }))
     const tokenizerPromise = new Promise(res => setTimeout(async () => {
         append(document.head, 'script', { src: 'https://unpkg.com/kuromoji@0.1.2/build/kuromoji.js' })
