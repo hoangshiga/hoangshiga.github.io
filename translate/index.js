@@ -20,8 +20,9 @@
         console.log('child', m.data)
         if (m.data.translate) {
             Array.from(content.children).reverse().forEach(x => x.remove())
+            const lines = m.data.translate.trim().split("\n")
             var d, t
-            content.append(...m.data.translate.trim().split("\n").map(s => [
+            content.append(...lines.map(s => [
                 (d = document.createElement('div')).textContent = s,
                 t = d.textContent
             ] && d))
@@ -29,7 +30,7 @@
             window.parent.postMessage({
                 result: {
                     text: Array.from(content.children).map(d => d.textContent).join("\n"),
-                    yomikata: await wanakanaPromise && (await tokenizerPromise).tokenize(text).map(token => wanakana.toRomaji(token.reading)).join(' ')
+                    yomikata: (await Promise.all(lines.map(async line => (await Promise.all((await tokenizerPromise).tokenize(line).map(async token => (await wanakanaPromise).toRomaji(token.reading)))).join(' '))).join("\n")
                 }
             }, '*')
         }
