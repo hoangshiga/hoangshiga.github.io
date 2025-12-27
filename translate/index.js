@@ -13,7 +13,7 @@
             autoDisplay: false,
         }, append(document.body, 'div'))
         window.content = append(document.body, 'div', { id: 'content' })
-        const select = await new Promise((res, loop) => setTimeout(loop = o => !(o = document.querySelector('.goog-te-combo')) && setTimeout(loop, 100) || res(o)));
+        const select = await new Promise((res, loop) => setTimeout(loop = o => (o = document.querySelector('.goog-te-combo')) ? console.log(o.children) || res(o) : setTimeout(loop, 100)));
         await new Promise(res => setTimeout(res, 1000));
         select.value = 'vi';
         select.dispatchEvent(new Event('change', { bubbles: true }));
