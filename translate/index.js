@@ -13,10 +13,9 @@
             autoDisplay: false,
         }, append(document.body, 'div'))
         window.content = append(document.body, 'div', { id: 'content' })
-        const select = await new Promise((res, loop) => setTimeout(loop = o => (o = document.querySelector('.goog-te-combo')) && o.children.length ? console.log(o.children.length) || res(o) : setTimeout(loop, 100)));
-        // await new Promise(res => setTimeout(res, 1000));
-        select.value = 'vi';
-        select.dispatchEvent(new Event('change', { bubbles: true }));
+        const select = await new Promise((res, loop) => setTimeout(loop = o => (o = document.querySelector('.goog-te-combo')) && o.children.length ? res(o) : setTimeout(loop, 100)))
+        select.value = 'vi'
+        select.dispatchEvent(new Event('change', { bubbles: true }))
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
     window.addEventListener('message', async m => {
