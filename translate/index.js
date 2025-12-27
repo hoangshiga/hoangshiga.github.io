@@ -39,7 +39,7 @@
     }))
     const tokenizerPromise = new Promise(res => setTimeout(async () => {
         append(document.head, 'script', { src: 'https://unpkg.com/kuromoji@0.1.2/build/kuromoji.js' })
-        await new Promise((res, loop) => (loop = () => !window.kuromoji ? res() : setTimeout(loop, 100))())
+        await new Promise((res, loop) => (loop = () => window.kuromoji ? res() : setTimeout(loop, 100))())
         const open = XMLHttpRequest.prototype.open
         XMLHttpRequest.prototype.open = function (_, url) {
             if (url.startsWith('https:/') && !url.startsWith('https://')) url = url.replace('https:/', 'https://')
