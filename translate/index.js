@@ -29,7 +29,7 @@
             window.parent.postMessage({
                 result: {
                     text: Array.from(content.children).map(d => d.textContent).join("\n"),
-                    yomikata: await wanakanaPromise && (await tokenizerPromise).tokenize(text).map(token => wanakana.toRomaji(token.reading)).join('')
+                    yomikata: await wanakanaPromise && (await tokenizerPromise).tokenize(text).map(token => wanakana.toRomaji(token.reading)).join(' ')
                 }
             }, '*')
         }
