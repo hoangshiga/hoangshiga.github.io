@@ -2,7 +2,7 @@
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     const textarea = append(document.body, 'textarea', {
         style: 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; resize: none; font-family: math; font-size: medium',
-        onchange: () => window.parent.postMessage({ onTypeValueChanged: textarea.value }, '*')
+        onkeydown: () => setTimeout(() => window.parent.postMessage({ onTypeValueChanged: textarea.value }, '*'), 100)
     })
     textarea.focus()
     append(document.head, 'script', { src: '../avim.js' })
