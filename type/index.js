@@ -1,7 +1,9 @@
 (async () => {
-    const textarea = document.body.appendChild(Object.assign(document.createElement('textarea'), {
+    const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
+    const textarea = append('textarea', {
         style: 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; resize: none; font-family: math; font-size: medium'
-    })).focus()
+    })
+    textarea.focus()
     document.head.appendChild(Object.assign(document.createElement('script'), {
         src: '../avim.js'
     }))
