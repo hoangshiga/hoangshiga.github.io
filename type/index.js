@@ -5,7 +5,7 @@ document.head.appendChild(Object.assign(document.createElement('script'), {
     src: '../avim.js'
 }))
 window.addEventListener('message', async m => {
-    console.log('child', m.data)
+    console.log('type', m.data)
     if (m.data.getTypeValue) window.parent.postMessage({ returnTypeValue: textarea.value }, '*')
 })
 window.parent.postMessage({ typeInit: true }, '*')
