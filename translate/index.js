@@ -54,17 +54,18 @@
             kuromoji.builder({ dicPath: 'https://unpkg.com/kuromoji@0.1.2/dict/' }).build((err, tokenizer) => res(tokenizer))
         }))
     } else {
+        var translate
         window.addEventListener('message', async m => {
             console.log('translate', m.data)
             if (m.data.returnTypeValue) {
-                if (!window.translate) {
+                if (!translate) {
                     const i = document.createElement('iframe')
                     i.style = 'position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background: white; pointer-events: none; opacity: 0'
                     i.src = 'https://hoangshiga.github.io/translate/?iframe'
                     var promise
                     window.addEventListener('message', m => {
                         console.log('parent', m.data)
-                        if (m.data.translateInit) window.translate = (s, res) => {
+                        if (m.data.translateInit) translate = (s, res) => {
                             promise = Object.assign(new Promise(r => [res = r]), { res })
                             i.contentWindow.postMessage({ translate: s }, '*')
                             return promise
@@ -72,7 +73,7 @@
                         if (m.data.returnTranslate) promise.res(m.data.returnTranslate)
                     })
                     document.body.append(i)
-                    await new Promise((r, l) => setTimeout(l = () => window.translate ? r() : setTimeout(l, 100)))
+                    await new Promise((r, l) => setTimeout(l = () => translate ? r() : setTimeout(l, 100)))
                 }
                 const result = await translate(m.data.returnTypeValue)
                 Object.assign(pre, { textContent: result.yomikata + "\n" }).append(
