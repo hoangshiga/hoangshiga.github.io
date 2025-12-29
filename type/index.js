@@ -8,3 +8,4 @@ window.addEventListener('message', async m => {
     console.log('child', m.data)
     if (m.data.getValue) window.parent.postMessage({ value: textarea.value }, '*')
 })
+window.parent.postMessage({ init: true }, '*')
