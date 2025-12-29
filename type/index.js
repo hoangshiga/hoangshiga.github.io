@@ -6,6 +6,6 @@ document.head.appendChild(Object.assign(document.createElement('script'), {
 }))
 window.addEventListener('message', async m => {
     console.log('child', m.data)
-    if (m.data.getValue) window.parent.postMessage({ value: textarea.value }, '*')
+    if (m.data.getTypeValue) window.parent.postMessage({ returnTypeValue: textarea.value }, '*')
 })
-window.parent.postMessage({ init: true }, '*')
+window.parent.postMessage({ typeInit: true }, '*')
