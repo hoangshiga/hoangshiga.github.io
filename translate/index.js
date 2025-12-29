@@ -56,12 +56,38 @@
     } else {
         window.addEventListener('message', async m => {
             console.log('translate', m.data)
+            if (m.data.returnTypeValue) {
+                if (!window.translate) {
+                    const i = document.createElement('iframe')
+                    i.style = 'position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background: white; pointer-events: none; opacity: 0'
+                    i.src = 'https://hoangshiga.github.io/translate/?iframe'
+                    var promise
+                    window.addEventListener('message', m => {
+                        console.log('parent', m.data)
+                        if (m.data.translateInit) window.translate = (s, res) => {
+                            promise = Object.assign(new Promise(r => [res = r]), { res })
+                            i.contentWindow.postMessage({ translate: s }, '*')
+                            return promise
+                        }
+                        if (m.data.returnTranslate) promise.res(m.data.returnTranslate)
+                    })
+                    document.body.append(i)
+                    await new Promise((r, l) => setTimeout(l = () => window.translate ? r() : setTimeout(l, 100)))
+                }
+                const result = await translate(selection)
+                Object.assign(pre, { textContent: selection + "\n" + result.yomikata + "\n" }).append(
+                    Object.assign(document.createElement('pre'), { textContent: result.text, style: 'font-family: math; white-space: break-spaces; color: black' })
+                )
+            }
         })
-        const typeIframe = append(document.body, 'iframe', {
+        const iframe = append(document.body, 'iframe', {
             style: 'width: 100%; height: 40%', src: 'https://hoangshiga.github.io/type/'
         })
         append(document.body, 'button', {
-            textContent: 'Translate', onclick: () => typeIframe.contentWindow.postMessage({ getValue: true }, '*')
+            textContent: 'Translate', onclick: () => iframe.contentWindow.postMessage({ getTypeValue: true }, '*')
+        })
+        const pre = append(document.body, 'pre', {
+            style: 'position: fixed; z-index: 999999; border: 1px solid black; border-radius: 5px; background: white; padding: 2px 5px; font-family: math; white-space: break-spaces'
         })
     }
 })()
