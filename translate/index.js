@@ -1,6 +1,16 @@
 (async () => {
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
+
+    window.addEventListener('message', m => {
+        console.log('parent', m.data)
+        if (m.data.init) window.translate = (s, res) => {
+            promise = Object.assign(new Promise(r => [res = r]), { res })
+            i.contentWindow.postMessage({ translate: s }, '*')
+            return promise
+        }
+        if (m.data.result) promise.res(m.data.result)
+    })
     const iframe = append(document.body, 'iframe', {
         style: 'width: 100%; height: 40%', src: 'https://hoangshiga.github.io/type/'
     })
@@ -34,7 +44,7 @@
             ] && d))
             await new Promise((r, l) => setTimeout(l = () => d.textContent != t ? r() : setTimeout(l, 100)))
             window.parent.postMessage({
-                result: {
+                returnTranslate: {
                     text: Array.from(content.children).map(d => d.textContent).join("\n"),
                     yomikata: (await Promise.all(lines.map(async line => (await Promise.all((await tokenizerPromise).tokenize(line).map(
                         async token => (await wanakanaPromise).toRomaji(token.reading)
@@ -44,7 +54,7 @@
         }
     })
     const text = decodeURIComponent(new URLSearchParams(location.search).get('text') || '')
-    window.parent.postMessage(text ? { translate: text } : { init: true }, '*')
+    window.parent.postMessage(text ? { translate: text } : { translateInit: true }, '*')
     const wanakanaPromise = new Promise(res => setTimeout(async loop => {
         append(document.head, 'script', { src: 'https://unpkg.com/wanakana@5.3.1/wanakana.min.js' })
         setTimeout(loop = o => (o = window.wanakana) ? res(o) : setTimeout(loop, 100))
