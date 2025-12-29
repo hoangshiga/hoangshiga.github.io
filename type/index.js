@@ -1,8 +1,9 @@
 (async () => {
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
+    var valueOld = ''
     const textarea = append(document.body, 'textarea', {
         style: 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; resize: none; font-family: math; font-size: medium',
-        onkeydown: () => setTimeout(() => window.parent.postMessage({ onTypeValueChanged: textarea.value }, '*'), 100)
+        onkeydown: () => setTimeout(valueNew => (valueNew = textarea.value) != valueOld && [valueOld = valueNew, window.parent.postMessage({ onTypeValueChanged: valueNew }, '*')], 100)
     })
     textarea.focus()
     append(document.head, 'script', { src: '../avim.js' })
