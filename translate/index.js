@@ -1,6 +1,9 @@
 (async () => {
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
+    const iframe = append(document.body, 'iframe', {
+        style: 'width: 100vw; height: 50vh'
+    })
     const content = append(document.body, 'div')
     window.googleTranslateElementInit = async () => {
         window.translateElement = new google.translate.TranslateElement({
