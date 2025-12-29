@@ -57,7 +57,7 @@
         var translate
         window.addEventListener('message', async m => {
             console.log('translate', m.data)
-            if (m.data.returnTypeValue) {
+            if (m.data.returnTypeValue || m.data.onTypeValueChanged) {
                 if (!translate) {
                     const i = document.createElement('iframe')
                     i.style = 'position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background: white; pointer-events: none; opacity: 0'
@@ -75,7 +75,7 @@
                     document.body.append(i)
                     await new Promise((r, l) => setTimeout(l = () => translate ? r() : setTimeout(l, 100)))
                 }
-                const result = await translate(m.data.returnTypeValue)
+                const result = await translate(m.data.returnTypeValue || m.data.onTypeValueChanged)
                 Object.assign(pre, { textContent: result.yomikata + "\n" }).append(
                     Object.assign(document.createElement('pre'), { textContent: result.text, style: 'font-family: math; white-space: break-spaces; color: black' })
                 )
