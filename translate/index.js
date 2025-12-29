@@ -1,16 +1,6 @@
 (async () => {
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
-
-    window.addEventListener('message', m => {
-        console.log('parent', m.data)
-        if (m.data.init) window.translate = (s, res) => {
-            promise = Object.assign(new Promise(r => [res = r]), { res })
-            i.contentWindow.postMessage({ translate: s }, '*')
-            return promise
-        }
-        if (m.data.result) promise.res(m.data.result)
-    })
     const iframe = append(document.body, 'iframe', {
         style: 'width: 100%; height: 40%', src: 'https://hoangshiga.github.io/type/'
     })
@@ -33,7 +23,7 @@
     }
     append(document.body, 'script', { src: 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' })
     window.addEventListener('message', async m => {
-        console.log('child', m.data)
+        console.log('translate', m.data)
         if (m.data.translate) {
             Array.from(content.children).reverse().forEach(x => x.remove())
             const lines = m.data.translate.trim().split("\n")
