@@ -85,7 +85,10 @@
             style: 'width: 100%; height: 40%', src: 'https://hoangshiga.github.io/type/'
         })
         append(document.body, 'button', {
-            textContent: 'Translate', onclick: () => iframe.contentWindow.postMessage({ getTypeValue: true }, '*')
+            textContent: 'Translate', onclick: () => {
+                iframe.contentWindow.postMessage({ getTypeValue: true }, '*')
+                Object.assign(pre, { textContent: 'Translating...' })
+            }
         })
         const pre = append(document.body, 'pre', {
             style: 'margin: 0; padding: 2px 5px; font-family: math; white-space: break-spaces'
