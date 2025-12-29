@@ -58,6 +58,7 @@
         window.addEventListener('message', async m => {
             console.log('translate', m.data)
             if (m.data.returnTypeValue || m.data.onTypeValueChanged) {
+                Object.assign(pre, { textContent: 'Translating...' })
                 if (!translate) {
                     const i = document.createElement('iframe')
                     i.style = 'position: fixed; z-index: 99999; left: 0; top: 0; width: 100vw; height: 100vh; background: white; pointer-events: none; opacity: 0'
@@ -87,7 +88,6 @@
         append(document.body, 'button', {
             textContent: 'Translate', onclick: () => {
                 iframe.contentWindow.postMessage({ getTypeValue: true }, '*')
-                Object.assign(pre, { textContent: 'Translating...' })
             }
         })
         const pre = append(document.body, 'pre', {
