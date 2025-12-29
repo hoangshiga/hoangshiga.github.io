@@ -87,7 +87,7 @@
             textContent: 'Translate', onclick: () => iframe.contentWindow.postMessage({ getTypeValue: true }, '*')
         })
         const pre = append(document.body, 'pre', {
-            style: 'padding: 2px 5px; font-family: math; white-space: break-spaces'
+            style: 'margin: 0; padding: 2px 5px; font-family: math; white-space: break-spaces'
         })
     }
 })()
