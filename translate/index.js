@@ -75,7 +75,7 @@
                     await new Promise((r, l) => setTimeout(l = () => window.translate ? r() : setTimeout(l, 100)))
                 }
                 const result = await translate(m.data.returnTypeValue)
-                Object.assign(pre, { textContent: m.data.returnTypeValue + "\n" + result.yomikata + "\n" }).append(
+                Object.assign(pre, { textContent: result.yomikata + "\n" }).append(
                     Object.assign(document.createElement('pre'), { textContent: result.text, style: 'font-family: math; white-space: break-spaces; color: black' })
                 )
             }
@@ -87,7 +87,7 @@
             textContent: 'Translate', onclick: () => iframe.contentWindow.postMessage({ getTypeValue: true }, '*')
         })
         const pre = append(document.body, 'pre', {
-            style: 'position: fixed; z-index: 999999; border: 1px solid black; border-radius: 5px; background: white; padding: 2px 5px; font-family: math; white-space: break-spaces'
+            style: 'padding: 2px 5px; font-family: math; white-space: break-spaces'
         })
     }
 })()
