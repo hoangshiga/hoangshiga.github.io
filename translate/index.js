@@ -74,8 +74,8 @@
                     document.body.append(i)
                     await new Promise((r, l) => setTimeout(l = () => window.translate ? r() : setTimeout(l, 100)))
                 }
-                const result = await translate(selection)
-                Object.assign(pre, { textContent: selection + "\n" + result.yomikata + "\n" }).append(
+                const result = await translate(m.data.returnTypeValue)
+                Object.assign(pre, { textContent: m.data.returnTypeValue + "\n" + result.yomikata + "\n" }).append(
                     Object.assign(document.createElement('pre'), { textContent: result.text, style: 'font-family: math; white-space: break-spaces; color: black' })
                 )
             }
