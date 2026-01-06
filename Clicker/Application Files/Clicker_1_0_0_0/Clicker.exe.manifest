@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Clicker.exe" size="6144">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Clicker.exe" size="8192">
       <assemblyIdentity name="Clicker" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>rkE1Y4tP13zS9twrc5olLRPVjjDyh9NCAebZLvaHRmU=</dsig:DigestValue>
+        <dsig:DigestValue>NYEb3aSdUlwKo5wDL36OFZ11nqpCD/r/3/3sK5xd9QE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
