@@ -2,6 +2,13 @@
     const requestPermission = () => navigator.mediaDevices.getUserMedia({ audio: true })
         .then(s => !s.getTracks().forEach(track => track.stop())).catch(() => false)
     if (!await requestPermission()) return
+    const inputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
+    const outputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
+    const devices = await navigator.mediaDevices.enumerateDevices()
+    devices.forEach(d => console.log(d, [d.kind, d.label]) || document.body.appendChild(Object.assign(document.createElement('option'), {
+        value: d.label
+    })))
+
     var mediaRecorder, audioChunks = []
     document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
