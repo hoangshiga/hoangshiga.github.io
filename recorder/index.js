@@ -4,7 +4,7 @@
         textContent: 'Start',
         onclick: async () => {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder = new MediaRecorder(stream)
             audioChunks = []
             mediaRecorder.ondataavailable = event => audioChunks.push(event.data)
             mediaRecorder.start()
