@@ -1,4 +1,7 @@
 (async () => {
+    const requestPermission = () => navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(s => !s.getTracks().forEach(track => track.stop())).catch(() => false)
+    if (!await requestPermission()) return
     var mediaRecorder, audioChunks = []
     document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
