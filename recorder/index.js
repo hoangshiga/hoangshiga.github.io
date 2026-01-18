@@ -14,7 +14,6 @@
     document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Stop',
         onclick: async () => {
-            mediaRecorder.stop()
             mediaRecorder.onstop = () => {
                 const audioBlob = new Blob(audioChunks, { type: "audio/webm" })
                 const audioUrl = URL.createObjectURL(audioBlob)
@@ -27,6 +26,7 @@
                 URL.revokeObjectURL(audioUrl)
                 console.log("Recording stopped & downloaded")
             }
+            mediaRecorder.stop()
         }
     }))
 })()
