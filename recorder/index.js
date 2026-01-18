@@ -12,7 +12,7 @@
             textContent: d.label + ' - ' + d.deviceId
         })
     ))
-    const modeSelect = document.body.appendChild(document.createElement('select'))
+    const modeSelect = document.body.appendChild(document.createElement('select'));
     ['I+O', 'I', 'O'].forEach(mode => console.log(mode))
     // ['I+O', 'I', 'O'].forEach(mode => modeSelect.appendChild(
     //     Object.assign(document.createElement('option'), { textContent: mode })
