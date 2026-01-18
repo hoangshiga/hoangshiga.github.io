@@ -2,8 +2,8 @@
     const requestPermission = () => navigator.mediaDevices.getUserMedia({ audio: true })
         .then(s => !s.getTracks().forEach(track => track.stop())).catch(() => false)
     if (!await requestPermission()) return
-    const inputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
-    const outputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
+    const inputSelect = document.body.appendChild(document.createElement('select'))
+    const outputSelect = document.body.appendChild(document.createElement('select'))
     const devices = await navigator.mediaDevices.enumerateDevices()
     devices.sort((a, b) => a.label.localeCompare(b.label))
     console.log('devices', devices)
