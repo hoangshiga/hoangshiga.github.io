@@ -5,7 +5,8 @@
     const inputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
     const outputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
     const devices = await navigator.mediaDevices.enumerateDevices()
-    devices.forEach(d => console.log(d, [d.kind, d.label]) || (d.kind == 'audiooutput' ? outputSelect : inputSelect).appendChild(Object.assign(document.createElement('option'), {
+    console.log('devices', devices)
+    devices.forEach(d => (d.kind == 'audiooutput' ? outputSelect : inputSelect).appendChild(Object.assign(document.createElement('option'), {
         textContent: d.label
     })))
 
