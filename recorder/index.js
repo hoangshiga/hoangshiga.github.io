@@ -6,7 +6,7 @@
     const outputSelect = document.body.appendChild(Object.assign(document.createElement('select'), {}))
     const devices = await navigator.mediaDevices.enumerateDevices()
     devices.forEach(d => console.log(d, [d.kind, d.label]) || inputSelect.appendChild(Object.assign(document.createElement('option'), {
-        value: d.label
+        textContent: d.label
     })))
 
     var mediaRecorder, audioChunks = []
