@@ -13,7 +13,7 @@
         })
     ))
     const modeSelect = document.body.appendChild(document.createElement('select'))
-    console.log(['I+O', 'I', 'O'].forEach(mode => console.log(mode)))
+    ['I+O', 'I', 'O'].forEach(mode => console.log(mode))
     // ['I+O', 'I', 'O'].forEach(mode => modeSelect.appendChild(
     //     Object.assign(document.createElement('option'), { textContent: mode })
     // ))
