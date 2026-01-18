@@ -12,7 +12,10 @@
             textContent: d.label + ' - ' + d.deviceId
         })
     ))
-
+    const modeSelect = document.body.appendChild(document.createElement('select'))
+    ['I+O', 'I', 'O'].forEach(mode => modeSelect.appendChild(
+        Object.assign(document.createElement('option'), { textContent: mode })
+    ))
     var mediaRecorder, audioChunks = []
     document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
