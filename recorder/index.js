@@ -1,3 +1,1 @@
-(async () => {
-    console.log('test ok')
-})()
+console.log('ok')
