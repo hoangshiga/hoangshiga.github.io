@@ -1,6 +1,5 @@
 (async () => {
-    let mediaRecorder;
-    let audioChunks = [];
+    var mediaRecorder, audioChunks = []
     document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
         onclick: async () => {
