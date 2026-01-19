@@ -25,7 +25,7 @@
             console.log('inputSelect', inputSelect.value)
             mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({
                 audio: {
-                    deviceId: { exact: inputSelect.value }
+                    deviceId: { exact: modeSelect.value == 'I' ? inputSelect.value : modeSelect.value == 'O' ? outputSelect.value : '' }
                 }
             }))
             mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
