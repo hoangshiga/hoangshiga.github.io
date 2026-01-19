@@ -22,18 +22,17 @@
     const startButton = document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
         onclick: async () => {
-            // if (stream) stream = stream.getTracks().forEach(track => track.stop())
             console.log('inputSelect', inputSelect.value)
-            // mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({
-            //     audio: {
-            //         deviceId: { exact: 'MIC_DEVICE_ID_HERE' }
-            //     }
-            // }))
-            // mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
-            // mediaRecorder.start()
-            // startButton.disabled = true
-            // stopButton.disabled = false
-            // console.log("Recording started")
+            mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    deviceId: { exact: inputSelect.value }
+                }
+            }))
+            mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
+            mediaRecorder.start()
+            startButton.disabled = true
+            stopButton.disabled = false
+            console.log("Recording started")
         }
     }))
     const stopButton = document.body.appendChild(Object.assign(document.createElement('button'), {
