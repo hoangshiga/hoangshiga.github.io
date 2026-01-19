@@ -9,7 +9,7 @@
     console.log('devices', devices)
     devices.forEach(d => (d.kind == 'audiooutput' ? outputSelect : inputSelect).appendChild(
         Object.assign(document.createElement('option'), {
-            textContent: d.label + ' - ' + d.deviceId
+            textContent: d.label + ' - ' + d.deviceId, value: d.deviceId
         })
     ))
     const modeSelect = document.body.appendChild(document.createElement('select'))
