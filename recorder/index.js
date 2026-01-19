@@ -22,7 +22,7 @@
     const startButton = document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
         onclick: async () => {
-            if (stream) stream = stream.getTracks().forEach(track => track.stop())
+            // if (stream) stream = stream.getTracks().forEach(track => track.stop())
             mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({ audio: true }))
             mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
             mediaRecorder.start()
