@@ -15,7 +15,7 @@
     const modeSelect = document.body.appendChild(document.createElement('select'))
     for (const mode of ['I+O', 'I', 'O']) {
         modeSelect.appendChild(
-            Object.assign(document.createElement('option'), { textContent: mode })
+            Object.assign(document.createElement('option'), { textContent: mode, value: mode })
         )
     }
     var mediaRecorder, audioChunks = []
@@ -30,6 +30,9 @@
             }))
             mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
             mediaRecorder.start()
+            inputSelect.disabled = true
+            outputSelect.disabled = true
+            modeSelect.disabled = true
             startButton.disabled = true
             stopButton.disabled = false
             console.log("Recording started")
@@ -50,6 +53,9 @@
                 audioChunks = []
                 mediaRecorder.stream.getTracks().forEach(track => track.stop())
                 stopButton.disabled = true
+                inputSelect.disabled = false
+                outputSelect.disabled = false
+                modeSelect.disabled = false
                 startButton.disabled = false
                 console.log("Recording stopped & downloaded")
             }
