@@ -1,6 +1,13 @@
 (async () => {
     const requestPermission = () => navigator.mediaDevices.getUserMedia({ audio: true })
         .then(s => !s.getTracks().forEach(track => track.stop())).catch(() => false)
+    const newMediaRecorder = async streams => {
+        if (streams.length == 1) return Object.assign(new MediaRecorder(streams[0]), { streams })
+        const audioContext = new AudioContext()
+        const mediaStream = audioContext.createMediaStreamDestination()
+        streams.forEach(stream => audioContext.createMediaStreamSource(stream).connect(mediaStream))
+        return Object.assign(new MediaRecorder(mediaStream.stream), { streams })
+    }
     if (!await requestPermission()) return
     const inputSelect = document.body.appendChild(document.createElement('select'))
     const outputSelect = document.body.appendChild(document.createElement('select'))
@@ -23,11 +30,21 @@
         textContent: 'Start',
         onclick: async () => {
             console.log('inputSelect', inputSelect.value)
-            mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    deviceId: { exact: modeSelect.value == 'I' ? inputSelect.value : modeSelect.value == 'O' ? outputSelect.value : '' }
-                }
-            }))
+            mediaRecorder = newMediaRecorder(modeSelect.value == 'I+O'
+                ? [
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: { deviceId: { exact: inputSelect.value } }
+                    }),
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: { deviceId: { exact: outputSelect.value } }
+                    })
+                ]
+                : [
+                    await navigator.mediaDevices.getUserMedia({
+                        audio: { deviceId: { exact: modeSelect.value == 'I' ? inputSelect.value : outputSelect.value } }
+                    })
+                ]
+            )
             mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
             mediaRecorder.start()
             inputSelect.disabled = true
@@ -51,7 +68,7 @@
                 a.remove()
                 URL.revokeObjectURL(audioUrl)
                 audioChunks = []
-                mediaRecorder.stream.getTracks().forEach(track => track.stop())
+                mediaRecorder.streams.forEach(stream => stream.getTracks().forEach(track => track.stop()))
                 stopButton.disabled = true
                 inputSelect.disabled = false
                 outputSelect.disabled = false
