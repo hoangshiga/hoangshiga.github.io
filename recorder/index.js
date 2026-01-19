@@ -26,14 +26,14 @@
             mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({ audio: true }))
             mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
             mediaRecorder.start()
-            startButton.enabled = false
-            stopButton.enabled = true
+            startButton.disabled = true
+            stopButton.disabled = false
             console.log("Recording started")
         }
     }))
     const stopButton = document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Stop',
-        enabled: false,
+        disabled: true,
         onclick: async () => {
             mediaRecorder.onstop = () => {
                 const audioUrl = URL.createObjectURL(new Blob(audioChunks, { type: "audio/webm" }))
@@ -44,8 +44,8 @@
                 a.remove()
                 URL.revokeObjectURL(audioUrl)
                 audioChunks = []
-                stopButton.enabled = false
-                startButton.enabled = true
+                stopButton.disabled = true
+                startButton.disabled = false
                 console.log("Recording stopped & downloaded")
             }
             mediaRecorder.stop()
