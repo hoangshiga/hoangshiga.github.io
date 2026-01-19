@@ -1,7 +1,7 @@
 (async () => {
     const requestPermission = () => navigator.mediaDevices.getUserMedia({ audio: true })
         .then(s => !s.getTracks().forEach(track => track.stop())).catch(() => false)
-    const newMediaRecorder = async streams => {
+    const newMediaRecorder = streams => {
         if (streams.length == 1) return Object.assign(new MediaRecorder(streams[0]), { streams })
         const audioContext = new AudioContext()
         const mediaStream = audioContext.createMediaStreamDestination()
