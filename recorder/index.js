@@ -18,34 +18,34 @@
             Object.assign(document.createElement('option'), { textContent: mode })
         )
     }
-    // ['I+O', 'I', 'O'].forEach(mode => modeSelect.appendChild(
-    //     Object.assign(document.createElement('option'), { textContent: mode })
-    // ))
     var mediaRecorder, audioChunks = []
-    document.body.appendChild(Object.assign(document.createElement('button'), {
+    const startButton = document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Start',
         onclick: async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-            mediaRecorder = new MediaRecorder(stream)
-            audioChunks = []
-            mediaRecorder.ondataavailable = event => audioChunks.push(event.data)
+            if (stream) stream = stream.getTracks().forEach(track => track.stop())
+            mediaRecorder = new MediaRecorder(await navigator.mediaDevices.getUserMedia({ audio: true }))
+            mediaRecorder.ondataavailable = ev => audioChunks.push(ev.data)
             mediaRecorder.start()
+            startButton.enabled = false
+            stopButton.enabled = true
             console.log("Recording started")
         }
     }))
-    document.body.appendChild(Object.assign(document.createElement('button'), {
+    const stopButton = document.body.appendChild(Object.assign(document.createElement('button'), {
         textContent: 'Stop',
+        enabled: false,
         onclick: async () => {
             mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: "audio/webm" })
-                const audioUrl = URL.createObjectURL(audioBlob)
-                const audio = document.getElementById("player")
-                audio.src = audioUrl
+                const audioUrl = URL.createObjectURL(new Blob(audioChunks, { type: "audio/webm" }))
                 const a = document.createElement("a")
                 a.href = audioUrl
                 a.download = "recording.webm"
                 a.click()
+                a.remove()
                 URL.revokeObjectURL(audioUrl)
+                audioChunks = []
+                stopButton.enabled = false
+                startButton.enabled = true
                 console.log("Recording stopped & downloaded")
             }
             mediaRecorder.stop()
