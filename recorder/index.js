@@ -44,6 +44,7 @@
                 a.remove()
                 URL.revokeObjectURL(audioUrl)
                 audioChunks = []
+                mediaRecorder.stream.getTracks().forEach(track => track.stop())
                 stopButton.disabled = true
                 startButton.disabled = false
                 console.log("Recording stopped & downloaded")
