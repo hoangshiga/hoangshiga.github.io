@@ -2,6 +2,7 @@
     const append = (p, t, o) => p.append(t = document.createElement(t)) || Object.assign(t, o || {})
     append(document.head, 'meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' })
     if (new URLSearchParams(location.search).has('iframe')) {
+        const hasMean = new URLSearchParams(location.search).has('mean')
         const content = append(document.body, 'div')
         window.googleTranslateElementInit = async () => {
             window.translateElement = new google.translate.TranslateElement({
@@ -31,7 +32,7 @@
                 window.parent.postMessage({
                     returnTranslate: {
                         text: Array.from(content.children).map(d => d.textContent).join("\n"),
-                        yomikata: (await Promise.all(lines.map(async line => (await Promise.all((await tokenizerPromise).tokenize(line).map(
+                        yomikata: !hasMean && (await Promise.all(lines.map(async line => (await Promise.all((await tokenizerPromise).tokenize(line).map(
                             async token => (await wanakanaPromise).toRomaji(token.reading)
                         ))).join(' ')))).join("\n")
                     }
@@ -39,6 +40,7 @@
             }
         })
         window.parent.postMessage({ translateInit: true }, '*')
+        if (hasMean) return
         const wanakanaPromise = new Promise(res => setTimeout(async loop => {
             append(document.head, 'script', { src: 'https://unpkg.com/wanakana@5.3.1/wanakana.min.js' })
             setTimeout(loop = o => (o = window.wanakana) ? res(o) : setTimeout(loop, 100))
