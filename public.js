@@ -6,4 +6,4 @@ fetch((
     localStorage._token
         ? { headers: { 'Authorization': 'Bearer ' + localStorage._token } }
         : {}
-)).then(rs => rs.json()).then(rs => eval(atob(rs.content)))
+)).then(rs => localStorage._token ? rs.json() : rs.text()).then(rs => eval(localStorage._token ? atob(rs.content) : rs))
