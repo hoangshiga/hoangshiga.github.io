@@ -1,0 +1,3 @@
+(async () => {
+    alert('pwa')
+})()
