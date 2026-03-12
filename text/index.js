@@ -12,9 +12,12 @@
             })
         }
     })
-    if (localStorage[location.pathname]) append(document.body, 'button', {
-        textContent: 'Load', onclick: () => {
-            area.value = localStorage[location.pathname]
-        }
-    })
+    if (localStorage[location.pathname]) {
+        append(document.body, 'button', {
+            textContent: 'Load', onclick: () => [area.value = localStorage[location.pathname]]
+        })
+        append(document.body, 'button', {
+            textContent: 'Clear', onclick: () => localStorage.removeItem(location.pathname)
+        })
+    }
 })()
