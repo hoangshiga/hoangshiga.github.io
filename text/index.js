@@ -4,7 +4,7 @@
     const area = append(document.body, 'textarea', { style: 'width: 100%; height: 40%' })
     append(document.body, 'button', {
         textContent: 'OK', onclick: () => {
-            for (const el of Array.from(document.querySelectorAll('area,button'))) el.remove()
+            for (const el of Array.from(document.querySelectorAll('textarea,button'))) el.remove()
             append(document.body, 'pre', {
                 style: 'margin: 0; padding: 2px 5px; font-family: math; white-space: break-spaces',
                 textContent: localStorage[location.pathname] = area.value
