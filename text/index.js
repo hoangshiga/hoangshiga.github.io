@@ -14,7 +14,9 @@
     var loadBtn, clearBtn
     if (localStorage[location.pathname]) {
         loadBtn = append(document.body, 'button', {
-            textContent: 'Load', onclick: () => [area.value = localStorage[location.pathname]]
+            textContent: 'Load', onclick: () => {
+                area.value = localStorage[location.pathname]
+            }
         })
         clearBtn = append(document.body, 'button', {
             textContent: 'Clear', onclick: () => {
