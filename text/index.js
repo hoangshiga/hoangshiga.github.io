@@ -8,8 +8,13 @@
             button.remove()
             append(document.body, 'pre', {
                 style: 'margin: 0; padding: 2px 5px; font-family: math; white-space: break-spaces',
-                textContent: area.value
+                textContent: localStorage[location.pathname] = area.value
             })
+        }
+    })
+    if (localStorage[location.pathname]) append(document.body, 'button', {
+        textContent: 'Load', onclick: () => {
+            area.value = localStorage[location.pathname]
         }
     })
 })()
