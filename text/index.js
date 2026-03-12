@@ -24,6 +24,7 @@
         })
         const clearBtn = append(document.body, 'button', {
             textContent: 'Clear ' + i, onclick: () => {
+                index = i
                 for (const el of [loadBtn, clearBtn]) el.remove()
                 localStorage.removeItem(key)
             }
