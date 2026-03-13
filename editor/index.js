@@ -110,5 +110,15 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M, ev => editor.toggleMiniMap && editor.toggleMiniMap(ev));
     await editor.focus();
     editor.init = init;
+    editor.putValue = value => {
+        const pos = editor.getPosition()
+        editor.executeEdits('beautifier', [{
+            identifier: 'delete',
+            range: editor.getModel().getFullModelRange(),
+            text: value,
+            forceMoveMarkers: true
+        }])
+        editor.setPosition(pos)
+    }
     window.editor = editor;
 })(localStorage));
