@@ -108,16 +108,16 @@ require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage
         });
     };
     await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_M, ev => editor.toggleMiniMap && editor.toggleMiniMap(ev));
-    await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, () => {
-        console.log("Before Undo")
-        editor.trigger("keyboard", "undo", null)
-        console.log("After Undo")
-    })
-    await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyZ, () => {
-        console.log("Before Redo")
-        editor.trigger("keyboard", "redo", null)
-        console.log("After Redo")
-    })
+    // await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyZ, () => {
+    //     console.log("Before Undo")
+    //     editor.trigger("keyboard", "undo", null)
+    //     console.log("After Undo")
+    // })
+    // await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyZ, () => {
+    //     console.log("Before Redo")
+    //     editor.trigger("keyboard", "redo", null)
+    //     console.log("After Redo")
+    // })
     await editor.focus();
     editor.init = init;
     editor.putValue = value => {
