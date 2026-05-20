@@ -1,0 +1,26 @@
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/loader.min.js"></script>
+<style>
+body {
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+#editor {
+	flex: 1;
+}
+</style>
+<style id="squiggly-error">
+.squiggly-error {
+	background: inherit !important;
+}
+</style>
+
+<body>
+	<div id="editor"></div>
+</body>
+
+<script>fetch('../route.js').then(o => o.text()).then(o => eval(o))</script>

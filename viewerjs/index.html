@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.js"></script>
+<script>
+const v = (e, V, p, z, v) => [
+	z = (p = (V = Viewer).prototype).zoom, 
+	p.zoom = function(v){v *= 5; return z.call(this, v)}, 
+	v = new V(e, { hidden: () => v.destroy(), toolbar: { zoomIn: 1, zoomOut: 1, oneToOne: 1 } })
+].pop().show()
+</script>
+<img onclick="v(this)" src="https://fengyuanchen.github.io/viewerjs/images/tibet-1.jpg"/>
