@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  AVIM JavaScript Vietnamese Input Method Source File dated 28-07-2008
  *
  *	Copyright (C) 2004-2008 Hieu Tran Dang <lt2hieu2004 (at) users (dot) sf (dot) net
@@ -1363,7 +1363,8 @@ function AVIM()	{
 			var key = (!this.is_ie) ? e.which : window.event.keyCode;
 		}
 		if (key == 123) {
-			document.getElementById('AVIMControl').style.display = (document.getElementById('AVIMControl').style.display == 'none') ? 'block' : 'none';
+            const c = document.getElementById('AVIMControl')
+            if (c) c.style.display = (c.style.display == 'none') ? 'block' : 'none';
 		}
 	};
 }
