@@ -1363,8 +1363,8 @@ function AVIM()	{
 			var key = (!this.is_ie) ? e.which : window.event.keyCode;
 		}
 		if (key == 123) {
-            const c = document.getElementById('AVIMControl')
-            if (c) c.style.display = (c.style.display == 'none') ? 'block' : 'none';
+			const c = document.getElementById('AVIMControl')
+			if (c) c.style.display = (c.style.display == 'none') ? 'block' : 'none';
 		}
 	};
 }
