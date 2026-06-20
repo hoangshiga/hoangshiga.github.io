@@ -25,7 +25,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
         if (!k.startsWith('/go?url=')) return
         append(body, 'br')
         append(body, 'button', {
-            textContent: 'Remove: ' + k.substr('/go?url='.length),
+            textContent: 'Remove',
             onclick: () => localStorage.removeItem(k) || location.reload()
         })
         append(body, 'a', {
