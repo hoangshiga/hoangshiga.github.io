@@ -53,7 +53,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
             append(body, 'button', {
                 textContent: 'Link',
                 onclick: () => {
-                    const url = location.origin + location.pathname + '?url=' + encodeURIComponent(url)
+                    const url = location.origin + location.pathname + '?url=' + encodeURIComponent(v)
                     copy(url)
                     alert('Copied: ' + url)
                 }
