@@ -5,7 +5,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
 /*<.append>*/
     const append = (p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p.append(t), t)/*</.append>*/
 /*</.wait.append>*/
-    var url = unescape(new URLSearchParams(location.search).get('url') || '')
+    var url = decodeURIComponent(new URLSearchParams(location.search).get('url') || '')
     if (url) {
         if (localStorage['/go?url=' + url]) return location = url
         const body = await wait(() => document.body, 100)
