@@ -6,37 +6,29 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
     const append = (p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p.append(t), t)/*</.append>*/
 /*</.wait.append>*/
     var url = decodeURIComponent(new URLSearchParams(location.search).get('url') || '')
+    if (url && localStorage['/go?url=' + url]) return location = url
+    const body = await wait(() => document.body, 100)
     if (url) {
-        if (localStorage['/go?url=' + url]) return location = url
-        const body = await wait(() => document.body, 100)
         append(body, 'button', {
             textContent: 'Activate',
-            onclick: () => (localStorage['/go?url=' + url] = true) && (location = url)
+            onclick: () => (localStorage['/go?url=' + url] = url) && (location = url)
         })
-        append(body, 'a', {
-            style: 'margin-left: 5px',
-            textContent: url,
-            href: url
-        })
-        return
-    }
-    const body = await wait(() => document.body, 100)
-    append(body, 'button', {
-        textContent: 'Activate',
-        onclick: () => input.value && (location = '?url=' + escape(input.value))
-    })
-    const input = append(body, 'input')
-    Object.entries(localStorage).forEach(([k, v]) => {
-        if (!k.startsWith('/go?url=')) return
-        append(body, 'br')
+        append(body, 'a', { style: 'margin-left: 5px', textContent: url, href: url })
+    } else {
         append(body, 'button', {
-            textContent: 'Remove',
-            onclick: () => localStorage.removeItem(k) || location.reload()
+            textContent: 'Activate',
+            onclick: () => input.value && (location = '?url=' + escape(input.value))
         })
-        append(body, 'a', {
-            style: 'margin-left: 5px',
-            textContent: k.substr('/go?url='.length),
-            href: k.substr('/go?url='.length)
+        const input = append(body, 'input')
+        Object.entries(localStorage).forEach(([k, v]) => {
+            if (!k.startsWith('/go?url=')) return
+            append(body, 'br')
+            append(body, 'button', {
+                textContent: 'Remove',
+                onclick: () => localStorage.removeItem(k) || location.reload()
+            })
+            v = v === true ? k : v
+            append(body, 'a', { style: 'margin-left: 5px', textContent: v.substr('/go?url='.length), href: v.substr('/go?url='.length) })
         })
-    })
+    }
 })()
