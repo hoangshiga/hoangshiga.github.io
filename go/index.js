@@ -36,9 +36,9 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
             append(body, 'button', {
                 textContent: 'Edit',
                 onclick: () => {
-                    const newUrl = prompt('Edit: ' + v, v) || url
-                    if (!newUrl) return
-                    v = localStorage[k] = newUrl
+                    const url = prompt('Edit: ' + v, v)
+                    if (!url) return
+                    v = localStorage[k] = url
                     update()
                 }
             })
