@@ -43,7 +43,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
             })
             v = v == 'true' ? url : v
             const update = () => Object.assign(a, {
-                textContent: url + (v == url ? '' : '     |->|     ' + v),
+                textContent: url + (v == url ? '' : '&nbsp;&nbsp;&nbsp;|->|&nbsp;&nbsp;&nbsp;' + v),
                 href: v
             })
             append(body, 'button', {
