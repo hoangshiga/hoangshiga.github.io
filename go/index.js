@@ -28,5 +28,9 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
             textContent: 'Remove: ' + k.substr('/go?url='.length),
             onclick: () => localStorage.removeItem(k) || location.reload()
         })
+        append(body, 'a', {
+            textContent: k.substr('/go?url='.length),
+            href: k.substr('/go?url='.length)
+        })
     })
 })()
