@@ -9,10 +9,16 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
     if (url) {
         if (localStorage['/go?url=' + url]) return location = url
         const body = await wait(() => document.body, 100)
-        return append(body, 'button', {
+        append(body, 'button', {
             textContent: 'Activate',
             onclick: () => (localStorage['/go?url=' + url] = true) && (location = url)
         })
+        append(body, 'a', {
+            style: 'margin-left: 5px',
+            textContent: url,
+            href: url
+        })
+        return
     }
     const body = await wait(() => document.body, 100)
     append(body, 'button', {
