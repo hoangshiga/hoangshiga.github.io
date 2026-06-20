@@ -29,11 +29,10 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
                 onclick: () => localStorage.removeItem(k) || location.reload()
             })
             v = v == 'true' ? url : v
-            var updateA = null
             const update = () => {
                 if (v == url) return
-                if (updateA) updateA.remove()
-                updateA = append(body, 'a', { style: 'margin-left: 5px', textContent: v, href: v })
+                a.textContent = url + ' --> ' + v
+                a.href = v
             }
             append(body, 'button', {
                 textContent: 'Edit',
@@ -44,7 +43,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
                     update()
                 }
             })
-            append(body, 'a', { style: 'margin-left: 5px', textContent: v, href: v })
+            const a = append(body, 'a', { style: 'margin-left: 5px', textContent: url, href: url })
             update()
         })
     }
