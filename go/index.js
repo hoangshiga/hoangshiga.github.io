@@ -22,13 +22,30 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
         const input = append(body, 'input')
         Object.entries(localStorage).forEach(([k, v]) => {
             if (!k.startsWith('/go?url=')) return
+            const url = k.substr('/go?url='.length)
             append(body, 'br')
             append(body, 'button', {
                 textContent: 'Remove',
                 onclick: () => localStorage.removeItem(k) || location.reload()
             })
-            v = v == 'true' ? k : v
-            append(body, 'a', { style: 'margin-left: 5px', textContent: v.substr('/go?url='.length), href: v.substr('/go?url='.length) })
+            v = v == 'true' ? url : v
+            var updateA = null
+            const update = () => {
+                if (v == url) return
+                if (updateA) updateA.remove()
+                updateA = append(body, 'a', { style: 'margin-left: 5px', textContent: v, href: v })
+            }
+            append(body, 'button', {
+                textContent: 'Edit',
+                onclick: () => {
+                    const url = prompt('Edit: ' + v)
+                    if (!url) return
+                    v = localStorage[k] = url
+                    update()
+                }
+            })
+            append(body, 'a', { style: 'margin-left: 5px', textContent: v, href: v })
+            update()
         })
     }
 })()
