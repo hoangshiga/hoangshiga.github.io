@@ -1,10 +1,18 @@
 (async () => {
-    /*<.wait.append>*/
+    /*<.wait.append.copy>*/
 /*<.wait>*/
 const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m && !setTimeout(() => lp = rj(new Error(e || 'Timeout')), m) || setTimeout(lp = o => lp && ((o = f()) ? rs(o) : setTimeout(lp, ...is)))) /*</.wait>*/
 /*<.append>*/
     const append = (p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p.append(t), t)/*</.append>*/
-/*</.wait.append>*/
+/*<.copy>*/
+    const copy = s => {
+        const input = append(document.body, 'input', { value: s, style: 'position: fixed' })
+        input.focus()
+        input.select()
+        document.execCommand('copy')
+        input.remove()
+    } /*</.copy>*/
+/*</.wait.append.copy>*/
     var url = decodeURIComponent(new URLSearchParams(location.search).get('url') || '')
     if (url && localStorage['/go?url=' + url]) return location = url
     const body = await wait(() => document.body, 100)
@@ -17,7 +25,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
     } else {
         append(body, 'button', {
             textContent: 'Activate',
-            onclick: () => input.value && (location = '?url=' + escape(input.value))
+            onclick: () => input.value && (location = '?url=' + encodeURIComponent(input.value))
         })
         const input = append(body, 'input')
         Object.entries(localStorage).forEach(([k, v]) => {
@@ -29,10 +37,10 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
                 onclick: () => localStorage.removeItem(k) || location.reload()
             })
             v = v == 'true' ? url : v
-            const update = () => {
-                a.textContent = url + (v == url ? '' : '  |->|  ' + v)
-                a.href = v
-            }
+            const update = () => Object.assign(a, {
+                textContent: url + (v == url ? '' : '  |->|  ' + v),
+                href: v
+            })
             append(body, 'button', {
                 textContent: 'Edit',
                 onclick: () => {
@@ -40,6 +48,14 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
                     if (!url) return
                     v = localStorage[k] = url
                     update()
+                }
+            })
+            append(body, 'button', {
+                textContent: 'Link',
+                onclick: () => {
+                    const url = location.origin + location.pathname + '?url=' + encodeURIComponent(input.value)
+                    copy(url)
+                    alert('Copied: ' + url)
                 }
             })
             const a = append(body, 'a', { style: 'margin-left: 5px' })
