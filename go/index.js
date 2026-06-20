@@ -30,8 +30,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
             })
             v = v == 'true' ? url : v
             const update = () => {
-                if (v == url) return
-                a.textContent = url + '  |->|  ' + v
+                a.textContent = url + (v == url ? '' : '  |->|  ' + v)
                 a.href = v
             }
             append(body, 'button', {
@@ -43,7 +42,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp, is = i ? [i] : []) => m &&
                     update()
                 }
             })
-            const a = append(body, 'a', { style: 'margin-left: 5px', textContent: url, href: url })
+            const a = append(body, 'a', { style: 'margin-left: 5px' })
             update()
         })
     }
