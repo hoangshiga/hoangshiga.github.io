@@ -46,7 +46,7 @@
     // https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneCodeEditor.html#focus.focus-1
 //    require.config({ baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/' });
     require.config({ baseUrl: 'https://hoangshiga.github.io/lib/' });
-//    require.config({ baseUrl: 'http://localhost/' });
+//    require.config({ baseUrl: 'http://localhost/lib/' });
     require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
         if (!editor) {
             window.addEventListener('resize', () => editor && editor.layout())
