@@ -1,8 +1,6 @@
-//require.config({
-//    baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/"
-//});
-//require.config({ baseUrl: 'https://hoangshiga.github.io/lib/' });
-require.config({ baseUrl: 'http://localhost/lib/' });
+//require.config({ baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/" });
+require.config({ baseUrl: 'https://hoangshiga.github.io/lib/editor/' });
+//require.config({ baseUrl: 'http://localhost/lib/editor/' });
 require(["vs/editor/editor.main"], () => (async () => {
     /*monaco.languages.register({ id: 'text' });
     monaco.languages.setMonarchTokensProvider('text', {
