@@ -1,3 +1,5 @@
+debugger
+
 const CACHE_NAME = "pwa-cache-v1";
 
 const urlsToCache = [
