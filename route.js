@@ -1,7 +1,10 @@
 (async () => {
+    await navigator.serviceWorker.register("/sw.js")
     const _none = localStorage._none = (Number(localStorage._none) || 0) + 1
 /*<.append>*/
-    const append = (p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p.append(t), t)/*</.append>*/
+        const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
+            _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
+        })/*</.append>*/
 /*<.Chain>*/
     const Chain = o => [...new Set([...Object.keys(o), ...Object.keys(o.__proto__)])].forEach(
         k => k != 'toString' && typeof o[k] == 'function' && [o['_' + k] = o[k], o[k] = (...args) => [o.result = o['_' + k].call(o, ...args)] && o]
