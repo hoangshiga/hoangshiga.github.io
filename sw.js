@@ -5,7 +5,6 @@ const urlsToCache = [
   '/index.html',
   '/style.css',
   '/app.js',
-  '/images/', // Nếu có thư mục hình ảnh, có thể cache toàn bộ thư mục
 ];
 
 // Cài đặt Service Worker và cache các tệp tin cần thiết
