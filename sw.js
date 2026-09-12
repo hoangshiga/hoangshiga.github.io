@@ -3,8 +3,7 @@ const CACHE_NAME = 'my-pwa-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/style.css',
-  '/app.js',
+  '/route.js',
 ];
 
 // Cài đặt Service Worker và cache các tệp tin cần thiết
