@@ -42,7 +42,7 @@
     if (location.pathname == '/logout/') return [localStorage.removeItem('_token'), location = '/login/']
     const handleFetch = url => fetch(url, Object.assign({ cache: 'no-cache' }, goTo.token ? { headers: { 'Authorization': 'Bearer ' + goTo.token } } : {}))
         .then(rs => rs.status == 401 ? login() : goTo.token ? rs.json() : rs.text())
-        .then(rs => eval(goTo.token ? atob(rs && rs.content || '') : rs || ''))
+        .then(rs => eval(goTo.token ? atob(rs && rs.content || '') : rs))
         .catch(ex => append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' }))
     const user = location.hostname.split('.')[0]
     if (['/reading/'].includes(location.pathname)) return goTo.token
