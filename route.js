@@ -29,6 +29,7 @@
                     window.CryptoJS = CryptoJS
                 }
                 const token = CryptoJS.AES.decrypt('U2FsdGVkX1/uWdJOf3p+jkCTQNb2otEu65+HxrrCEWkQy+lZOpPPrMzpT4sa5M46/ZEQshLha2cML+ByLJiVZw==', input.value.repeat(1000 * 1000)).toString(CryptoJS.enc.Utf8)
+                // const token = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-512', new TextEncoder().encode(input.value + input.value.split('').sort().join('')))), b => String.fromCharCode(b)).join('')
                 if (save.checked) localStorage._token = token
                 if (_redirect) return goTo(_redirect, token)
                 location.reload()
