@@ -48,7 +48,7 @@
     if (['/reading/'].includes(location.pathname)) return goTo.token
         ? handleFetch('https://api.github.com/repos/' + user + '/' + user + '/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js')
         : login()
-    if (search.has('login').result) return goTo.token ? goTo('') : login()
+    if (search.has('login').result) return goTo.token ? goTo() : login()
     return handleFetch(goTo.token
         ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents' + location.pathname + 'index.js'
         : 'https://' + user + '.github.io' + location.pathname + 'index.js'
