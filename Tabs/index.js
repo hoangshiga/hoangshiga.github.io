@@ -1,0 +1,1 @@
+if (navigator.userAgent.includes('Edg/')) location.replace('.' + location.pathname.substr(0, location.pathname.length - 1) + '.application')
