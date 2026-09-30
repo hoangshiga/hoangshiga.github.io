@@ -14,11 +14,12 @@
     const _url = () => location.origin + location.pathname + '?' + search.delete('login')
     window.login = () => [localStorage.removeItem('_token'), localStorage._redirect = JSON.stringify({ _none, _url: _url() }), location = '/login/']
     try {
-        window.goTo = (token => Object.assign((url, _token = token) => [localStorage.token = _token, location = url || _url()], {
-            token: token && 'ghp_' + (key => new TextDecoder().decode(Uint8Array.from(
+        window.goTo = ((token, key) => Object.assign((url, _token = token) => [localStorage.token = _token, location = url || _url()], {
+            key: key = Array.from(atob(token).split(''), c => c.charCodeAt(0)),
+            token: token && 'ghp_' + new TextDecoder().decode(Uint8Array.from(
                 atob('nFgpTLhaXj2YwSwlJFG2Hl/BPFtoENddUtZKvXZCGIgM0SuM').split(''),
                 (c, i) => c.charCodeAt(0) ^ key[i % key.length]
-            )))(Array.from(atob(token).split(''), c => c.charCodeAt(0)))
+            ))
         }))(localStorage._token || localStorage.token || '')
     } catch (ex) {
         console.error(ex)
