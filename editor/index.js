@@ -1,52 +1,53 @@
 (async () => {
-    /*<.append>*/
-    const append = (p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p.append(t), t)/*</.append>*/
-    /*<.prepend>*/
-    const prepend = (p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p.prepend(t), t)/*</.prepend>*/
-    /*<.db>*/
+    /*<.append.prepend.db.copy>*/
+/*<.append>*/
+        const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
+            _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
+        })/*</.append>*/
+/*<.prepend>*/
+    const prepend = (...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('prepend', ...a)).pop()/*</.prepend>*/
+/*<.db>*/
     const db = await (async (db = {}) => {
-        const init = () => new Promise((res, rej) => Object.assign(indexedDB.open("data", 1), {
+        const init = () => new Promise((res, rej) => Object.assign(indexedDB.open('data', 1), {
             onerror: ev => rej(ev.target.error),
             onsuccess: ev => res(db.db = ev.target.result),
-            onupgradeneeded: (ev, db) => !(db = ev.target.result).objectStoreNames.contains("data") && db.createObjectStore("data", { keyPath: "key", autoIncrement: true }).createIndex("key", "key"),
+            onupgradeneeded: (ev, db) => !(db = ev.target.result).objectStoreNames.contains('data') && db.createObjectStore('data', { keyPath: 'key', autoIncrement: true }).createIndex('key', 'key'),
         }))
         const drop = () => new Promise((res, rej) => Object.assign(indexedDB.deleteDatabase('data'), {
             onerror: ev => rej(ev.target.error),
             onblocked: ev => rej(ev.target.result),
             onsuccess: ev => res(ev.target.result),
         }))
-        const clear = () => init().then(() => p("readwrite", o => o.clear()))
-        const p = (mode, fn) => new Promise((res, rej) => Object.assign(fn(db.db.transaction(["data"], mode).objectStore("data")), {
+        const clear = () => init().then(() => p('readwrite', o => o.clear()))
+        const p = (mode, fn) => new Promise((res, rej) => Object.assign(fn(db.db.transaction(['data'], mode).objectStore('data')), {
             onsuccess: ev => res(ev.target.result),
             onerror: ev => rej(ev.target.error),
         }))
         return [await init()] && Object.assign(db, {
             drop, clear,
-            put: async (key, value) => await p("readwrite", o => o.put({ key, value })),
-            map: async fn => await (await p("readonly", o => o.getAll())).reduce((p, x, i) => p.then(
+            put: async (key, value) => await p('readwrite', o => o.put({ key, value })),
+            map: async fn => await (await p('readonly', o => o.getAll())).reduce((p, x, i) => p.then(
                 async rs => [fn ? rs.push(await fn([x.key, x.value], i)) : Object.assign(rs, { [x.key]: x.value })] && Promise.resolve(rs)
             ), Promise.resolve(fn ? [] : {})),
             keys: () => db.map(([k]) => k),
-            has: async key => !!await p("readonly", o => o.count(IDBKeyRange.only(key))),
-            get: async key => (await p("readonly", o => o.get(key)) || {}).value,
-            remove: key => p("readwrite", o => o.delete(key)),
+            has: async key => !!await p('readonly', o => o.count(IDBKeyRange.only(key))),
+            get: async key => (await p('readonly', o => o.get(key)) || {}).value,
+            remove: key => p('readwrite', o => o.delete(key)),
         })
     })() /*</.db>*/
-    /*<.copy>*/
-        const copy = s => {
-            const input = document.createElement("input");
-            input.value = s;
-            input.style.position = 'fixed';
-            document.body.appendChild(input);
-            input.focus();
-            input.select();
-            document.execCommand('copy');
-            input.remove();
-        } /*</.copy>*/
+/*<.copy>*/
+    const copy = s => {
+        const input = append(document.body, 'textarea', { value: s, style: 'position: fixed' })
+        input.focus()
+        input.select()
+        document.execCommand('copy')
+        input.remove()
+    } /*</.copy>*/
+/*</.append.prepend.db.copy>*/
     // https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneCodeEditor.html#focus.focus-1
-//    require.config({ baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/' });
+    // require.config({ baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/' });
     require.config({ baseUrl: 'https://hoangshiga.github.io/lib/editor/' });
-//    require.config({ baseUrl: 'http://localhost/lib/editor/' });
+    // require.config({ baseUrl: 'http://localhost/lib/editor/' });
     require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
         if (!editor) {
             window.addEventListener('resize', () => editor && editor.layout())
@@ -107,7 +108,7 @@
         if (editor) await editor.dispose();
         const valueKey = 'editor_' + unescape(new URLSearchParams(location.search).get('key') || 'value')
         const positionKey = valueKey + '_position'
-        editor = await monaco.editor.create(document.getElementById('editor'), {
+        editor = await monaco.editor.create(append(document.body, 'div', { id: 'editor' }), {
             model: await monaco.editor.createModel(localStorage[valueKey] || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
             theme: 'vs',
             minimap: { enabled: false }
