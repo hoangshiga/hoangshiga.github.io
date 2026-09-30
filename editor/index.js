@@ -162,7 +162,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp) => m && !setTimeout(() => 
         })
         editor.commentLine = () => editor.getAction('editor.action.commentLine').run();
         await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_C, ev => editor.commentLine && editor.commentLine(ev));
-        editor.toggleErrorUnderline = o => squigglyErrorStyle.parentElement ? o.remove() : document.head.append(squigglyErrorStyle)
+        editor.toggleErrorUnderline = () => squigglyErrorStyle.parentElement ? squigglyErrorStyle.remove() : document.head.append(squigglyErrorStyle)
         await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_E, ev => editor.toggleErrorUnderline && editor.toggleErrorUnderline(ev));
         //  editor.onClear = ev => editor.setValue('');
         await editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_D, ev => editor.onClear && editor.onClear(ev));
