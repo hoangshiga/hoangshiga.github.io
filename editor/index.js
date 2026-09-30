@@ -1,5 +1,7 @@
 (async () => {
-    /*<.append.prepend.db.copy>*/
+    /*<.wait.append.prepend.db.copy>*/
+/*<.wait>*/
+const wait = (f, i, m, e) => new Promise((rs, rj, lp) => m && !setTimeout(() => lp = rj(new Error(e || 'Timeout')), m) || setTimeout(lp = o => lp && ((o = f()) ? rs(o) : setTimeout(lp, i)))) /*</.wait>*/
 /*<.append>*/
         const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
             _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
@@ -43,11 +45,14 @@
         document.execCommand('copy')
         input.remove()
     } /*</.copy>*/
-/*</.append.prepend.db.copy>*/
+/*</.wait.append.prepend.db.copy>*/
     // https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneCodeEditor.html#focus.focus-1
     // require.config({ baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/' });
     require.config({ baseUrl: 'https://hoangshiga.github.io/lib/editor/' });
     // require.config({ baseUrl: 'http://localhost/lib/editor/' });
+    await new Promise(res => require(['vs/editor/editor.main'], res))
+    await wait(() => document.body, 100)
+    const editorDiv = append(document.body, 'div', { id: 'editor' })
     require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
         if (!editor) {
             window.addEventListener('resize', () => editor && editor.layout())
@@ -108,7 +113,7 @@
         if (editor) await editor.dispose();
         const valueKey = 'editor_' + unescape(new URLSearchParams(location.search).get('key') || 'value')
         const positionKey = valueKey + '_position'
-        editor = await monaco.editor.create(append(document.body, 'div', { id: 'editor' }), {
+        editor = await monaco.editor.create(editorDiv, {
             model: await monaco.editor.createModel(localStorage[valueKey] || '', unescape(new URLSearchParams(location.search).get('mode') || 'javascript')),
             theme: 'vs',
             minimap: { enabled: false }
