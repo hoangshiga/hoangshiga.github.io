@@ -54,17 +54,26 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp) => m && !setTimeout(() => 
     await wait(() => document.body, 100)
     append(document.head, 'style', {
         textContent: `
-        body {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        #editor {
-            flex: 1;
-        }
-    ` })
+            body {
+                height: 100%;
+                margin: 0;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            #editor {
+                flex: 1;
+            }
+        `
+    })
+    append(document.head, 'style', {
+        id: 'squiggly-error',
+        textContent: `
+            .squiggly-error {
+                background: inherit !important;
+            }
+        `
+    })
     const editorDiv = append(document.body, 'div', { id: 'editor' })
     require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
         if (!editor) {
