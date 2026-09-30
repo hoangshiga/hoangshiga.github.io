@@ -52,6 +52,19 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp) => m && !setTimeout(() => 
     // require.config({ baseUrl: 'http://localhost/lib/editor/' });
     await new Promise(res => require(['vs/editor/editor.main'], res))
     await wait(() => document.body, 100)
+    append(document.head, 'style', {
+        textContent: `
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        #editor {
+            flex: 1;
+        }
+    ` })
     const editorDiv = append(document.body, 'div', { id: 'editor' })
     require(['vs/editor/editor.main'], (init, editor) => (init = async (localStorage = {}) => {
         if (!editor) {
