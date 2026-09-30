@@ -47,6 +47,7 @@ const wait = (f, i, m, e) => new Promise((rs, rj, lp) => m && !setTimeout(() => 
     } /*</.copy>*/
 /*</.wait.append.prepend.db.copy>*/
     // https://microsoft.github.io/monaco-editor/docs.html#interfaces/editor.IStandaloneCodeEditor.html#focus.focus-1
+    // await eval(await (await fetch('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/vs/loader.min.js')).text())
     await eval(await (await fetch('https://hoangshiga.github.io/lib/editor/loader.min.js')).text())
     // require.config({ baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.23.0/min/' });
     require.config({ baseUrl: 'https://hoangshiga.github.io/lib/editor/' });
