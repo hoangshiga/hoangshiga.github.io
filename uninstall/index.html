@@ -1,0 +1,5 @@
+<script>(async () => {
+    const rs = await navigator.serviceWorker.getRegistrations()
+    console.log('registrations', rs)
+    for (const registration of rs) await registration.unregister()
+})()</script>
