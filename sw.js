@@ -14,8 +14,8 @@ self.addEventListener('activate', event => console.log('activate', event) || eve
     cacheName => cacheName != CACHE_NAME ? console.log('caches.delete', cacheName) || caches.delete(cacheName) : 0
 )))))
 
-self.addEventListener('fetch', event => console.log('fetch', [event, event.request.url]) || event.respondWith(caches.match(event.request).then(cachedResponse => {
-    if (cachedResponse) return console.log('Found cache', [event, event.request.url, cachedResponse]) || cachedResponse
+self.addEventListener('fetch', event => console.log('fetch', [event, event.request, event.request.url]) || event.respondWith(caches.match(event.request).then(cachedResponse => {
+    if (cachedResponse) return console.log('Found cache', [event, event.request, event.request.url, cachedResponse]) || cachedResponse
     return fetch(event.request).then(response => {
         debugger
         if (!response || response.status !== 200 || response.type !== 'basic') return response
