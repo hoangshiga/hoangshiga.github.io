@@ -18,9 +18,7 @@ self.addEventListener('fetch', event => console.log('Fetch event for:', event.re
     if (cachedResponse) return console.log('Found in cache: ' + event.request.url) || cachedResponse
     return fetch(event.request).then(response => {
         debugger
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response
-        }
+        if (!response || response.status !== 200 || response.type !== 'basic') return response
         const responseToCache = response.clone()
         caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
         return response
