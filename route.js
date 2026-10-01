@@ -40,7 +40,6 @@
                 const token = await Array(loop).fill().reduce(async o => btoa(Array.from(new Uint8Array(
                     await crypto.subtle.digest('SHA-512', new TextEncoder().encode((await o).repeat(loop)))
                 ), b => String.fromCharCode(b)).join('')), input.value)
-                debugger
                 if (save.checked) localStorage._token = token
                 if (_redirect) return goTo(_redirect, token)
                 location.reload()
