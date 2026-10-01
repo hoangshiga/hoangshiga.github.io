@@ -47,13 +47,17 @@
         })
         if (_redirect) append(document.body, 'a', { textContent: ' Cancel', href: _redirect })
         if (localStorage._token) append(document.body, 'a', { textContent: ' Logout', href: '/logout/' })
+        const rs = await navigator.serviceWorker.getRegistrations()
         const installBtn = append(document.body, 'button', {
             textContent: 'Install', onclick: async () => {
                 await navigator.serviceWorker.register("/sw.js")
                 const rs = await navigator.serviceWorker.getRegistrations()
                 console.log('registrations', rs)
                 installBtn.textContent = 'Installed ' + rs.length
-            }
+                installBtn.disabled = !installBtn.disabled
+                uninstallBtn.disabled = !uninstallBtn.disabled
+            },
+            disabled: !!rs.length
         })
         const uninstallBtn = append(document.body, 'button', {
             textContent: 'Uninstall', onclick: async () => {
@@ -61,7 +65,10 @@
                 console.log('registrations', rs)
                 for (const registration of rs) await registration.unregister()
                 uninstallBtn.textContent = 'Uninstalled ' + rs.length + ' -> ' + (await navigator.serviceWorker.getRegistrations()).length
-            }
+                uninstallBtn.disabled = !uninstallBtn.disabled
+                installBtn.disabled = !installBtn.disabled
+            },
+            disabled: !rs.length
         })
         input.focus()
     })()
