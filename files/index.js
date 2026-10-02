@@ -138,6 +138,7 @@
             if (!button.disabled) button.textContent = 'Upload'
         }
     })
+    append(document.body, 'br')
     const nameInput = append(document.body, 'input')
     const button = append(document.body, 'button', {
         textContent: 'Upload', onclick: async () => {
