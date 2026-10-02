@@ -9,7 +9,7 @@
         const contents = 'https://api.github.com/repos/' + repo + '/contents/'
         const options = (opts1, opts2) => Object.assign(token ? { headers: { 'Authorization': 'Bearer ' + token } } : {}, { cache: 'no-cache' }, opts1 || {}, opts2 || {})
         const _fetch = async (url, opts) => await fetch(url, opts)
-            .then(async res => { if (res.ok) return res.json(); throw new Error('Error ' + res.status + "\n" + (res.json && (await res.json()).message || '')) })
+            .then(async res => { if (res.ok && res.status != 401) return res.json(); throw new Error('Error ' + res.status + "\n" + (res.json && (await res.json()).message || '')) })
         const get = async (url, opts) => await _fetch(url, options(opts))
         const put = async (url, opts) => await _fetch(url, options(opts, { method: 'PUT' }))
         const post = async (url, opts) => await _fetch(url, options(opts, { method: 'POST' }))
