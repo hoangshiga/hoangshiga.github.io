@@ -149,6 +149,7 @@
             await api.uploadEncode(api.escape('files', name), file)
             button.textContent = 'Done'
             fileInput.value = null
+            nameInput.value = null
         },
         disabled: true
     })
