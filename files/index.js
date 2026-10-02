@@ -1,9 +1,9 @@
-(async () => {
-    /*<.append>*/
-    const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
-        _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
-    })/*</.append>*/
-    /*<.Api>*/
+(async () => {
+/*<.append>*/
+        const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
+            _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
+        })/*</.append>*/
+/*<.Api>*/
     const Api = (repo, token, key) => {
         const contents = 'https://api.github.com/repos/' + repo + '/contents/'
         const options = (opts1, opts2) => Object.assign({ headers: { 'Authorization': 'Bearer ' + token }, cache: 'no-cache' }, opts1 || {}, opts2 || {})
@@ -131,24 +131,24 @@
         const _escape = (dir, path) => (dir ? dir + '/' : '') + en(path)
         return { item, folder, read, write, upload, download, uploadEncode, downloadDecode, remove, escape: _escape, unescape: de }
     }/*</.Api>*/
-    const api = await Api('hoangshiga/hoangshiga.github.io', goTo.token, goTo.key)
-    const fileInput = append(document.body, 'input', {
-        type: 'file', onchange: () => {
-            button.disabled = !fileInput.files.length
-            if (!button.disabled) button.textContent = 'Upload'
-        }
-    })
-    const nameInput = append(document.body, 'input')
-    const button = append(document.body, 'button', {
-        textContent: 'Upload', onclick: async () => {
-            button.disabled = true
-            button.textContent = 'Uploading...'
-            const file = fileInput.files[0]
-            const name = nameInput.value
-            await api.uploadEncode(api.escape('files', name), file)
-            button.textContent = 'Done'
-            fileInput.value = null
-        },
-        disabled: true
-    })
+    const api = await Api('hoangshiga/hoangshiga.github.io', goTo.token, goTo.key)
+    const fileInput = append(document.body, 'input', {
+        type: 'file', onchange: () => {
+            button.disabled = !fileInput.files.length
+            if (!button.disabled) button.textContent = 'Upload'
+        }
+    })
+    const nameInput = append(document.body, 'input')
+    const button = append(document.body, 'button', {
+        textContent: 'Upload', onclick: async () => {
+            button.disabled = true
+            button.textContent = 'Uploading...'
+            const file = fileInput.files[0]
+            const name = nameInput.value
+            await api.uploadEncode(api.escape('files', name), file)
+            button.textContent = 'Done'
+            fileInput.value = null
+        },
+        disabled: true
+    })
 })()
