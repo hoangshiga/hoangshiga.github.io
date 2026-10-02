@@ -1,4 +1,5 @@
 (async () => {
+    /*<.append.Api>*/
 /*<.append>*/
         const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
             _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
@@ -6,8 +7,8 @@
 /*<.Api>*/
     const Api = (repo, token, key) => {
         const contents = 'https://api.github.com/repos/' + repo + '/contents/'
-        const options = (opts1, opts2) => Object.assign({ headers: { 'Authorization': 'Bearer ' + token }, cache: 'no-cache' }, opts1 || {}, opts2 || {})
-        const _fetch = async (url, opts) => await (token ? fetch(url, opts) : Promise.resolve({ status: 'Token is required' }))
+        const options = (opts1, opts2) => Object.assign(token ? { headers: { 'Authorization': 'Bearer ' + token } } : {}, { cache: 'no-cache' }, opts1 || {}, opts2 || {})
+        const _fetch = async (url, opts) => await fetch(url, opts)
             .then(async res => { if (res.ok) return res.json(); throw new Error('Error ' + res.status + "\n" + (res.json && (await res.json()).message || '')) })
         const get = async (url, opts) => await _fetch(url, options(opts))
         const put = async (url, opts) => await _fetch(url, options(opts, { method: 'PUT' }))
@@ -131,6 +132,7 @@
         const _escape = (dir, path) => (dir ? dir + '/' : '') + en(path)
         return { item, folder, read, write, upload, download, uploadEncode, downloadDecode, remove, escape: _escape, unescape: de }
     }/*</.Api>*/
+/*</.append.Api>*/
     const api = await Api('hoangshiga/hoangshiga.github.io', goTo.token, goTo.key)
     const fileInput = append(document.body, 'input', {
         type: 'file', onchange: () => {
