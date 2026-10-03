@@ -114,6 +114,21 @@
     const urls = await (await getKeys()).reduce(async (ar, url) => (await ar).concat({ url, status: await getData(url) }), [])
     console.log('urls', urls)
     const store = Vue.reactive({
-        url0s: urls.filter(o => o.status == 0), url1s: urls.filter(o => o.status == 1), url2s: urls.filter(o => o.status == 2),
+        url0s: urls.filter(o => o.status == 0),
+        url1s: urls.filter(o => o.status == 1),
+        url2s: urls.filter(o => o.status == 2),
     })
+    const app = Vue.createApp({
+        updated() { console.log('App') },
+        template: `
+            <table>
+                <tr v-for="url in store.url0s">
+                    <td>{{ url.url }}</td>
+                    <td>{{ url.status }}</td>
+                </tr>
+            </table>
+        `,
+        data() { return { store } },
+    })
+    app.mount(append(document.body, 'div'))
 })()
