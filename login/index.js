@@ -121,14 +121,18 @@
     const app = Vue.createApp({
         updated() { console.log('App') },
         template: `
-            <table style="border-collapse: collapse">
+            <table :style="tableStyle">
                 <tr v-for="url in store.url0s">
-                    <td style="border: 1px solid #ddd">{{ url.url }}</td>
-                    <td style="border: 1px solid #ddd">{{ url.status }}</td>
+                    <td :style="tdStyle">{{ url.url }}</td>
+                    <td :style="tdStyle">{{ url.status }}</td>
                 </tr>
             </table>
         `,
         data() { return { store } },
+        computed: {
+            tableStyle() { return 'border-collapse: collapse' },
+            tdStyle() { return 'border: 1px solid #ddd' },
+        },
     })
     app.mount(append(document.body, 'div'))
 })()
