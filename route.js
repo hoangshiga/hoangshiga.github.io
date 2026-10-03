@@ -36,10 +36,6 @@
             append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
         })
     const user = location.hostname.split('.')[0]
-    if (location.pathname == '/login/') return handleFetch(goTo.token
-        ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/login.js'
-        : 'https://' + user + '.github.io/login.js'
-    )
     if (location.pathname == '/logout/') return [localStorage.removeItem('_token'), location = '/login/']
     if (['/reading/', '/files/'].includes(location.pathname)) return goTo.token
         ? handleFetch('https://api.github.com/repos/' + user + '/' + user + '/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js')
