@@ -1,5 +1,5 @@
 console.log('sw.js', location)
-const CACHE_NAME = 'my-pwa-cache-v1';
+const CACHE_NAME = 'my-pwa-cache-v1'
 const urlsToCache = [
     '/route.js',
 ];
@@ -31,11 +31,11 @@ self.addEventListener('fetch', event => {
     event.respondWith(caches.match(event.request).then(cachedResponse => {
         if (cachedResponse) return console.log('Found cache', [event, event.request, event.request.url, cachedResponse]) || cachedResponse
         return fetch(event.request).then(response => {
-            if (new URLSearchParams(location.search).has('debug')) debugger
-            if (!response || response.status !== 200 || response.type !== 'basic') return response
-            const responseToCache = response.clone()
-            console.log('cache.put', [event, event.request.url, response, responseToCache])
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
+            // if (response && response.status == 200 && response.type == 'basic') {
+            //     const responseToCache = response.clone()
+            //     console.log('cache.put', [event, event.request.url, response, responseToCache])
+            //     caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
+            // }
             return response
         })
     }))
