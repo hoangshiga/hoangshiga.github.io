@@ -71,10 +71,10 @@
                 const responseToCache = response.clone()
                 console.log('cache.put: ' + url, [event, responseToCache])
                 await caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
-                await saveData(url, 1)
+                await saveData(url, { status: 1, index: (await getKeys()).length })
                 return response
             })
-            await saveData(url, 0)
+            await saveData(url, { status: 0, index: (await getKeys()).length })
             return console.log('fetch', url) || fetch(event.request)
         })())
     })
