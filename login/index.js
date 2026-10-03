@@ -70,7 +70,7 @@
     })
     const clearDbBtn = append(document.body, 'button', {
         textContent: 'ClearDb', onclick: async () => {
-            for await (const url of getKeys()) await deleteData(url.url)
+            for (const url of await getKeys()) await deleteData(url)
         },
         disabled: !rs.length
     })
