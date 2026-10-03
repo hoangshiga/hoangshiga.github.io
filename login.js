@@ -26,6 +26,7 @@
                 '/text/',
                 '/text/index.html',
                 '/route.js',
+                '/login.js',
             ]))
             await navigator.serviceWorker.register('/sw.js')
             const rs = await navigator.serviceWorker.getRegistrations()
