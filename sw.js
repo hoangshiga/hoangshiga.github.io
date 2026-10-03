@@ -2,6 +2,7 @@
     console.log('sw.js', [self, this, typeof window, location])
     const CACHE_NAME = 'my-pwa-cache-v1'
     if (self.window) return [
+        await navigator.serviceWorker.getRegistrations().then(rs => Promise.all(rs.map(r => r.unregister()))),
         await caches.keys().then(names => Promise.all(names.map(
             name => name != CACHE_NAME && (console.log('caches.delete', name) || caches.delete(name))
         ))),
