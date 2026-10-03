@@ -111,7 +111,7 @@
         request.onerror = () => rej(request.error)
     })
     await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
-    const urls = await getAllData()
+    const urls = await getKeys()
     console.log('urls', urls)
     const store = Vue.reactive({
         url0s: [], url1s: [], url2s: [],
