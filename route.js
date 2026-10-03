@@ -59,7 +59,7 @@
                     })
                 await navigator.serviceWorker.ready
                     .then(registration => {
-                        console.log('ready')
+                        console.log('ready', registration)
                         // return registration.pushManager.subscribe({ userVisibleOnly: true });
                     })
                 // .then((subscription) => {
