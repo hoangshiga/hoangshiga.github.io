@@ -6,6 +6,11 @@
         await caches.keys().then(names => Promise.all(names.map(
             name => name != CACHE_NAME && (console.log('caches.delete', name) || caches.delete(name))
         ))),
+        await caches.keys().then(cacheNames => Promise.all(cacheNames.map(
+            cacheName => caches.open(cacheName).then(cache => cache.keys().then(
+                keys => Promise.all(keys.map(key => cache.delete(key)))
+            ))
+        ))),
         await navigator.serviceWorker.register('/sw.js')
     ]
     self.addEventListener('install', event => console.log('install', event) || event.waitUntil(self.skipWaiting()))
