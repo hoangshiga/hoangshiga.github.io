@@ -1,4 +1,4 @@
-console.log('sw.js', location)
+console.log('sw.js', [self, this, window, location])
 const CACHE_NAME = 'my-pwa-cache-v1'
 const urlsToCache = [
     '/',
