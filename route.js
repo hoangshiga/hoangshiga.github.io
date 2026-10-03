@@ -57,6 +57,22 @@
                     .catch(err => {
                         console.error('REGISTER ERROR', err);
                     })
+                await navigator.serviceWorker.ready
+                    .then(registration => {
+                        console.log('ready')
+                        // return registration.pushManager.subscribe({ userVisibleOnly: true });
+                    })
+                // .then((subscription) => {
+                //     var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
+                //     key.value = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : '';
+
+                //     var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
+                //     auth.value = rawAuthSecret ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) : '';
+
+                //     endpoint.value = subscription.endpoint;
+                //     console.log(`GCM EndPoint is: ${subscription.endpoint}`);
+                // })
+                // .catch(console.error.bind(console));
                 const rs = await navigator.serviceWorker.getRegistrations()
                 console.log('registrations', rs)
                 installBtn.textContent = 'Installed ' + rs.length
