@@ -19,6 +19,7 @@
         event.respondWith(caches.match(event.request).then(response => {
             if (response) return console.log('cache: ' + event.request.url, [event, event.request, response]) || response
             return fetch(event.request).then(response => {
+                eval('(' + String(() => console.log('fetch')) + ')()')
                 console.log('fetch: ' + event.request.url, [event, event.request, response, response.status, response.type])
                 if (response && response.status == 200 && response.type == 'basic') {
                     const responseToCache = response.clone()
