@@ -141,13 +141,16 @@
         computed: {
             datas() {
                 return [{
-                    status: 0, name: 'Un cache',
+                    status: 0, name: 'Unknow',
                     urls: store.urls.filter(o => o.status == 0),
                 }, {
                     status: 1, name: 'Caching',
                     urls: store.urls.filter(o => o.status == 1),
                 }, {
                     status: 2, name: 'Recache',
+                    urls: store.urls.filter(o => o.status == 2),
+                }], {
+                    status: 3, name: 'Uncache',
                     urls: store.urls.filter(o => o.status == 2),
                 }]
             },
