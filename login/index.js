@@ -128,9 +128,9 @@
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">{{ url.status }}</td>
                         <td :style="tdStyle">
-                            <button @click="url.status = 0">0</button>
-                            <button @click="url.status = 1">1</button>
-                            <button @click="url.status = 2">2</button>
+                            <button v-if="data.status != 0" @click="url.status = 0">0</button>
+                            <button v-if="data.status != 1" @click="url.status = 1">1</button>
+                            <button v-if="data.status != 2" @click="url.status = 2">2</button>
                         </td>
                     </tr>
                 </template>
