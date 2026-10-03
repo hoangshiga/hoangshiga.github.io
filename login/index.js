@@ -119,17 +119,19 @@
             <table :style="tableStyle">
                 <tr>
                     <th :style="tdStyle">Url</th>
+                    <th :style="tdStyle">Type</th>
                     <th :style="tdStyle">Actions</th>
                 </tr>
                 <template v-for="data in datas">
                     <tr>
-                        <th :style="tdStyle">Url status {{ data.status }}: {{ data.name }}</th>
+                        <th :style="tdStyle" colspan="2">Url status {{ data.status }}: {{ data.name }}</th>
                         <th :style="tdStyle">
                             <button v-if="datas.length" @click="removeAll(data)">Remove All</button>
                         </th>
                     </tr>
                     <tr v-for="(url, index) in data.urls" :style="trStyle(index)">
                         <td :style="tdStyle">{{ url.url }}</td>
+                        <td :style="tdStyle">{{ url.type }}:{{ url.index }}</td>
                         <td :style="tdStyle">
                             <button v-if="data.status != 0" @click="update(url, 0)">Unknow</button>
                             <button v-if="data.status != 1" @click="update(url, 1)">Caching</button>
