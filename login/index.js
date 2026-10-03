@@ -36,17 +36,15 @@
         disabled: !!rs.length
     })
     const showBtn = append(document.body, 'button', {
-        textContent: 'ShowCace', onclick: async () => {
-            await caches.keys().then(cacheNames => console.log('cacheNames', cacheNames) || Promise.all(cacheNames.map(
-                cacheName => caches.open(cacheName).then(cache => cache.keys().then(
-                    keys => Promise.all(keys.map(key => console.log(key.url, key)))
-                ))
-            )))
+        textContent: 'ShowCache', onclick: async () => {
+            console.log('ShowCache', await caches.keys().then(cacheNames => console.log('cacheNames', cacheNames) || Promise.all(cacheNames.map(
+                cacheName => caches.open(cacheName).then(cache => Promise.all([cacheName, cache.keys()]))
+            ))))
         },
         disabled: !rs.length
     })
     const clearBtn = append(document.body, 'button', {
-        textContent: 'ClearCace', onclick: async () => {
+        textContent: 'ClearCache', onclick: async () => {
             await caches.keys().then(cacheNames => Promise.all(cacheNames.map(
                 cacheName => caches.open(cacheName).then(cache => cache.keys().then(
                     keys => Promise.all(keys.map(key => cache.delete(key)))
@@ -65,6 +63,12 @@
             installBtn.disabled = !installBtn.disabled
             showBtn.disabled = !showBtn.disabled
             clearBtn.disabled = !clearBtn.disabled
+        },
+        disabled: !rs.length
+    })
+    const showDbBtn = append(document.body, 'button', {
+        textContent: 'ShowDb', onclick: async () => {
+            console.log('ShowDb', await (await getKeys()).reduce(async (ar, url) => (await ar).concat(Object.assign({ url }, await getData(url))), []))
         },
         disabled: !rs.length
     })
