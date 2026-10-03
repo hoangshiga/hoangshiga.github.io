@@ -35,6 +35,13 @@
         request.onsuccess = () => res(request.result)
         request.onerror = () => rej(request.error)
     })
+    const deleteData = key => new Promise(async (res, rej) => {
+        const db = await openDB()
+        const transaction = db.transaction('data', 'readwrite')
+        const request = transaction.objectStore('data').delete(key)
+        request.onsuccess = () => res()
+        request.onerror = () => rej(request.error)
+    })
     self.addEventListener('fetch', event => {
         event.respondWith((async () => {
             const url = event.request.url
