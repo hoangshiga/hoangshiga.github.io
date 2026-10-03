@@ -82,7 +82,7 @@
             append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
         })
     const user = location.hostname.split('.')[0]
-    if (['/reading/'].includes(location.pathname)) return goTo.token
+    if (['/reading/', '/files/'].includes(location.pathname)) return goTo.token
         ? handleFetch('https://api.github.com/repos/' + user + '/' + user + '/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js')
         : login()
     if (search.has('login').result) return goTo.token ? goTo() : login()
