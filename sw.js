@@ -1,8 +1,6 @@
 console.log('sw.js', location)
 const CACHE_NAME = 'my-pwa-cache-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
     '/route.js',
 ];
 
