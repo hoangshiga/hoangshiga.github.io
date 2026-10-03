@@ -155,6 +155,7 @@
                 }]
             },
             tableStyle() { return 'border-collapse: collapse' },
+            tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
         methods: {
             trStyle(i) { return i % 2 == 0 ? '' : 'background: #eee' },
