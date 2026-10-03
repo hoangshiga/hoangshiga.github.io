@@ -56,14 +56,14 @@
             if (status == 0 || status == 3) return console.log('fetch', url) || fetch(event.request)
             if (status == 1) return caches.match(event.request).then(response => {
                 if (response) return console.log('cache: ' + url, [event, event.request, response]) || response
-                return console.log('fetch', url) || fetch(event.request).then(async response => {
+                return fetch(event.request).then(async response => {
                     const responseToCache = response.clone()
                     console.log('cache.put: ' + url, [event, responseToCache])
                     await caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
                     return response
                 })
             })
-            if (status == 2) return console.log('fetch', url) || fetch(event.request).then(async response => {
+            if (status == 2) return fetch(event.request).then(async response => {
                 const responseToCache = response.clone()
                 console.log('cache.put: ' + url, [event, responseToCache])
                 await caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
