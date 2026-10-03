@@ -143,7 +143,6 @@
                 </template>
             </table>
         `,
-        data() { return { store } },
         computed: {
             datas() {
                 return [{
