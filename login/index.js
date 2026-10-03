@@ -69,4 +69,6 @@
         disabled: !rs.length
     })
     input.focus()
+    await eval(await (await fetch(cacheData[url])).text() + ';window.Vue = Vue')
+    console.log('Vue', Vue)
 })()
