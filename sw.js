@@ -30,7 +30,7 @@ self.addEventListener('activate', event => {
 })
 
 self.addEventListener('fetch', event => {
-    console.log('fetch', [event, event.request, event.request.url])
+    console.log('fetch', event.request.url)
     event.respondWith(caches.match(event.request).then(cachedResponse => {
         if (cachedResponse) return console.log('Found cache', [event, event.request, event.request.url, cachedResponse]) || cachedResponse
         return fetch(event.request).then(response => {
