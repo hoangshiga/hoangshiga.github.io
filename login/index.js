@@ -111,10 +111,9 @@
         request.onerror = () => rej(request.error)
     })
     await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
-    const statuses = await getAllData()
-    const urls = (await getKeys()).reduce((ar, url, i) => ar.concat({ url, status: statuses[i] }), [])
+    const urls = await (await getKeys()).reduce(async (ar, url) => ar.concat({ url, status: await getData(url) }), [])
     console.log('urls', urls)
     const store = Vue.reactive({
-        url0s: [], url1s: [], url2s: [],
+        url0s: urls.filter(o => o.status == 0), url1s: urls.filter(o => o.status == 1), url2s: urls.filter(o => o.status == 2),
     })
 })()
