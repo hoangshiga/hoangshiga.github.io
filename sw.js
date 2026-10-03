@@ -28,6 +28,13 @@
         transaction.onerror = () => rej(transaction.error)
         transaction.objectStore('data').put(value, key)
     })
+    const getKeys = () => new Promise(async (res, rej) => {
+        const db = await openDB()
+        const transaction = db.transaction('data', 'readonly')
+        const request = transaction.objectStore('data').getAllKeys()
+        request.onsuccess = () => res(request.result)
+        request.onerror = () => rej(request.error)
+    })
     const getData = key => new Promise(async (res, rej) => {
         const db = await openDB()
         const transaction = db.transaction('data', 'readonly')
