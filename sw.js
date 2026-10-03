@@ -52,30 +52,28 @@
     self.addEventListener('fetch', event => {
         event.respondWith((async () => {
             const url = event.request.url
-            const status = await getData(url)
+            const { status } = await getData(url) || {}
             if (status == 0 || status == 3) return console.log('fetch', url) || fetch(event.request)
             if (status == 1) return caches.match(event.request).then(response => {
                 if (response) return console.log('cache: ' + url, [event, event.request, response]) || response
-                return console.log('fetch', url) || fetch(event.request).then(response => {
-                    // console.log('fetch: ' + url, [event, event.request, response, response.status, response.type])
-                    // if (!(response && response.status == 200 && response.type == 'basic')) return response
+                return console.log('fetch', url) || fetch(event.request).then(async response => {
                     const responseToCache = response.clone()
                     console.log('cache.put: ' + url, [event, responseToCache])
-                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
+                    await caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
                     return response
                 })
             })
             if (status == 2) return console.log('fetch', url) || fetch(event.request).then(async response => {
-                // console.log('fetch: ' + url, [event, event.request, response, response.status, response.type])
-                // if (!(response && response.status == 200 && response.type == 'basic')) return response
                 const responseToCache = response.clone()
                 console.log('cache.put: ' + url, [event, responseToCache])
                 await caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
-                await saveData(url, { status: 1, index: (await getKeys()).length })
+                await saveData(url, { status: 1, type: response.type, index: (await getKeys()).length })
                 return response
             })
-            await saveData(url, { status: 0, index: (await getKeys()).length })
-            return console.log('fetch', url) || fetch(event.request)
+            return console.log('fetch', url) || fetch(event.request).then(async response => {
+                await saveData(url, { status: 0, type: response.type, index: (await getKeys()).length })
+                return response
+            })
         })())
     })
 })()
