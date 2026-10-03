@@ -50,7 +50,7 @@
         const rs = await navigator.serviceWorker.getRegistrations()
         const installBtn = append(document.body, 'button', {
             textContent: 'Install', onclick: async () => {
-                await navigator.serviceWorker.register("/sw.js")
+                await navigator.serviceWorker.register('/sw.js')
                 const rs = await navigator.serviceWorker.getRegistrations()
                 console.log('registrations', rs)
                 installBtn.textContent = 'Installed ' + rs.length
