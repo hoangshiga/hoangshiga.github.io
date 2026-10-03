@@ -131,6 +131,7 @@
         data() { return { store } },
         computed: {
             tableStyle() { return 'border-collapse: collapse' },
+            thStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
             tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
     })
