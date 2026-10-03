@@ -123,7 +123,7 @@
                     <th :style="tdStyle">Actions</th>
                 </tr>
                 <template v-for="data in datas">
-                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.name }}</th></tr>
+                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.name }}: {{ data.status }}</th></tr>
                     <tr v-for="url in data.urls">
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">{{ url.status }}</td>
