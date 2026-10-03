@@ -155,7 +155,7 @@
                     urls: store.urls.filter(o => o.status == 2),
                 }, {
                     status: 3, name: 'Uncache',
-                    urls: store.urls.filter(o => o.status == 2),
+                    urls: store.urls.filter(o => o.status == 3),
                 }]
             },
             tableStyle() { return 'border-collapse: collapse' },
