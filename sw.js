@@ -15,7 +15,8 @@
     self.addEventListener('fetch', event => {
         event.respondWith(caches.match(event.request).then(cachedResponse => {
             if (cachedResponse) return console.log('cache: ' + event.request.url, [event, event.request, cachedResponse]) || cachedResponse
-            return console.log('fetch', event.request.url) || fetch(event.request).then(response => {
+            return fetch(event.request).then(response => {
+                console.log('fetch: ' + event.request.url, response)
                 if (response && response.status == 200 && response.type == 'basic') {
                     const responseToCache = response.clone()
                     console.log('cache.put: ' + event.request.url, [event, response, responseToCache])
