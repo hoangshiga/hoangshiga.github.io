@@ -50,6 +50,9 @@
                     keys => Promise.all(keys.map(key => cache.delete(key)))
                 ))
             )))
+            console.log('ClearCache', await caches.keys().then(cacheNames => console.log('cacheNames', cacheNames) || Promise.all(cacheNames.map(
+                cacheName => caches.open(cacheName).then(cache => Promise.all([cacheName, cache.keys()]))
+            ))))
         },
         disabled: !rs.length
     })
