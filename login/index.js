@@ -158,7 +158,7 @@
             tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
         methods: {
-            trStyle(i) { return i % 2 == 0 ? '' : 'background: #eee' },
+            trStyle(i) { return i % 2 == 0 ? '' : 'background: #fefefe' },
             async update(url, status) {
                 await saveData(url.url, status)
                 url.status = status
