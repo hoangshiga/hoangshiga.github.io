@@ -123,10 +123,9 @@
                     <th :style="tdStyle">Actions</th>
                 </tr>
                 <template v-for="data in datas">
-                    <tr><th :style="tdStyle" colspan="3">Url status {{ data.status }}: {{ data.name }}</th></tr>
+                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.status }}: {{ data.name }}</th></tr>
                     <tr v-for="(url, index) in data.urls" :style="trStyle(index)">
                         <td :style="tdStyle">{{ url.url }}</td>
-                        <td :style="tdStyle">{{ url.status }}</td>
                         <td :style="tdStyle">
                             <button v-if="data.status != 0" @click="update(url, 0)">0</button>
                             <button v-if="data.status != 1" @click="update(url, 1)">1</button>
