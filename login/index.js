@@ -128,9 +128,9 @@
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">{{ url.status }}</td>
                         <td :style="tdStyle">
-                            <button v-if="data.status != 0" @click="url.status = 0">0</button>
-                            <button v-if="data.status != 1" @click="url.status = 1">1</button>
-                            <button v-if="data.status != 2" @click="url.status = 2">2</button>
+                            <button v-if="data.status != 0" @click="update(url, 0)">0</button>
+                            <button v-if="data.status != 1" @click="update(url, 1)">1</button>
+                            <button v-if="data.status != 2" @click="update(url, 2)">2</button>
                             <button v-if="data.status != null" @click="url.status = null">Remove</button>
                         </td>
                     </tr>
@@ -154,6 +154,12 @@
             tableStyle() { return 'border-collapse: collapse' },
             tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
+        methods: {
+            async update(url, status) {
+                await saveData(url.url, status)
+                url.status = status
+            },
+        }
     })
     app.mount(append(document.body, 'div'))
 })()
