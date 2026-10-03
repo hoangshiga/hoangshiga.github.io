@@ -10,10 +10,8 @@
         cacheName => cacheName != CACHE_NAME && (console.log('caches.delete', cacheName) || caches.delete(cacheName))
     )))
     if (self.window) return Promise.all([install(), activate()])
-    // self.skipWaiting()
-    self.addEventListener('install', event => console.log('install', event) || event.waitUntil(install()))
-    // self.clients.claim()
-    self.addEventListener('activate', event => console.log('activate', event) || event.waitUntil(activate()))
+    self.addEventListener('install', event => console.log('install', event) || event.waitUntil(Promise.all([self.skipWaiting(), install()])))
+    self.addEventListener('activate', event => console.log('activate', event) || event.waitUntil(Promise.all([self.clients.claim(), activate()])))
     self.addEventListener('fetch', event => {
         event.respondWith(caches.match(event.request).then(cachedResponse => {
             if (cachedResponse) return console.log('cache', [event, event.request, event.request.url, cachedResponse]) || cachedResponse
