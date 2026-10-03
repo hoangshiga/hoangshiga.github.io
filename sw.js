@@ -7,6 +7,7 @@ const urlsToCache = [
     '/route.js',
 ];
 
+
 self.addEventListener('install', event => {
     console.log('install', event)
     event.waitUntil(caches.open(CACHE_NAME).then(cache => {
