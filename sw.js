@@ -53,7 +53,7 @@
         event.respondWith((async () => {
             const url = event.request.url
             const status = await getData(url)
-            if (status == 0) return fetch(event.request)
+            if (status == 0 || status == 3) return fetch(event.request)
             if (status == 1) return caches.match(event.request).then(response => {
                 if (response) return console.log('cache: ' + event.request.url, [event, event.request, response]) || response
                 return fetch(event.request).then(response => {
