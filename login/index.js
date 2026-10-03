@@ -131,6 +131,16 @@
                     <td :style="tdStyle">{{ url.url }}</td>
                     <td :style="tdStyle">{{ url.status }}</td>
                 </tr>
+                <tr><th :style="tdStyle" colspan="2">Url status 1</th></tr>
+                <tr v-for="url in store.url1s">
+                    <td :style="tdStyle">{{ url.url }}</td>
+                    <td :style="tdStyle">{{ url.status }}</td>
+                </tr>
+                <tr><th :style="tdStyle" colspan="2">Url status 2</th></tr>
+                <tr v-for="url in store.url2s">
+                    <td :style="tdStyle">{{ url.url }}</td>
+                    <td :style="tdStyle">{{ url.status }}</td>
+                </tr>
             </table>
         `,
         data() { return { store } },
