@@ -122,6 +122,10 @@
         updated() { console.log('App') },
         template: `
             <table :style="tableStyle">
+                <tr>
+                    <td :style="tdStyle">Url</td>
+                    <td :style="tdStyle">Status</td>
+                </tr>
                 <tr v-for="url in store.url0s">
                     <td :style="tdStyle">{{ url.url }}</td>
                     <td :style="tdStyle">{{ url.status }}</td>
@@ -131,7 +135,6 @@
         data() { return { store } },
         computed: {
             tableStyle() { return 'border-collapse: collapse' },
-            thStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
             tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
     })
