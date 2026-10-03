@@ -37,9 +37,9 @@
     })
     const showBtn = append(document.body, 'button', {
         textContent: 'ShowCache', onclick: () => {
-            caches.keys().then(async cacheNames => console.log('ShowCache', await Promise.all(cacheNames.map(
-                cacheName => caches.open(cacheName).then(cache => Promise.all([cacheName, cache.keys()]))
-            ))))
+            caches.keys().then(names => names.map(name => caches.open(name).then(
+                async cache => console.log('ShowCache', [name, await cache.keys()])
+            )))
         },
         disabled: !rs.length
     })
@@ -50,9 +50,9 @@
                     keys => Promise.all(keys.map(key => cache.delete(key)))
                 ))
             )))
-            caches.keys().then(async cacheNames => console.log('ClearCache', await Promise.all(cacheNames.map(
-                cacheName => caches.open(cacheName).then(cache => Promise.all([cacheName, cache.keys()]))
-            ))))
+            caches.keys().then(names => names.map(name => caches.open(name).then(
+                async cache => console.log('ClearCache', [name, await cache.keys()])
+            )))
         },
         disabled: !rs.length
     })
