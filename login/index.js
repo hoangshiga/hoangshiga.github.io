@@ -131,6 +131,7 @@
                             <button v-if="data.status != 0" @click="url.status = 0">0</button>
                             <button v-if="data.status != 1" @click="url.status = 1">1</button>
                             <button v-if="data.status != 2" @click="url.status = 2">2</button>
+                            <button v-if="data.status != null" @click="url.status = null">Remove</button>
                         </td>
                     </tr>
                 </template>
