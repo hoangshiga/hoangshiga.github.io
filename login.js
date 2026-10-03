@@ -25,7 +25,6 @@
                 ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/sw.js'
                 : 'https://' + user + '.github.io/sw.js'
             )
-            await navigator.serviceWorker.register('/sw.js')
             const rs = await navigator.serviceWorker.getRegistrations()
             console.log('registrations', rs)
             installBtn.textContent = 'Installed ' + rs.length
