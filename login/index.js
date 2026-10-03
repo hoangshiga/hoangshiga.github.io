@@ -121,7 +121,7 @@
     const app = Vue.createApp({
         updated() { console.log('App') },
         template: `
-            <table>
+            <table style="border-collapse: collapse">
                 <tr v-for="url in store.url0s">
                     <td style="border: 1px solid #ddd">{{ url.url }}</td>
                     <td style="border: 1px solid #ddd">{{ url.status }}</td>
