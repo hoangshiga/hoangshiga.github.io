@@ -149,7 +149,7 @@
                 }, {
                     status: 2, name: 'Recache',
                     urls: store.urls.filter(o => o.status == 2),
-                }], {
+                }, {
                     status: 3, name: 'Uncache',
                     urls: store.urls.filter(o => o.status == 2),
                 }]
