@@ -27,98 +27,6 @@
         append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
     }
     delete localStorage.token
-    if (location.pathname == '/login/') return (async () => {
-        await new Promise((rs, lp) => setTimeout(lp = () => document.body ? rs() : setTimeout(lp, 100)))
-        const input = append(document.body, 'input', { type: 'password', onkeydown: ev => [(['Enter', 'NumpadEnter'].includes(ev.code)) && button.onclick()] })
-        const save = append(document.body, 'input', { type: 'checkbox' })
-        var _redirect = localStorage._redirect
-        delete localStorage._redirect
-        _redirect = _redirect && (_redirect = JSON.parse(_redirect))._none == _none - 1 && _redirect._url
-        const button = append(document.body, 'button', {
-            textContent: 'Login', onclick: async () => {
-                const loop = 1000
-                const token = await Array(loop).fill().reduce(async o => btoa(Array.from(new Uint8Array(
-                    await crypto.subtle.digest('SHA-512', new TextEncoder().encode((await o).repeat(loop)))
-                ), b => String.fromCharCode(b)).join('')), input.value)
-                if (save.checked) localStorage._token = token
-                if (_redirect) return goTo(_redirect, token)
-                location.reload()
-            }
-        })
-        if (_redirect) append(document.body, 'a', { textContent: ' Cancel', href: _redirect })
-        if (localStorage._token) append(document.body, 'a', { textContent: ' Logout', href: '/logout/' })
-        const rs = await navigator.serviceWorker.getRegistrations()
-        const installBtn = append(document.body, 'button', {
-            textContent: 'Install', onclick: async () => {
-                await navigator.serviceWorker.register('/sw.js')
-                    .then(reg => {
-                        console.log('REGISTER SUCCESS', reg);
-                    })
-                    .catch(err => {
-                        console.error('REGISTER ERROR', err);
-                    })
-                await navigator.serviceWorker.ready
-                    .then(registration => {
-                        console.log('ready', registration)
-                        // return registration.pushManager.subscribe({ userVisibleOnly: true });
-                    })
-                // .then((subscription) => {
-                //     var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
-                //     key.value = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : '';
-
-                //     var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
-                //     auth.value = rawAuthSecret ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) : '';
-
-                //     endpoint.value = subscription.endpoint;
-                //     console.log(`GCM EndPoint is: ${subscription.endpoint}`);
-                // })
-                // .catch(console.error.bind(console));
-                const rs = await navigator.serviceWorker.getRegistrations()
-                console.log('registrations', rs)
-                installBtn.textContent = 'Installed ' + rs.length
-                installBtn.disabled = !installBtn.disabled
-                showBtn.disabled = !showBtn.disabled
-                clearBtn.disabled = !clearBtn.disabled
-                uninstallBtn.disabled = !uninstallBtn.disabled
-            },
-            disabled: !!rs.length
-        })
-        const showBtn = append(document.body, 'button', {
-            textContent: 'Show', onclick: async () => {
-                await caches.keys().then(cacheNames => console.log('cacheNames', cacheNames) || Promise.all(cacheNames.map(
-                    cacheName => caches.open(cacheName).then(cache => cache.keys().then(
-                        keys => Promise.all(keys.map(key => console.log(key.url, key)))
-                    ))
-                )))
-            },
-            disabled: !rs.length
-        })
-        const clearBtn = append(document.body, 'button', {
-            textContent: 'Clear', onclick: async () => {
-                await caches.keys().then(cacheNames => Promise.all(cacheNames.map(
-                    cacheName => caches.open(cacheName).then(cache => cache.keys().then(
-                        keys => Promise.all(keys.map(key => cache.delete(key)))
-                    ))
-                )))
-            },
-            disabled: !rs.length
-        })
-        const uninstallBtn = append(document.body, 'button', {
-            textContent: 'Uninstall', onclick: async () => {
-                const rs = await navigator.serviceWorker.getRegistrations()
-                console.log('registrations', rs)
-                for (const registration of rs) await registration.unregister()
-                uninstallBtn.textContent = 'Uninstalled ' + rs.length + ' -> ' + (await navigator.serviceWorker.getRegistrations()).length
-                uninstallBtn.disabled = !uninstallBtn.disabled
-                installBtn.disabled = !installBtn.disabled
-                showBtn.disabled = !showBtn.disabled
-                clearBtn.disabled = !clearBtn.disabled
-            },
-            disabled: !rs.length
-        })
-        input.focus()
-    })()
-    if (location.pathname == '/logout/') return [localStorage.removeItem('_token'), location = '/login/']
     const handleFetch = url => fetch(url, Object.assign({ cache: 'no-cache' }, goTo.token ? { headers: { 'Authorization': 'Bearer ' + goTo.token } } : {}))
         .then(rs => rs.status == 401 ? login() : goTo.token ? rs.json() : rs.text())
         .then(rs => eval(goTo.token ? atob(rs && rs.content || '') : rs))
@@ -128,6 +36,11 @@
             append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
         })
     const user = location.hostname.split('.')[0]
+    if (location.pathname == '/login/') return handleFetch(goTo.token
+        ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/login.js'
+        : 'https://' + user + '.github.io/login.js'
+    )
+    if (location.pathname == '/logout/') return [localStorage.removeItem('_token'), location = '/login/']
     if (['/reading/', '/files/'].includes(location.pathname)) return goTo.token
         ? handleFetch('https://api.github.com/repos/' + user + '/' + user + '/contents/' + location.pathname.split('/').slice(-2)[0] + '/index.js')
         : login()
