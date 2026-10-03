@@ -69,6 +69,6 @@
         disabled: !rs.length
     })
     input.focus()
-    await eval(await (await fetch(cacheData[url])).text() + ';window.Vue = Vue')
+    await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
     console.log('Vue', Vue)
 })()
