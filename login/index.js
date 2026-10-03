@@ -126,10 +126,10 @@
                     <tr v-for="(url, index) in data.urls" :style="trStyle(index)">
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">
-                            <button v-if="data.status != 0" @click="update(url, 0)">0</button>
-                            <button v-if="data.status != 1" @click="update(url, 1)">1</button>
-                            <button v-if="data.status != 2" @click="update(url, 2)">2</button>
-                            <button v-if="data.status != 3" @click="update(url, 3)">3</button>
+                            <button v-if="data.status != 0" @click="update(url, 0)">Unknow</button>
+                            <button v-if="data.status != 1" @click="update(url, 1)">Caching</button>
+                            <button v-if="data.status != 2" @click="update(url, 2)">Recache</button>
+                            <button v-if="data.status != 3" @click="update(url, 3)">Uncache</button>
                             <button v-if="data.status != null" @click="url.status = null">Remove</button>
                         </td>
                     </tr>
