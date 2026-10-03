@@ -9,7 +9,7 @@
     const activate = () => caches.keys().then(cacheNames => Promise.all(cacheNames.map(
         cacheName => cacheName != CACHE_NAME && (console.log('caches.delete', cacheName) || caches.delete(cacheName))
     )))
-    if (self.window) return Promise.all([install(), activate()])
+    if (self.window) return Promise.all([install(), activate(), navigator.serviceWorker.register('/sw.js')])
     // self.skipWaiting()
     self.addEventListener('install', event => console.log('install', event) || event.waitUntil(install()))
     // self.clients.claim()
