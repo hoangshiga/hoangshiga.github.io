@@ -131,7 +131,7 @@
         data() { return { store } },
         computed: {
             tableStyle() { return 'border-collapse: collapse' },
-            tdStyle() { return 'border: 1px solid #ddd' },
+            tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
     })
     app.mount(append(document.body, 'div'))
