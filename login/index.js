@@ -122,7 +122,12 @@
                     <th :style="tdStyle">Actions</th>
                 </tr>
                 <template v-for="data in datas">
-                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.status }}: {{ data.name }}</th></tr>
+                    <tr>
+                        <th :style="tdStyle">Url status {{ data.status }}: {{ data.name }}</th>
+                        <th :style="tdStyle">
+                            <button v-if="datas.length" @click="removeAll(data)">Remove All</button>
+                        </th>
+                    </tr>
                     <tr v-for="(url, index) in data.urls" :style="trStyle(index)">
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">
@@ -158,6 +163,12 @@
         },
         methods: {
             trStyle(i) { return i % 2 == 0 ? '' : 'background: #f4f4f4' },
+            async removeAll(data) {
+                for (const url of data.urls) {
+                    await saveData(url.url, null)
+                    url.status = null
+                }
+            },
             async update(url, status) {
                 await saveData(url.url, status)
                 url.status = status
