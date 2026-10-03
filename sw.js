@@ -53,29 +53,29 @@
         event.respondWith((async () => {
             const url = event.request.url
             const status = await getData(url)
-            if (status == 0 || status == 3) return fetch(event.request)
+            if (status == 0 || status == 3) return console.log('fetch', url) || fetch(event.request)
             if (status == 1) return caches.match(event.request).then(response => {
-                if (response) return console.log('cache: ' + event.request.url, [event, event.request, response]) || response
-                return fetch(event.request).then(response => {
-                    console.log('fetch: ' + event.request.url, [event, event.request, response, response.status, response.type])
+                if (response) return console.log('cache: ' + url, [event, event.request, response]) || response
+                return console.log('fetch', url) || fetch(event.request).then(response => {
+                    // console.log('fetch: ' + url, [event, event.request, response, response.status, response.type])
                     // if (!(response && response.status == 200 && response.type == 'basic')) return response
                     const responseToCache = response.clone()
-                    console.log('cache.put: ' + event.request.url, [event, responseToCache])
+                    console.log('cache.put: ' + url, [event, responseToCache])
                     caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
                     return response
                 })
             })
-            if (status == 2) return fetch(event.request).then(async response => {
-                console.log('fetch: ' + event.request.url, [event, event.request, response, response.status, response.type])
+            if (status == 2) return console.log('fetch', url) || fetch(event.request).then(async response => {
+                // console.log('fetch: ' + url, [event, event.request, response, response.status, response.type])
                 // if (!(response && response.status == 200 && response.type == 'basic')) return response
                 const responseToCache = response.clone()
-                console.log('cache.put: ' + event.request.url, [event, responseToCache])
+                console.log('cache.put: ' + url, [event, responseToCache])
                 await caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
                 await saveData(url, 1)
                 return response
             })
             await saveData(url, 0)
-            return fetch(event.request)
+            return console.log('fetch', url) || fetch(event.request)
         })())
     })
 })()
