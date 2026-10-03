@@ -55,6 +55,7 @@
                 console.log('registrations', rs)
                 installBtn.textContent = 'Installed ' + rs.length
                 installBtn.disabled = !installBtn.disabled
+                showBtn.disabled = !showBtn.disabled
                 clearBtn.disabled = !clearBtn.disabled
                 uninstallBtn.disabled = !uninstallBtn.disabled
             },
@@ -68,7 +69,7 @@
                     ))
                 )))
             },
-            disabled: !(await caches.keys()).length
+            disabled: !rs.length
         })
         const clearBtn = append(document.body, 'button', {
             textContent: 'Clear', onclick: async () => {
@@ -78,7 +79,7 @@
                     ))
                 )))
             },
-            disabled: !(await caches.keys()).length
+            disabled: !rs.length
         })
         const uninstallBtn = append(document.body, 'button', {
             textContent: 'Uninstall', onclick: async () => {
@@ -88,6 +89,7 @@
                 uninstallBtn.textContent = 'Uninstalled ' + rs.length + ' -> ' + (await navigator.serviceWorker.getRegistrations()).length
                 uninstallBtn.disabled = !uninstallBtn.disabled
                 installBtn.disabled = !installBtn.disabled
+                showBtn.disabled = !showBtn.disabled
                 clearBtn.disabled = !clearBtn.disabled
             },
             disabled: !rs.length
