@@ -65,7 +65,7 @@
             textContent: 'Show', onclick: async () => {
                 await caches.keys().then(cacheNames => Promise.all(cacheNames.map(
                     cacheName => caches.open(cacheName).then(cache => cache.keys().then(
-                        keys => Promise.all(keys.map(key => console.log('cache', key)))
+                        keys => Promise.all(keys.map(key => console.log(key.url, key)))
                     ))
                 )))
             },
