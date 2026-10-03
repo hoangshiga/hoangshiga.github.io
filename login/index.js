@@ -113,38 +113,43 @@
     await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
     const urls = await (await getKeys()).reduce(async (ar, url) => (await ar).concat({ url, status: await getData(url) }), [])
     console.log('urls', urls)
-    const store = Vue.reactive({
-        url0s: urls.filter(o => o.status == 0),
-        url1s: urls.filter(o => o.status == 1),
-        url2s: urls.filter(o => o.status == 2),
-    })
+    const store = Vue.reactive({ urls })
     const app = Vue.createApp({
-        updated() { console.log('App') },
         template: `
             <table :style="tableStyle">
                 <tr>
                     <th :style="tdStyle">Url</th>
                     <th :style="tdStyle">Status</th>
+                    <th :style="tdStyle">Actions</th>
                 </tr>
-                <tr><th :style="tdStyle" colspan="2">Url status 0</th></tr>
-                <tr v-for="url in store.url0s">
-                    <td :style="tdStyle">{{ url.url }}</td>
-                    <td :style="tdStyle">{{ url.status }}</td>
-                </tr>
-                <tr><th :style="tdStyle" colspan="2">Url status 1</th></tr>
-                <tr v-for="url in store.url1s">
-                    <td :style="tdStyle">{{ url.url }}</td>
-                    <td :style="tdStyle">{{ url.status }}</td>
-                </tr>
-                <tr><th :style="tdStyle" colspan="2">Url status 2</th></tr>
-                <tr v-for="url in store.url2s">
-                    <td :style="tdStyle">{{ url.url }}</td>
-                    <td :style="tdStyle">{{ url.status }}</td>
-                </tr>
+                <template v-for="data in datas">
+                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.status }}</th></tr>
+                    <tr v-for="url in data.urls">
+                        <td :style="tdStyle">{{ url.url }}</td>
+                        <td :style="tdStyle">{{ url.status }}</td>
+                        <td :style="tdStyle">
+                            <button @click="url.status = 0">0</button>
+                            <button @click="url.status = 1">1</button>
+                            <button @click="url.status = 2">2</button>
+                        </td>
+                    </tr>
+                </template>
             </table>
         `,
         data() { return { store } },
         computed: {
+            datas() {
+                return [{
+                    status: 0,
+                    urls: store.urls.filter(o => o.status == 0),
+                }, {
+                    status: 1,
+                    urls: store.urls.filter(o => o.status == 1),
+                }, {
+                    status: 2,
+                    urls: store.urls.filter(o => o.status == 2),
+                }]
+            },
             tableStyle() { return 'border-collapse: collapse' },
             tdStyle() { return 'border: 1px solid #ddd; padding: 0 5px' },
         },
