@@ -5,16 +5,15 @@ const urlsToCache = [
     '/text/',
     '/text/index.html',
     '/route.js',
-];
-
+]
 
 self.addEventListener('install', event => {
     console.log('install', event)
+    // self.skipWaiting()
     event.waitUntil(caches.open(CACHE_NAME).then(cache => {
         console.log('caches.open', cache)
         cache.addAll(urlsToCache)
     }))
-    self.skipWaiting()
 })
 
 self.addEventListener('activate', event => {
