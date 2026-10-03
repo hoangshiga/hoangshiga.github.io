@@ -63,7 +63,7 @@
         })
         const showBtn = append(document.body, 'button', {
             textContent: 'Show', onclick: async () => {
-                await caches.keys().then(cacheNames => Promise.all(cacheNames.map(
+                await caches.keys().then(cacheNames => console.log('cacheNames', cacheNames) || Promise.all(cacheNames.map(
                     cacheName => caches.open(cacheName).then(cache => cache.keys().then(
                         keys => Promise.all(keys.map(key => console.log(key.url, key)))
                     ))
