@@ -21,14 +21,10 @@
     const rs = await navigator.serviceWorker.getRegistrations()
     const installBtn = append(document.body, 'button', {
         textContent: 'Install', onclick: async () => {
-            await caches.open('my-pwa-cache-v1').then(cache => console.log('caches.open', cache) || cache.addAll([
-                '/',
-                '/text/',
-                '/text/index.html',
-                '/route.js',
-                '/login.js',
-            ]))
-            await navigator.serviceWorker.register('/sw.js')
+            await handleFetch(goTo.token
+                ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/sw.js'
+                : 'https://' + user + '.github.io/sw.js'
+            )
             const rs = await navigator.serviceWorker.getRegistrations()
             console.log('registrations', rs)
             installBtn.textContent = 'Installed ' + rs.length
