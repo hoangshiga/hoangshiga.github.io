@@ -111,9 +111,9 @@
         request.onerror = () => rej(request.error)
     })
     await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
-    const urls = await (await getKeys()).reduce(async (ar, url) => (await ar).concat({ url, status: await getData(url) }), [])
+    const urls = await (await getKeys()).reduce(async (ar, url) => (await ar).concat(Object.assign({ url }, await getData(url))), [])
     console.log('urls', urls)
-    const store = Vue.reactive({ urls })
+    const store = Vue.reactive({ urls: urls.sort((a, b) => a.index - b.index) })
     const app = Vue.createApp({
         template: `
             <table :style="tableStyle">
@@ -165,12 +165,12 @@
             trStyle(i) { return i % 2 == 0 ? '' : 'background: #f4f4f4' },
             async removeAll(data) {
                 for (const url of data.urls) {
-                    await saveData(url.url, null)
+                    await deleteData(url.url)
                     url.status = null
                 }
             },
             async update(url, status) {
-                await saveData(url.url, status)
+                await saveData(url.url, { status, type: url.type, index: url.index })
                 url.status = status
             },
         }
