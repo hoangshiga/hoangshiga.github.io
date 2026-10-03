@@ -1,9 +1,12 @@
 (async () => {
     console.log('sw.js', [self, this, typeof window, location])
     const CACHE_NAME = 'my-pwa-cache-v1'
-    if (self.window) return caches.keys().then(names => Promise.all(names.map(
-        name => name != CACHE_NAME && (console.log('caches.delete', name) || caches.delete(name))
-    )))
+    if (self.window) return [
+        await caches.keys().then(names => Promise.all(names.map(
+            name => name != CACHE_NAME && (console.log('caches.delete', name) || caches.delete(name))
+        ))),
+        await navigator.serviceWorker.register('/sw.js')
+    ]
     self.addEventListener('install', event => console.log('install', event) || event.waitUntil(self.skipWaiting()))
     self.addEventListener('activate', event => console.log('activate', event) || event.waitUntil(self.clients.claim()))
     self.addEventListener('fetch', event => {
