@@ -123,8 +123,8 @@
         template: `
             <table :style="tableStyle">
                 <tr>
-                    <td :style="tdStyle">Url</td>
-                    <td :style="tdStyle">Status</td>
+                    <th :style="tdStyle">Url</td>
+                    <th :style="tdStyle">Status</td>
                 </tr>
                 <tr v-for="url in store.url0s">
                     <td :style="tdStyle">{{ url.url }}</td>
