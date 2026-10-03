@@ -123,7 +123,7 @@
                     <th :style="tdStyle">Actions</th>
                 </tr>
                 <template v-for="data in datas">
-                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.status }}</th></tr>
+                    <tr><th :style="tdStyle" colspan="2">Url status {{ data.name }}</th></tr>
                     <tr v-for="url in data.urls">
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">{{ url.status }}</td>
@@ -141,13 +141,13 @@
         computed: {
             datas() {
                 return [{
-                    status: 0,
+                    status: 0, name: 'Un cache',
                     urls: store.urls.filter(o => o.status == 0),
                 }, {
-                    status: 1,
+                    status: 1, name: 'Caching',
                     urls: store.urls.filter(o => o.status == 1),
                 }, {
-                    status: 2,
+                    status: 2, name: 'Recache',
                     urls: store.urls.filter(o => o.status == 2),
                 }]
             },
