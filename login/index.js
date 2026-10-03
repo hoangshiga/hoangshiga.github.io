@@ -122,6 +122,7 @@
         updated() { console.log('App') },
         template: `
             <table :style="tableStyle">
+                <tr><th :style="tdStyle" colspan="2">Url status 0</th></tr>
                 <tr>
                     <th :style="tdStyle">Url</th>
                     <th :style="tdStyle">Status</th>
