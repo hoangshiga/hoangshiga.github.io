@@ -9,24 +9,25 @@ const urlsToCache = [
 
 self.addEventListener('install', event => {
     console.log('install', event)
-    // self.skipWaiting()
-    event.waitUntil(caches.open(CACHE_NAME).then(cache => {
-        console.log('caches.open', cache)
-        cache.addAll(urlsToCache)
-    }))
+    event.waitUntil(self.skipWaiting())
+    // event.waitUntil(caches.open(CACHE_NAME).then(cache => {
+    //     console.log('caches.open', cache)
+    //     cache.addAll(urlsToCache)
+    // }))
 })
 
 self.addEventListener('activate', event => {
     console.log('activate', event)
-    event.waitUntil(Promise.all([
-        caches.keys().then(cacheNames => Promise.all(cacheNames.map(cacheName => {
-            if (cacheName != CACHE_NAME) {
-                console.log('caches.delete', cacheName)
-                caches.delete(cacheName)
-            }
-        }))),
-        clients.claim()
-    ]))
+    event.waitUntil(self.clients.claim())
+    // event.waitUntil(Promise.all([
+    //     caches.keys().then(cacheNames => Promise.all(cacheNames.map(cacheName => {
+    //         if (cacheName != CACHE_NAME) {
+    //             console.log('caches.delete', cacheName)
+    //             caches.delete(cacheName)
+    //         }
+    //     }))),
+    //     self.clients.claim()
+    // ]))
 })
 
 self.addEventListener('fetch', event => {
