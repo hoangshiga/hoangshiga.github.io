@@ -119,7 +119,6 @@
             <table :style="tableStyle">
                 <tr>
                     <th :style="tdStyle">Url</th>
-                    <th :style="tdStyle">Status</th>
                     <th :style="tdStyle">Actions</th>
                 </tr>
                 <template v-for="data in datas">
