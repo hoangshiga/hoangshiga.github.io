@@ -34,6 +34,6 @@
     if (location.pathname != '/login/' && search.has('login')) return goTo.token ? goTo() : login()
     return fetchEval(goTo.token
         ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/route.js'
-        : 'https://' + user + '.github.io/route/index.js'
+        : 'https://' + user + '.github.io/route.js'
     )
 })()
