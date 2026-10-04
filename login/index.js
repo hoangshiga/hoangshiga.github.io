@@ -21,7 +21,7 @@
     const rs = await navigator.serviceWorker.getRegistrations()
     const installBtn = append(document.body, 'button', {
         textContent: 'Install', onclick: async () => {
-            await handleFetch(goTo.token
+            await fetchEval(goTo.token
                 ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/sw.js'
                 : 'https://' + user + '.github.io/sw.js'
             )
