@@ -146,11 +146,13 @@
                         <td :style="tdStyle">{{ url.url }}</td>
                         <td :style="tdStyle">{{ url.type }}:{{ url.index }}</td>
                         <td :style="tdStyle">
-                            <button v-if="data.status != 0" @click="update(url, 0)">Unknow</button>
-                            <button v-if="data.status != 1" @click="update(url, 1)">Caching</button>
-                            <button v-if="data.status != 2" @click="update(url, 2)">Recache</button>
-                            <button v-if="data.status != 3" @click="update(url, 3)">Uncache</button>
-                            <button v-if="data.status != null" @click="url.status = null">Remove</button>
+                            <div style="white-space: nowrap">
+                                <button v-if="data.status != 0" @click="update(url, 0)">Unknow</button>
+                                <button v-if="data.status != 1" @click="update(url, 1)">Caching</button>
+                                <button v-if="data.status != 2" @click="update(url, 2)">Recache</button>
+                                <button v-if="data.status != 3" @click="update(url, 3)">Uncache</button>
+                                <button v-if="data.status != null" @click="url.status = null">Remove</button>
+                            </div>
                         </td>
                     </tr>
                 </template>
