@@ -21,7 +21,7 @@
     const rs = await navigator.serviceWorker.getRegistrations()
     const installBtn = append(document.body, 'button', {
         textContent: 'Install', onclick: async () => {
-            await fetchEval(goTo.token
+            await handleFetch(goTo.token
                 ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/sw.js'
                 : 'https://' + user + '.github.io/sw.js'
             )
@@ -34,6 +34,19 @@
             uninstallBtn.disabled = !uninstallBtn.disabled
         },
         disabled: !!rs.length
+    })
+    const uninstallBtn = append(document.body, 'button', {
+        textContent: 'Uninstall', onclick: async () => {
+            const rs = await navigator.serviceWorker.getRegistrations()
+            console.log('registrations', rs)
+            for (const registration of rs) await registration.unregister()
+            uninstallBtn.textContent = 'Uninstalled ' + rs.length + ' -> ' + (await navigator.serviceWorker.getRegistrations()).length
+            uninstallBtn.disabled = !uninstallBtn.disabled
+            installBtn.disabled = !installBtn.disabled
+            showBtn.disabled = !showBtn.disabled
+            clearBtn.disabled = !clearBtn.disabled
+        },
+        disabled: !rs.length
     })
     const showBtn = append(document.body, 'button', {
         textContent: 'ShowCache', onclick: () => {
@@ -53,19 +66,6 @@
             caches.keys().then(names => names.map(name => caches.open(name).then(
                 async cache => console.log('ClearCache', [name, await cache.keys()])
             )))
-        },
-        disabled: !rs.length
-    })
-    const uninstallBtn = append(document.body, 'button', {
-        textContent: 'Uninstall', onclick: async () => {
-            const rs = await navigator.serviceWorker.getRegistrations()
-            console.log('registrations', rs)
-            for (const registration of rs) await registration.unregister()
-            uninstallBtn.textContent = 'Uninstalled ' + rs.length + ' -> ' + (await navigator.serviceWorker.getRegistrations()).length
-            uninstallBtn.disabled = !uninstallBtn.disabled
-            installBtn.disabled = !installBtn.disabled
-            showBtn.disabled = !showBtn.disabled
-            clearBtn.disabled = !clearBtn.disabled
         },
         disabled: !rs.length
     })
