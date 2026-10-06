@@ -34,7 +34,7 @@
         request.onsuccess = () => res()
         request.onerror = () => rej(request.error)
     })
-    const log = async (...a) => await (log.flag = log.flag || getData('logFlag')) && console.log(...a)
+    const log = async (...a) => await getData('logFlag') && console.log(...a)
     const CACHE_NAME = 'my-pwa-cache-v1'
     if (self.window) return [
         await navigator.serviceWorker.getRegistrations().then(rs => Promise.all(rs.map(r => r.unregister()))),
