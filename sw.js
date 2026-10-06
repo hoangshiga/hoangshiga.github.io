@@ -1,4 +1,5 @@
 (async () => {
+    console.log('sw.js', [self, this, typeof window, location])
     const openDB = () => new Promise((res, rej) => {
         const request = indexedDB.open('cache', 1)
         request.onsuccess = () => res(request.result)
@@ -35,7 +36,6 @@
     })
     const logFlag = await getData('logFlag')
     const log = (...a) => logFlag && console.log(...a)
-    log('sw.js', [self, this, typeof window, location])
     const CACHE_NAME = 'my-pwa-cache-v1'
     if (self.window) return [
         await navigator.serviceWorker.getRegistrations().then(rs => Promise.all(rs.map(r => r.unregister()))),
