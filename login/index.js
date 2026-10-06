@@ -84,6 +84,23 @@
         },
         disabled: !rs.length
     })
+    const logFlag = await getData('logFlag')
+    const logOnBtn = append(document.body, 'button', {
+        textContent: 'LogOn', onclick: async () => {
+            await saveData('logFlag', true)
+            logOnBtn.disabled = !logOnBtn.disabled
+            logOffBtn.disabled = !logOffBtn.disabled
+        },
+        disabled: !!logFlag
+    })
+    const logOffBtn = append(document.body, 'button', {
+        textContent: 'LogOff', onclick: async () => {
+            await saveData('logFlag', false)
+            logOnBtn.disabled = !logOnBtn.disabled
+            logOffBtn.disabled = !logOffBtn.disabled
+        },
+        disabled: !logFlag
+    })
     input.focus()
     const openDB = () => new Promise((res, rej) => {
         const request = indexedDB.open('cache', 1)
@@ -127,7 +144,7 @@
         request.onerror = () => rej(request.error)
     })
     await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
-    const urls = await (await getKeys()).reduce(async (ar, url) => (await ar).concat(Object.assign({ url }, await getData(url))), [])
+    const urls = await (await getKeys()).filter(url => !['logFlag'].includes(url)).reduce(async (ar, url) => (await ar).concat(Object.assign({ url }, await getData(url))), [])
     const store = Vue.reactive({ urls: urls.sort((a, b) => a.index - b.index) })
     console.log('urls', store.urls)
     const app = Vue.createApp({
