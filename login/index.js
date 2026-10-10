@@ -211,5 +211,6 @@
             },
         }
     })
+    app.config.warnHandler = _ => _
     app.mount(append(document.body, 'div'))
 })()
