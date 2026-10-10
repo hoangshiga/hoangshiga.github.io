@@ -144,9 +144,10 @@
     })
     input.focus()
     await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
+    Vue.config.warnHandler = _ => _
     const urls = await (await getKeys()).filter(url => !['logFlag'].includes(url)).reduce(async (ar, url) => (await ar).concat(Object.assign({ url }, await getData(url))), [])
     const store = Vue.reactive({ urls: urls.sort((a, b) => a.index - b.index) })
-    const app = Vue.createApp({
+    const app = window.app = Vue.createApp({
         template: `
             <table :style="tableStyle">
                 <tr>
