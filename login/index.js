@@ -143,7 +143,8 @@
         disabled: !logFlag
     })
     input.focus()
-    await eval(await (await fetch('https://unpkg.com/vue@3/dist/vue.global.js')).text() + ';window.Vue = Vue')
+    const vueUrl = 'https://unpkg.com/vue@3/dist/vue.global.prod.js'
+    await eval(await (await fetch(vueUrl)).text() + ';window.Vue = Vue')
     const urls = await (await getKeys()).filter(url => !['logFlag'].includes(url)).reduce(async (ar, url) => (await ar).concat(Object.assign({ url }, await getData(url))), [])
     const store = Vue.reactive({ urls: urls.sort((a, b) => a.index - b.index) })
     const app = window.app = Vue.createApp({
@@ -210,6 +211,6 @@
             },
         }
     })
-    // app.config.warnHandler = _ => _
+    if (!vueUrl.includes('prod')) app.config.warnHandler = _ => _
     app.mount(append(document.body, 'div'))
 })()
