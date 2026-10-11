@@ -60,7 +60,7 @@
     if (_redirect) append(document.body, 'a', { textContent: ' Cancel', href: _redirect })
     if (localStorage._token) append(document.body, 'a', { textContent: ' Logout', href: '/logout/' })
     const reloadBtn = append(document.body, 'button', {
-        textContent: 'Reload', onclick: () => location.reload()
+        textContent: 'Reload', onclick: () => goTo()
     })
     const rs = await navigator.serviceWorker.getRegistrations()
     const installBtn = append(document.body, 'button', {
