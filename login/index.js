@@ -58,7 +58,7 @@
         disabled: !!goTo.token,
     })
     if (_redirect) append(document.body, 'a', { textContent: ' Cancel', href: _redirect })
-    if (localStorage._token) append(document.body, 'a', { textContent: ' Logout', href: '/logout/' })
+    if (goTo.token) append(document.body, 'a', { textContent: ' Logout', href: '/logout/' })
     const reloadBtn = append(document.body, 'button', {
         textContent: 'Reload', onclick: () => goTo()
     })
