@@ -13,7 +13,7 @@
         append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
     }
     try {
-        const goTo = ((token, key) => Object.assign((url, _token = token) => [localStorage.token = _token, location = url || _url()], {
+        window.goTo = ((token, key) => Object.assign((url, _token = token) => [localStorage.token = _token, location = url || _url()], {
             key: key = Array.from(atob(token).split(''), c => c.charCodeAt(0)),
             token: token && 'ghp_' + new TextDecoder().decode(Uint8Array.from(
                 atob('nFgpTLhaXj2YwSwlJFG2Hl/BPFtoENddUtZKvXZCGIgM0SuM').split(''),
