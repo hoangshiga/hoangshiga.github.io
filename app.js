@@ -19,6 +19,11 @@
         const fetchEval = url => fetch(url, Object.assign({ cache: 'no-cache' }, goTo.token ? { headers: { 'Authorization': 'Bearer ' + goTo.token } } : {}))
             .then(rs => rs.status == 401 ? login() : goTo.token ? rs.json() : rs.text())
             .then(rs => eval(goTo.token ? atob(rs && rs.content || '') : rs))
+            .catch(ex => {
+                console.error(ex)
+                append(document.body, 'button', { textContent: 'Login', onclick: login })
+                append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
+            })
         const user = location.hostname.split('.')[0]
         if (location.pathname == '/logout/') return [localStorage.removeItem('_token'), location = '/login/']
         if (location.pathname != '/login/' && search.has('login')) return goTo.token ? goTo() : login()
