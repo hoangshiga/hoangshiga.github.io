@@ -53,8 +53,7 @@
                 await crypto.subtle.digest('SHA-512', new TextEncoder().encode((await o).repeat(loop)))
             ), b => String.fromCharCode(b)).join('')), input.value)
             if (save.checked) localStorage._token = token
-            if (_redirect) return goTo(_redirect, token)
-            location.reload()
+            goTo(_redirect, token)
         }
     })
     if (_redirect) append(document.body, 'a', { textContent: ' Cancel', href: _redirect })
