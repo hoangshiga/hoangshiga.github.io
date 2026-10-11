@@ -4,7 +4,7 @@
         const append = Object.assign((...as) => (Array.isArray(as[0]) ? as : [as]).map(a => append._('append', ...a)).pop(), {
             _: (f, p, t, o) => (typeof p == 'string' && [[o, t, p] = [t, p]], t = Object.assign(document.createElement(t), o || {}), p && p[f](t), t)
         })/*</.append>*/
-    window.search = new URLSearchParams(location.search)
+    const search = new URLSearchParams(location.search)
     const _url = () => location.origin + location.pathname + (search.delete('login') || search.size ? '?' + search : '')
     const login = () => [localStorage.removeItem('_token'), localStorage._redirect = JSON.stringify({ _none, _url: _url() }), location = '/login/']
     const handleError = ex => {
