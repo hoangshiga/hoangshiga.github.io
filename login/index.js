@@ -41,8 +41,8 @@
         request.onerror = () => rej(request.error)
     })
     await new Promise((rs, lp) => setTimeout(lp = () => document.body ? rs() : setTimeout(lp, 100)))
-    const input = append(document.body, 'input', { type: 'password', onkeydown: ev => [(['Enter', 'NumpadEnter'].includes(ev.code)) && button.onclick()] })
-    const save = append(document.body, 'input', { type: 'checkbox' })
+    const input = append(document.body, 'input', { type: 'password', disabled: !!goTo.token, onkeydown: ev => [(['Enter', 'NumpadEnter'].includes(ev.code)) && button.onclick()] })
+    const save = append(document.body, 'input', { type: 'checkbox', disabled: !!goTo.token })
     var _redirect = localStorage._redirect
     delete localStorage._redirect
     _redirect = _redirect && (_redirect = JSON.parse(_redirect))._none == _none - 1 && _redirect._url
@@ -54,7 +54,8 @@
             ), b => String.fromCharCode(b)).join('')), input.value)
             if (save.checked) localStorage._token = token
             goTo(_redirect, token)
-        }
+        },
+        disabled: !!goTo.token,
     })
     if (_redirect) append(document.body, 'a', { textContent: ' Cancel', href: _redirect })
     if (localStorage._token) append(document.body, 'a', { textContent: ' Logout', href: '/logout/' })
