@@ -62,6 +62,9 @@
     const reloadBtn = append(document.body, 'button', {
         textContent: 'Reload', onclick: () => goTo()
     })
+    const pwaBtn = append(document.body, 'button', {
+        textContent: 'Pwa', onclick: () => goTo('/pwa/')
+    })
     const rs = await navigator.serviceWorker.getRegistrations()
     const installBtn = append(document.body, 'button', {
         textContent: 'Install', onclick: async () => {
