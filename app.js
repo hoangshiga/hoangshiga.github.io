@@ -7,6 +7,11 @@
     const search = new URLSearchParams(location.search)
     const _url = () => location.origin + location.pathname + (search.delete('login') || search.size ? '?' + search : '')
     const login = () => [localStorage.removeItem('_token'), localStorage._redirect = JSON.stringify({ _none, _url: _url() }), location = '/login/']
+    const handleError = ex => {
+        console.error(ex)
+        append(document.body, 'button', { textContent: 'Login', onclick: login })
+        append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
+    }
     try {
         const goTo = ((token, key) => Object.assign((url, _token = token) => [localStorage.token = _token, location = url || _url()], {
             key: key = Array.from(atob(token).split(''), c => c.charCodeAt(0)),
@@ -19,11 +24,7 @@
         const fetchEval = url => fetch(url, Object.assign({ cache: 'no-cache' }, goTo.token ? { headers: { 'Authorization': 'Bearer ' + goTo.token } } : {}))
             .then(rs => rs.status == 401 ? login() : goTo.token ? rs.json() : rs.text())
             .then(rs => eval(goTo.token ? atob(rs && rs.content || '') : rs))
-            .catch(ex => {
-                console.error(ex)
-                append(document.body, 'button', { textContent: 'Login', onclick: login })
-                append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
-            })
+            .catch(handleError)
         const user = location.hostname.split('.')[0]
         if (location.pathname == '/logout/') return [localStorage.removeItem('_token'), location = '/login/']
         if (location.pathname != '/login/' && search.has('login')) return goTo.token ? goTo() : login()
@@ -31,9 +32,5 @@
             ? 'https://api.github.com/repos/' + user + '/' + user + '.github.io/contents/route.js'
             : 'https://' + user + '.github.io/route.js'
         )
-    } catch (ex) {
-        console.error(ex)
-        append(document.body, 'button', { textContent: 'Login', onclick: login })
-        append(document.body, 'pre', { textContent: ex.stack || ex.message || ex, style: 'font-family: math' })
-    }
+    } catch (ex) { handleError(ex) }
 })()
